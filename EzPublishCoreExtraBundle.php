@@ -7,10 +7,8 @@ use Lolart\EzPublishCoreExtraBundle\DependencyInjection\EzPublishCoreExtraExtens
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class JVEzPublishCoreExtraBundle extends Bundle
+class EzPublishCoreExtraBundle extends Bundle
 {
-    protected $name = 'eZPublishCoreExtraBundle';
-
     public function build( ContainerBuilder $container )
     {
         $container->addCompilerPass( new ConfigResolverParameterPass() );
