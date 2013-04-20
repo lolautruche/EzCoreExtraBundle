@@ -1,0 +1,15 @@
+{
+    "name": "lolautruche/ezpublish-core-extra-bundle",
+    "description": "Extra sugar for building eZ Publish 5 websites",
+    "require": {
+        "ezsystems/ezpublish-kernel": "dev-master"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jerome Vieilledent",
+            "email": "lolautruche@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev"
+}
