@@ -11,5 +11,9 @@
             "email": "lolautruche@gmail.com"
         }
     ],
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": {"Lolart\\EzPublishCoreExtraBundle": ""}
+    },
+    "target-dir": "Lolart/EzPublishCoreExtraBundle"
 }
