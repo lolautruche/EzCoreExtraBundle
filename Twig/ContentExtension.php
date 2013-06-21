@@ -11,13 +11,14 @@ use Twig_Function_Method;
 
 class ContentExtension extends KernelContentExtension {
 
-
+    /**
+     * @return array
+     */
     public function getFunctions() {
-        return array(
+        return array_merge(  parent::getFunctions(), array(
             'ez_content_by_contentinfo' => new \Twig_Function_Method( $this, 'contentByContentInfo' ),
             'ez_contenttype_by_content' => new \Twig_Function_Method( $this, 'contentTypeByContent' )
-        );
-
+        ));
     }
 
     /**
@@ -38,7 +39,4 @@ class ContentExtension extends KernelContentExtension {
         return $repository->getContentTypeService()->loadContentType( $content->contentInfo->contentTypeId );
     }
 
-    public function getName() {
-        return 'ezpublishcoreextra_content_extension';
-    }
 }

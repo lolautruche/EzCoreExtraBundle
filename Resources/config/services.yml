@@ -1,9 +1,2 @@
 parameters:
-    ezpublishcoreextra.twig.content_extension.class: Lolart\EzPublishCoreExtraBundle\Twig\ContentExtension
-
-services:
-    ezpublishcoreextra.twig.content_extension:
-        parent: ezpublish.twig.extension.content
-        class: %ezpublishcoreextra.twig.content_extension.class%
-        tags:
-            - { name: twig.extension }
+    ezpublish.twig.extension.content.class: Lolart\EzPublishCoreExtraBundle\Twig\ContentExtension
