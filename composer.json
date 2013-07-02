@@ -2,7 +2,7 @@
     "name": "lolautruche/ezpublish-core-extra-bundle",
     "description": "Extra sugar for building eZ Publish 5 websites",
     "require": {
-        "ezsystems/ezpublish-kernel": "dev-master"
+        "ezsystems/ezpublish-kernel": "*"
     },
     "license": "MIT",
     "authors": [
