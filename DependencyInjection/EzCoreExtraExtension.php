@@ -1,6 +1,15 @@
 <?php
 
-namespace Lolart\EzPublishCoreExtraBundle\DependencyInjection;
+/*
+ * This file is part of the EzCoreExtraBundle package.
+ *
+ * (c) Jérôme Vieilledent <jerome@vieilledent.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +21,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class EzPublishCoreExtraExtension extends Extension
+class EzCoreExtraExtension extends Extension
 {
     public function getAlias()
     {

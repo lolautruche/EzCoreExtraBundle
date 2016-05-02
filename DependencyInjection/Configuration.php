@@ -1,6 +1,15 @@
 <?php
 
-namespace Lolart\EzPublishCoreExtraBundle\DependencyInjection;
+/*
+ * This file is part of the EzCoreExtraBundle package.
+ *
+ * (c) Jérôme Vieilledent <jerome@vieilledent.fr>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

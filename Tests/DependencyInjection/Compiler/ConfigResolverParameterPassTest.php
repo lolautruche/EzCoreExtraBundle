@@ -1,7 +1,7 @@
 <?php
-namespace Lolart\EzPublishCoreExtraBundle\Tests\DependencyInjection\Compiler;
+namespace Lolautruche\EzCoreExtraBundle\Tests\DependencyInjection\Compiler;
 
-use Lolart\EzPublishCoreExtraBundle\DependencyInjection\Compiler\ConfigResolverParameterPass;
+use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ConfigResolverParameterPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;

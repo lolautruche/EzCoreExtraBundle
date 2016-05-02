@@ -1,3 +1,3 @@
-# EzPublishCoreExtraBundle [![Build Status](https://secure.travis-ci.org/lolautruche/EzPublishCoreExtraBundle.png)](http://travis-ci.org/lolautruche/EzPublishCoreExtraBundle)
+# EzCoreExtraBundle [![Build Status](https://secure.travis-ci.org/lolautruche/EzPublishCoreExtraBundle.png)](http://travis-ci.org/lolautruche/EzPublishCoreExtraBundle)
 
-Extra sugar for building [eZ Publish 5](https://github.com/ezsystems/ezpublish-kernel) websites !
+Extra sugar for building [eZ Platform](https://github.com/ezsystems/ezplatform) websites !

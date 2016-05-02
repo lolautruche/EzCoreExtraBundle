@@ -1,5 +1,5 @@
 <?php
-namespace Lolart\EzPublishCoreExtraBundle\DependencyInjection\Compiler;
+namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
