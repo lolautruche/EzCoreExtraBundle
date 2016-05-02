@@ -12,7 +12,6 @@
         }
     ],
     "autoload": {
-        "psr-0": {"Lolart\\EzPublishCoreExtraBundle": ""}
-    },
-    "target-dir": "Lolart/EzPublishCoreExtraBundle"
+        "psr-4": {"Lolautruche\\EzCoreExtraBundle": ""}
+    }
 }
