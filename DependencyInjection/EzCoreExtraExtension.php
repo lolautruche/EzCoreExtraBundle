@@ -23,11 +23,6 @@ use Symfony\Component\DependencyInjection\Loader;
  */
 class EzCoreExtraExtension extends Extension
 {
-    public function getAlias()
-    {
-        return 'ezpublish_core_extra';
-    }
-
     /**
      * {@inheritDoc}
      */
