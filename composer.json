@@ -12,6 +12,6 @@
         }
     ],
     "autoload": {
-        "psr-4": {"Lolautruche\\EzCoreExtraBundle": ""}
+        "psr-4": {"Lolautruche\\EzCoreExtraBundle\\": ""}
     }
 }
