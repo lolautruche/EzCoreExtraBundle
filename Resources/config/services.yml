@@ -1,3 +1,2 @@
 parameters:
-
-services:
+    ezpublish.twig.extension.content.class: Lolart\EzPublishCoreExtraBundle\Twig\ContentExtension
