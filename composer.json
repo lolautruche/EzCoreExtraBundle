@@ -4,9 +4,6 @@
     "require": {
         "ezsystems/ezpublish-kernel": "^6.0.0|^5.4.0|>=2014.11.0"
     },
-    "require-dev": {
-        "ezsystems/ezpublish-kernel": "^6.0.0"
-    },
     "license": "MIT",
     "authors": [
         {
