@@ -38,7 +38,7 @@ Services cannot be directly injected. but you can define *view parameters provid
 meaning that they will provide the variables to inject in the view template.
 Moreover, variables returned by those services will be *namespaced* by the parameter name provided in the configuration.
 
-Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProvider` interface.
+Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` interface.
 Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 
 See the [full example below](#full-example), for details.
@@ -57,7 +57,7 @@ ezpublish:
                     article_test:
                         template: "AcmeTestBundle:full:article_test.html.twig"
                         params:
-                            # This service must implement \Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProvider.
+                            # This service must implement \Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface.
                             my_provider: {"provider": "my_param_provider"}
                             osTypes: [osx, linux, losedows]
                             secret: %secret%
@@ -79,10 +79,10 @@ In the configuration example above, `my_param_provider` would be like:
 <?php
 namespace Acme\TestBundle;
 
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProvider;
+use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface;
 use Acme\TestBundle\SomeService;
 
-class MyViewParameterProvider implements ViewParameterProvider
+class MyViewParameterProvider implements ViewParameterProviderInterface
 {
     private $someService;
 

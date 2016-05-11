@@ -14,7 +14,7 @@ namespace Lolautruche\EzCoreExtraBundle\Templating;
 /**
  * Interface for services that provides parameters to the view.
  */
-interface ViewParameterProvider
+interface ViewParameterProviderInterface
 {
     /**
      * Returns a hash of parameters to inject into the matched view.

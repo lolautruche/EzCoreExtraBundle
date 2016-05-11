@@ -163,7 +163,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $event = new PreContentViewEvent($view);
 
         $providerAlias = 'some_provider';
-        $provider = $this->getMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProvider');
+        $provider = $this->getMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
         $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
         $listener->addParameterProvider($provider, $providerAlias);
 

@@ -16,7 +16,7 @@ use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProvider;
+use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -35,7 +35,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     private $settingParser;
 
     /**
-     * @var ViewParameterProvider[]
+     * @var ViewParameterProviderInterface[]
      */
     private $parameterProviders = [];
 
@@ -54,7 +54,7 @@ class ViewTemplateListener implements EventSubscriberInterface
         ];
     }
 
-    public function addParameterProvider(ViewParameterProvider $provider, $alias)
+    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias)
     {
         $this->parameterProviders[$alias] = $provider;
     }
