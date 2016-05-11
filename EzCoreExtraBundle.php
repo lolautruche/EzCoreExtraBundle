@@ -12,10 +12,16 @@
 namespace Lolautruche\EzCoreExtraBundle;
 
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ConfigResolverParameterPass;
+use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ParameterProviderPass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\EzCoreExtraExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class EzCoreExtraBundle extends Bundle
 {
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+        $container->addCompilerPass(new ParameterProviderPass());
+    }
 }

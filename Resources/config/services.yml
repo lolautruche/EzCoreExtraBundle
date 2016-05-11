@@ -1,3 +1,8 @@
 parameters:
 
 services:
+    ez_core_extra.view_template_listener:
+        class: Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener
+        arguments: ["@ezpublish.config.resolver", "@ezpublish.config.dynamic_setting.parser"]
+        tags:
+            - [name: "kernel.event_subscriber"]
