@@ -32,7 +32,7 @@ class ParameterProviderPass implements CompilerPassInterface
             foreach ($attributes as $attribute) {
                 if (!isset($attribute['alias'])) {
                     throw new LogicException(
-                        'ez_core_extra.view_parameter_provider service tag needs an "alias" attribute to ' .
+                        'ez_core_extra.view_parameter_provider service tag needs an "alias" attribute to '.
                         'identify the parameter provider. None given.'
                     );
                 }

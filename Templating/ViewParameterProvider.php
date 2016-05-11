@@ -22,8 +22,8 @@ interface ViewParameterProvider
      *
      * @param array $viewConfig Current view configuration hash.
      *                          Available keys:
-     *                              - template: Template used for the view.
-     *                              - parameters: Hash of parameters that will be passed to the template.
+     *                          - template: Template used for the view.
+     *                          - parameters: Hash of parameters that will be passed to the template.
      *
      * @return array
      */

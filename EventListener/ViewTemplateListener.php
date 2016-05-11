@@ -28,7 +28,7 @@ class ViewTemplateListener implements EventSubscriberInterface
      * @var ConfigResolverInterface
      */
     private $configResolver;
-    
+
     /**
      * @var DynamicSettingParserInterface
      */
@@ -75,7 +75,7 @@ class ViewTemplateListener implements EventSubscriberInterface
             } elseif (is_array($param) && isset($param['provider'])) {
                 if (!isset($this->parameterProviders[$param['provider']])) {
                     throw new MissingParameterProviderException(
-                        "ParameterProvider '{$param['provider']}' could not be found. " .
+                        "ParameterProvider '{$param['provider']}' could not be found. ".
                         "Did you register it as a service with 'ez_core_extra.view_template_listener' tag?"
                     );
                 }
@@ -83,7 +83,7 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // Use provider to get the array of parameters and switch param value with it.
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
-                $param = (object)$this->parameterProviders[$param['provider']]->getParameters([
+                $param = (object) $this->parameterProviders[$param['provider']]->getParameters([
                     'template' => $contentView->getTemplateIdentifier(),
                     'parameters' => $contentView->getParameters(),
                 ]);

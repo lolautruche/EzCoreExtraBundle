@@ -107,7 +107,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
                 'dynamic' => '$dynamic_setting$',
                 'some' => 'thing',
                 'dynamic2' => '$foo;bar;baz$',
-            ]
+            ],
         ];
 
         $view
@@ -151,7 +151,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->willReturn([
                 'params' => [
                     'foo' => ['provider' => 'some_missing_provider'],
-                ]
+                ],
             ]);
 
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser))->onPreContentView($event);
@@ -175,7 +175,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->willReturn([
                 'params' => [
                     'foo' => ['provider' => $providerAlias],
-                ]
+                ],
             ]);
         $view
             ->expects($this->once())
@@ -200,7 +200,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $view
             ->expects($this->once())
             ->method('addParameters')
-            ->with(['foo' => (object)$providedParameters]);
+            ->with(['foo' => (object) $providedParameters]);
 
         $listener->onPreContentView($event);
     }
