@@ -42,9 +42,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     {
         self::assertSame(
             [
-                MVCEvents::PRE_CONTENT_VIEW => [
-                    ['onPreContentView' => 15],
-                ],
+                MVCEvents::PRE_CONTENT_VIEW => ['onPreContentView', 15],
             ],
             ViewTemplateListener::getSubscribedEvents()
         );

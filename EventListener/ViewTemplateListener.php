@@ -48,9 +48,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     public static function getSubscribedEvents()
     {
         return [
-            MVCEvents::PRE_CONTENT_VIEW => [
-                ['onPreContentView' => 15],
-            ],
+            MVCEvents::PRE_CONTENT_VIEW => ['onPreContentView', 15],
         ];
     }
 
