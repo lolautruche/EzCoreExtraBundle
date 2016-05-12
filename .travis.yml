@@ -1,7 +1,5 @@
 language: php
 
-sudo: false
-
 cache:
   directories:
     - $HOME/.composer/cache
@@ -15,9 +13,15 @@ branches:
         - master
         - /^\d+\.\d+$/
 
-before_script:
+env:
+    - EZ_KERNEL_VERSION=~2014.11
+    - EZ_KERNEL_VERSION=^6.0
+
+install:
     - phpenv config-rm xdebug.ini
-    - composer install 
+    - echo 'memory_limit = -1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    - composer require "ezsystems/ezpublish-kernel:${EZ_KERNEL_VERSION}" --no-update
+    - composer install
 
 script:
     - phpunit
