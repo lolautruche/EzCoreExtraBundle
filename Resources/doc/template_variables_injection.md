@@ -1,4 +1,4 @@
-# Enhanced views for Content/Location
+# Template variables injection
 
 In many cases, the default variables that are injected in the template to display a content/location is not sufficient
 and will lead you to define custom controllers in order to access different parameters.
