@@ -1,2 +1,5 @@
 parameters:
+    ez_core_extra.themes.list: []
+    ez_core_extra.themes.path_map: {}
+
     ez_core_extra.default.design: ~
