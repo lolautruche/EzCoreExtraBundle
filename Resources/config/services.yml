@@ -6,3 +6,11 @@ services:
         arguments: ["@ezpublish.config.resolver", "@ezpublish.config.dynamic_setting.parser"]
         tags:
             - { name: kernel.event_subscriber }
+
+    ez_core_extra.twig_theme_loader:
+        class: Lolautruche\EzCoreExtraBundle\Templating\TwigThemeLoader
+        public: false
+        decorates: twig.loader.filesystem
+        arguments: ["@ez_core_extra.twig_theme_loader.inner"]
+        calls:
+            - ["setCurrentTheme", ["$current_theme;ez_core_extra$"]]
