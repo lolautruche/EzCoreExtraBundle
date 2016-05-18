@@ -7,10 +7,10 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    ez_core_extra.twig_theme_loader:
-        class: Lolautruche\EzCoreExtraBundle\Templating\TwigThemeLoader
+    ez_core_extra.twig_engine:
+        class: Lolautruche\EzCoreExtraBundle\Templating\ThemeAwareTwigEngine
         public: false
-        decorates: twig.loader.filesystem
-        arguments: ["@ez_core_extra.twig_theme_loader.inner"]
+        decorates: templating.engine.twig
+        arguments: ["@ez_core_extra.twig_engine.inner"]
         calls:
-            - ["setCurrentTheme", ["$current_theme;ez_core_extra$"]]
+            - [setCurrentDesign, ["$design;ez_core_extra$"]]

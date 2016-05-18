@@ -1,2 +1,2 @@
 parameters:
-    ez_core_extra.default.current_theme: default
+    ez_core_extra.default.design: ~
