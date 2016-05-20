@@ -33,12 +33,12 @@ class TwigThemePass implements CompilerPassInterface
             '_override' => array_merge(
                 [$container->getParameter('kernel.root_dir').'/Resources/views'],
                 $container->getParameter('ez_core_extra.themes.override_paths')
-            )
+            ),
         ];
         $finder = new Finder();
         foreach ($container->getParameter('kernel.bundles') as $bundleName => $bundleClass) {
             $bundleReflection = new ReflectionClass($bundleClass);
-            $bundleViewsDir = dirname($bundleReflection->getFileName()) . '/Resources/views';
+            $bundleViewsDir = dirname($bundleReflection->getFileName()).'/Resources/views';
             $themeDir = $bundleViewsDir.'/themes';
             if (!is_dir($themeDir)) {
                 continue;
@@ -57,7 +57,7 @@ class TwigThemePass implements CompilerPassInterface
                 continue;
             }
 
-            $overrideThemeDir = $container->getParameter('kernel.root_dir') . "/Resources/views/themes/$theme";
+            $overrideThemeDir = $container->getParameter('kernel.root_dir')."/Resources/views/themes/$theme";
             if (is_dir($overrideThemeDir)) {
                 array_unshift($paths, $overrideThemeDir);
             }

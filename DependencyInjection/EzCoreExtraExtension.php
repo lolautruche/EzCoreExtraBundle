@@ -46,8 +46,7 @@ class EzCoreExtraExtension extends Extension
         // SiteAccess aware settings
         $processor->mapConfig(
             $config,
-            function ($scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config)
-            {
+            function ($scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config) {
                 if (isset($scopeSettings['design'])) {
                     if (!isset($config['design']['list'][$scopeSettings['design']])) {
                         throw new InvalidArgumentException(

@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ThemeAwareTwigEngine extends TwigEngine
 {
     const EZ_THEME_NAMESPACE = 'ezdesign';
-    
+
     /**
      * @var EngineInterface|\Symfony\Component\Templating\StreamingEngineInterface
      */
@@ -57,7 +57,7 @@ class ThemeAwareTwigEngine extends TwigEngine
      */
     private function resolveName($templateName)
     {
-        if (!(isset($this->currentDesign) && ($themeNamespacePos = strpos($templateName, '@' . self::EZ_THEME_NAMESPACE)) === 0)) {
+        if (!(isset($this->currentDesign) && ($themeNamespacePos = strpos($templateName, '@'.self::EZ_THEME_NAMESPACE)) === 0)) {
             return $templateName;
         }
 
