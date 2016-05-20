@@ -24,15 +24,18 @@ class TwigThemePass implements CompilerPassInterface
             return;
         }
 
-        $themesPathMap = [];
+        $themesPathMap = [
+            '_override' => array_merge(
+                [$container->getParameter('kernel.root_dir').'/Resources/views'],
+                $container->getParameter('ez_core_extra.themes.override_paths')
+            )
+        ];
         $finder = new Finder();
         foreach ($container->getParameter('kernel.bundles') as $bundleName => $bundleClass) {
             $bundleReflection = new ReflectionClass($bundleClass);
             $bundleViewsDir = dirname($bundleReflection->getFileName()) . '/Resources/views';
             $themeDir = $bundleViewsDir.'/themes';
-            // Theme directory is not present in the bundle, only register the regular views directory for "_base" theme.
             if (!is_dir($themeDir)) {
-                $themesPathMap['_base'][] = $bundleViewsDir;
                 continue;
             }
 
@@ -45,12 +48,18 @@ class TwigThemePass implements CompilerPassInterface
         $twigLoaderDef = $container->findDefinition('twig.loader.filesystem');
         // Add application theme directory for each theme.
         foreach ($themesPathMap as $theme => &$paths) {
-            array_unshift($paths, "%kernel.root_dir%/Resources/views/themes/$theme");
+            if ($theme === '_override') {
+                continue;
+            }
+
+            $overrideThemeDir = $container->getParameter('kernel.root_dir') . "/Resources/views/themes/$theme";
+            if (is_dir($overrideThemeDir)) {
+                array_unshift($paths, $overrideThemeDir);
+            }
         }
 
-        $designThemesFallbacks = [];
-        // TODO: Define ez_core_extra.themes.design_list in DIC extension, from semantic config
         foreach ($container->getParameter('ez_core_extra.themes.design_list') as $designName => $themeFallback) {
+            array_unshift($themeFallback, '_override');
             foreach ($themeFallback as $theme) {
                 if (!isset($themesPathMap[$theme])) {
                     // TODO: Should we throw an exception?
@@ -58,13 +67,11 @@ class TwigThemePass implements CompilerPassInterface
                 }
 
                 foreach ($themesPathMap[$theme] as $path) {
-                    $designThemesFallbacks[$designName][] = $path;
                     $twigLoaderDef->addMethodCall('addPath', [$path, $designName]);
                 }
             }
         }
 
-        $container->setParameter('ez_core_extra.themes.design_themes_fallbacks', $designThemesFallbacks);
         $container->setParameter('ez_core_extra.themes.list', array_keys($themesPathMap));
         $container->setParameter('ez_core_extra.themes.path_map', $themesPathMap);
     }
