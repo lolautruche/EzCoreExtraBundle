@@ -32,6 +32,8 @@ class ThemeAwareTwigEngine extends TwigEngine
     private $resolvedTemplateNames = [];
 
     /**
+     * Design configured for current context (i.e. SiteAccess).
+     *
      * @var string
      */
     private $currentDesign;
@@ -41,25 +43,33 @@ class ThemeAwareTwigEngine extends TwigEngine
         $this->innerEngine = $innerEngine;
     }
 
-    public function setCurrentDesign($currentDesign)
+    public function setCurrentDesign($currentDesign = null)
     {
         $this->currentDesign = $currentDesign;
     }
 
-    private function resolveName($name)
+    /**
+     * Replaces generic @ezdesign Twig namespace with current design, configured for current context.
+     *
+     * @param string $templateName Name of requested template.
+     *
+     * @return string
+     */
+    private function resolveName($templateName)
     {
-        if (isset($this->resolvedTemplateNames[$name])) {
-            return $this->resolvedTemplateNames[$name];
-        } elseif (strpos($name, '@'.self::EZ_THEME_NAMESPACE) === 0) {
-            // TODO: What if design is not defined?
-            return $this->resolvedTemplateNames[$name] = str_replace(
+        if (!(isset($this->currentDesign) && ($themeNamespacePos = strpos($templateName, '@' . self::EZ_THEME_NAMESPACE)) === 0)) {
+            return $templateName;
+        }
+
+        if (!isset($this->resolvedTemplateNames[$templateName])) {
+            $this->resolvedTemplateNames[$templateName] = str_replace(
                 '@'.self::EZ_THEME_NAMESPACE,
                 '@'.$this->currentDesign,
-                $name
+                $templateName
             );
         }
 
-        return $name;
+        return $this->resolvedTemplateNames[$templateName];
     }
 
     public function render($name, array $parameters = array())
