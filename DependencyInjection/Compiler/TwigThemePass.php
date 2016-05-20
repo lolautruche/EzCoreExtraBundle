@@ -16,6 +16,11 @@ use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
 
+/**
+ * Registers defined designs as valid Twig namespaces.
+ * A design is a collection of ordered themes (in fallback order).
+ * A theme is a collection of one or several template paths.
+ */
 class TwigThemePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
@@ -59,10 +64,11 @@ class TwigThemePass implements CompilerPassInterface
         }
 
         foreach ($container->getParameter('ez_core_extra.themes.design_list') as $designName => $themeFallback) {
+            // Always add _override theme first.
             array_unshift($themeFallback, '_override');
             foreach ($themeFallback as $theme) {
+                // Theme could not be found in expected directories, just ignore.
                 if (!isset($themesPathMap[$theme])) {
-                    // TODO: Should we throw an exception?
                     continue;
                 }
 
