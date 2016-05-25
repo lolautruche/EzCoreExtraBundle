@@ -6,7 +6,8 @@
 Adds extra features to eZ Publish 5.4 / eZ Platform.
 
 ## Features
-* **Configurable template variable injection**
+* **[Configurable template variable injection](Resources/doc/template_variables_injection.md)**
+
   Lets you configure variables to inject within your view template configuration.
   This avoids you to create custom controllers when you need to add a few simple variables to your view.
 
@@ -31,6 +32,11 @@ Adds extra features to eZ Publish 5.4 / eZ Platform.
                           match:
                               Id\Location: 144
   ```
+
+* **[Themes](Resources/doc/themes.md)**
+
+  Lets you define a theme fallback order for your templates, similar to
+  [legacy design fallback system](https://doc.ez.no/eZ-Publish/Technical-manual/5.x/Concepts-and-basics/Designs/Design-combinations).
 
 ## Requirements
 EzCoreExtraBundle currently works with **eZ Publish 5.4/2014.11** (and *should work* with Netgen variant)

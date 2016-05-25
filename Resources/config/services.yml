@@ -6,3 +6,11 @@ services:
         arguments: ["@ezpublish.config.resolver", "@ezpublish.config.dynamic_setting.parser"]
         tags:
             - { name: kernel.event_subscriber }
+
+    ez_core_extra.twig_engine:
+        class: Lolautruche\EzCoreExtraBundle\Templating\ThemeAwareTwigEngine
+        public: false
+        decorates: templating.engine.twig
+        arguments: ["@ez_core_extra.twig_engine.inner"]
+        calls:
+            - [setCurrentDesign, ["$design;ez_core_extra$"]]
