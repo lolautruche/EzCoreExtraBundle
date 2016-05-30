@@ -7,10 +7,13 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    ez_core_extra.twig_engine:
-        class: Lolautruche\EzCoreExtraBundle\Templating\ThemeAwareTwigEngine
+    ez_core_extra.template_name_resolver:
+        class: Lolautruche\EzCoreExtraBundle\Templating\ThemeTemplateNameResolver
+        arguments: ["$design;ez_core_extra$"]
+        lazy: true
+
+    ez_core_extra.twig_theme_loader:
+        class: Lolautruche\EzCoreExtraBundle\Templating\TwigThemeLoader
         public: false
-        decorates: templating.engine.twig
-        arguments: ["@ez_core_extra.twig_engine.inner"]
-        calls:
-            - [setCurrentDesign, ["$design;ez_core_extra$"]]
+        decorates: twig.loader.filesystem
+        arguments: ["@ez_core_extra.template_name_resolver", "@ez_core_extra.twig_theme_loader.inner"]
