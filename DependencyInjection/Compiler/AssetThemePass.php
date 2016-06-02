@@ -11,34 +11,28 @@
 
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
-use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Finder\Finder;
 
-/**
- * Registers defined designs as valid Twig namespaces.
- * A design is a collection of ordered themes (in fallback order).
- * A theme is a collection of one or several template paths.
- */
-class TwigThemePass implements CompilerPassInterface
+class AssetThemePass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if (!($container->hasParameter('kernel.bundles') && $container->hasDefinition('twig.loader.filesystem'))) {
+        if (!($container->hasParameter('kernel.bundles') && $container->hasParameter('webroot_dir') && $container->hasDefinition('assets.packages'))) {
             return;
         }
 
         $themesPathMap = [
             '_override' => array_merge(
-                [$container->getParameter('kernel.root_dir').'/Resources/views'],
-                $container->getParameter('ez_core_extra.themes.override_paths')
+                ['assets'],
+                $container->getParameter('ez_core_extra.themes.assets_override_paths')
             ),
         ];
         $finder = new Finder();
         foreach ($container->getParameter('kernel.bundles') as $bundleName => $bundleClass) {
-            $bundleReflection = new ReflectionClass($bundleClass);
-            $bundleViewsDir = dirname($bundleReflection->getFileName()).'/Resources/views';
+            $bundleReflection = new \ReflectionClass($bundleClass);
+            $bundleViewsDir = dirname($bundleReflection->getFileName()).'/Resources/public';
             $themeDir = $bundleViewsDir.'/themes';
             if (!is_dir($themeDir)) {
                 continue;
@@ -46,23 +40,25 @@ class TwigThemePass implements CompilerPassInterface
 
             /** @var \Symfony\Component\Finder\SplFileInfo $directoryInfo */
             foreach ($finder->directories()->in($themeDir) as $directoryInfo) {
-                $themesPathMap[$directoryInfo->getBasename()][] = $directoryInfo->getRealPath();
+                $theme = $directoryInfo->getBasename();
+                $bundleAssetDir = strtolower(substr($bundleName, 0, strripos($bundleName, 'bundle')));
+                $themesPathMap[$theme][] = 'bundles/'. $bundleAssetDir .'/themes/'.$theme;
             }
         }
 
-        $twigLoaderDef = $container->findDefinition('twig.loader.filesystem');
         // Add application theme directory for each theme.
         foreach ($themesPathMap as $theme => &$paths) {
             if ($theme === '_override') {
                 continue;
             }
 
-            $overrideThemeDir = $container->getParameter('kernel.root_dir')."/Resources/views/themes/$theme";
+            $overrideThemeDir = $container->getParameter('webroot_dir')."/assets/themes/$theme";
             if (is_dir($overrideThemeDir)) {
                 array_unshift($paths, $overrideThemeDir);
             }
         }
 
+        $pathsByDesign = [];
         foreach ($container->getParameter('ez_core_extra.themes.design_list') as $designName => $themeFallback) {
             // Always add _override theme first.
             array_unshift($themeFallback, '_override');
@@ -73,7 +69,7 @@ class TwigThemePass implements CompilerPassInterface
                 }
 
                 foreach ($themesPathMap[$theme] as $path) {
-                    $twigLoaderDef->addMethodCall('addPath', [$path, $designName]);
+                    $pathsByDesign[$designName][] = $path;
                 }
             }
         }
@@ -82,6 +78,8 @@ class TwigThemePass implements CompilerPassInterface
         $container->setParameter('ez_core_extra.themes.list', array_unique(
             array_merge($themesList, array_keys($themesPathMap)))
         );
-        $container->setParameter('ez_core_extra.themes.path_map', $themesPathMap);
+        $container->setParameter('ez_core_extra.themes.assets_path_map', $pathsByDesign);
+        $container->findDefinition('assets.packages')
+            ->addMethodCall('addPackage', ['ezdesign', $container->findDefinition('ez_core_extra.asset_theme_package')]);
     }
 }

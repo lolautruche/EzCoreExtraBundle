@@ -17,3 +17,17 @@ services:
         public: false
         decorates: twig.loader.filesystem
         arguments: ["@ez_core_extra.template_name_resolver", "@ez_core_extra.twig_theme_loader.inner"]
+
+    ez_core_extra.asset_path_resolver:
+        class: Lolautruche\EzCoreExtraBundle\Asset\AssetPathResolver
+        arguments:
+            - "%ez_core_extra.themes.assets_path_map%"
+            - "%webroot_dir%"
+        calls:
+            - [setCurrentDesign, ["$design;ez_core_extra$"]]
+
+    ez_core_extra.asset_theme_package:
+        class: Lolautruche\EzCoreExtraBundle\Asset\ThemePackage
+        arguments:
+            - "@ez_core_extra.asset_path_resolver"
+            - "@assets._default_package"

@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle;
 
+use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\AssetThemePass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ParameterProviderPass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\TwigThemePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -23,5 +24,6 @@ class EzCoreExtraBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new ParameterProviderPass());
         $container->addCompilerPass(new TwigThemePass());
+        $container->addCompilerPass(new AssetThemePass());
     }
 }
