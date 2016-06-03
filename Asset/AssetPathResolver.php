@@ -50,6 +50,9 @@ class AssetPathResolver implements AssetPathResolverInterface
     public function setCurrentDesign($currentDesign)
     {
         $this->currentDesign = $currentDesign;
+        if (!isset($this->designPaths[$currentDesign])) {
+            $this->designPaths[$currentDesign] = [];
+        }
     }
 
     public function resolveAssetPath($path)
@@ -68,7 +71,7 @@ class AssetPathResolver implements AssetPathResolverInterface
             $this->logger->warning(
                 "Asset '$path' cannot be found in any configured themes.\nTried directories: ".implode(
                     ', ',
-                    array_values($this->designPaths)
+                    array_values($this->designPaths[$this->currentDesign])
                 )
             );
         }

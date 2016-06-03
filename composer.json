@@ -13,5 +13,8 @@
     ],
     "autoload": {
         "psr-4": {"Lolautruche\\EzCoreExtraBundle\\": ""}
+    },
+    "require-dev": {
+        "mikey179/vfsStream": "^1.6.3"
     }
 }
