@@ -3,8 +3,6 @@
 This features allows you to provide themes to your eZ application, with automatic fallback system.
 It is very similar to [legacy design fallback system](https://doc.ez.no/eZ-Publish/Technical-manual/5.x/Concepts-and-basics/Designs/Design-combinations).
 
-> Themes are only available for templates, not for assets.
-
 When you call a given template, the system will look for it in the first configured theme. If it cannot be found, the
 system will fallback to all other configured themes for your current SiteAccess.
 
@@ -21,15 +19,6 @@ Under the hood, theming system uses Twig namespaces. As such, Twig is the only s
 
 ## Usage
 > When using eZ Publish 5.x, replace `app/` directory by `ezpublish/`.
-
-By convention, a theme directory must be located under `<bundle_directory>/Resources/views/themes/` or global
-`app/Resources/views/themes/` directories.
-
-Typical paths can be for example:
-* `app/Resources/views/themes/foo/` => Templates will be part of `foo` theme.
-* `app/Resources/views/themes/bar/` => Templates will be part of `bar` theme.
-* `src/AppBundle/Resources/views/themes/foo/` => Templates will be part of `foo`theme.
-* `src/Acme/TestBundle/Resources/views/themes/the_best/` => Templates will be part of `the_best` theme.
 
 ### Design configuration
 To define and use a design, you need to:
@@ -51,8 +40,17 @@ ez_core_extra:
             design: my_design
 ```
 
-### Using the configured design
-In order to use the configured design, you need to use `@ezdesign` special Twig namespace.
+### Templates
+By convention, a theme directory must be located under `<bundle_directory>/Resources/views/themes/` or global
+`app/Resources/views/themes/` directories.
+
+Typical paths can be for example:
+* `app/Resources/views/themes/foo/` => Templates will be part of `foo` theme.
+* `app/Resources/views/themes/bar/` => Templates will be part of `bar` theme.
+* `src/AppBundle/Resources/views/themes/foo/` => Templates will be part of `foo`theme.
+* `src/Acme/TestBundle/Resources/views/themes/the_best/` => Templates will be part of `the_best` theme.
+
+In order to use the configured design with templates, you need to use `@ezdesign` special Twig namespace.
 
 ```jinja
 {# Will load 'some_template.html.twig' directly under one of the specified themes directories #}
@@ -74,7 +72,9 @@ ezpublish:
                         template: "@ezdesign/full/home.html.twig"
 ```
 
-### Fallback order
+> You may also use this notation in controllers.
+
+#### Fallback order
 Default fallback order is the following:
 * Global view override: `app/Resources/views/`
 * Global theme override: `app/Resources/views/themes/<theme_name>/`
@@ -82,7 +82,7 @@ Default fallback order is the following:
 
 > The bundle fallback order is the instantiation order in `AppKernel` (or `EzPublishKernel` when using eZ Publish 5.x).
 
-### Additional override paths
+#### Additional override paths
 It is possible to add addition global override directories, similar to `app/Resources/views/`.
 
 ```yaml
@@ -94,3 +94,35 @@ ez_core_extra:
 ```
 
 > `app/Resources/views/` will **always** be the top level override directory.
+
+### Assets
+For assets, a special `ezdesign` asset package is available.
+
+```jinja
+<script src="{{ asset("js/foo.js", "ezdesign") }}"></script>
+
+<link rel="stylesheet" href="{{ "js/foo.css", "ezdesign" }}" media="screen" />
+
+<img src="{{ asset("images/foo.png", "ezdesign") }}" alt="foo"/>
+```
+
+Using `ezdesign` package will resolve current design with theme fallback.
+
+By convention, an asset theme directory must be located under `<bundle_directory>/Resources/public/themes/`.
+
+Typical paths can be for example:
+* `<bundle_directory>/Resources/public/themes/foo/` => Assets will be part of `foo` theme.
+* `<bundle_directory>/Resources/public/themes/bar/` => Assets will be part of `bar` theme.
+
+It is also possible to use the `web/assets` override directory. If called asset is present here, it will always be
+considered first.
+
+> **Important**: You must have *installed* your assets with `assets:install` command, so that your public resources are
+> *installed* in the `web/` directory.
+
+#### Fallback order
+Default fallback order is the following:
+* Global assets override: `web/assets/`
+* Bundle theme directory: `web/bundles/<bundle_directory>/themes/<theme_name>/`
+
+Calling `asset("js/foo.js", "ezdesign")` can for example be resolved to `web/bundles/app/themes/my_theme/js/foo.js`.
