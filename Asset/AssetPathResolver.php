@@ -11,7 +11,6 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Asset;
 
-use Lolautruche\EzCoreExtraBundle\Exception\MissingAssetException;
 use Psr\Log\LoggerInterface;
 
 class AssetPathResolver implements AssetPathResolverInterface
@@ -73,7 +72,7 @@ class AssetPathResolver implements AssetPathResolverInterface
                 )
             );
         }
-        
+
         return $path;
     }
 }

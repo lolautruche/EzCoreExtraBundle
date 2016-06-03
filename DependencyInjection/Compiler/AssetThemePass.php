@@ -42,7 +42,7 @@ class AssetThemePass implements CompilerPassInterface
             foreach ($finder->directories()->in($themeDir) as $directoryInfo) {
                 $theme = $directoryInfo->getBasename();
                 $bundleAssetDir = strtolower(substr($bundleName, 0, strripos($bundleName, 'bundle')));
-                $themesPathMap[$theme][] = 'bundles/'. $bundleAssetDir .'/themes/'.$theme;
+                $themesPathMap[$theme][] = 'bundles/'.$bundleAssetDir.'/themes/'.$theme;
             }
         }
 

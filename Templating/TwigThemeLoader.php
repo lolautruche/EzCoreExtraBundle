@@ -28,7 +28,7 @@ class TwigThemeLoader extends FilesystemLoader implements Twig_LoaderInterface, 
      * @var TemplateNameResolverInterface
      */
     private $nameResolver;
-    
+
     /**
      * @var Twig_LoaderInterface|Twig_ExistsLoaderInterface|\Twig_Loader_Filesystem
      */
