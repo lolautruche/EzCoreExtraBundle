@@ -7,3 +7,4 @@ parameters:
     ez_core_extra.themes.assets_override_paths: []
 
     ez_core_extra.default.design: ~
+    ez_core_extra.default.twig_globals: {}

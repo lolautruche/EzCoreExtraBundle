@@ -56,6 +56,10 @@ class EzCoreExtraExtension extends Extension
 
                     $contextualizer->setContextualParameter('design', $currentScope, $scopeSettings['design']);
                 }
+
+                if (isset($scopeSettings['twig_globals'])) {
+                    $contextualizer->setContextualParameter('twig_globals', $currentScope, $scopeSettings['twig_globals']);
+                }
             }
         );
     }
