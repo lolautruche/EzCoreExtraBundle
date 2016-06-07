@@ -31,3 +31,10 @@ services:
         arguments:
             - "@ez_core_extra.asset_path_resolver"
             - "@assets._default_package"
+
+    ez_core_extra.twig.globals_extension:
+        class: Lolautruche\EzCoreExtraBundle\Templating\TwigGlobalsExtension
+        calls:
+            - [setContextAwareGlobals, ["$twig_globals;ez_core_extra$"]]
+        tags:
+            - { name: twig.extension }

@@ -47,6 +47,13 @@ class Configuration extends SiteAccessConfiguration
             ->scalarNode('design')
                 ->cannotBeEmpty()
                 ->info('Name of the design to use. Must be one of the declared ones in the "design" key.')
+            ->end()
+            ->arrayNode('twig_globals')
+                ->info('Variables available in all Twig templates for current SiteAccess.')
+                ->normalizeKeys(false)
+                ->useAttributeAsKey('variable_name')
+                ->example(array('foo' => '"bar"', 'pi' => 3.14))
+                ->prototype('variable')->end()
             ->end();
 
         return $treeBuilder;

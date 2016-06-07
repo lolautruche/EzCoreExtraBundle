@@ -33,6 +33,20 @@ Adds extra features to eZ Publish 5.4 / eZ Platform.
                               Id\Location: 144
   ```
 
+* **[Context aware Twig global variables](Resources/doc/template_variables_injection.md)**
+
+  Lets you define Twig global variables that will be available only in the current SiteAccess.
+
+  ```yaml
+  ez_core_extra:
+      system:
+          my_siteaccess:
+              twig_globals:
+                  my_variable: foo
+                  another_variable: 123
+                  something_else: [bar, true, false]
+  ```
+
 * **[Themes](Resources/doc/themes.md)**
 
   Lets you define a theme fallback order for your templates, similar to
