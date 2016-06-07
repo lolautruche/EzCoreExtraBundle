@@ -39,11 +39,11 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                         'themes/theme1',
                         'themes/theme2',
                         'themes/theme3',
-                    ]
+                    ],
                 ],
                 ['themes/theme2', 'themes/theme3'],
                 'images/foo.png',
-                'themes/theme2/images/foo.png'
+                'themes/theme2/images/foo.png',
             ],
             [
                 [
@@ -51,11 +51,11 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                         'themes/theme1',
                         'themes/theme2',
                         'themes/theme3',
-                    ]
+                    ],
                 ],
                 ['themes/theme2'],
                 'images/foo.png',
-                'themes/theme2/images/foo.png'
+                'themes/theme2/images/foo.png',
             ],
             [
                 [
@@ -63,11 +63,11 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                         'themes/theme1',
                         'themes/theme2',
                         'themes/theme3',
-                    ]
+                    ],
                 ],
                 ['themes/theme1', 'themes/theme2', 'themes/theme3'],
                 'images/foo.png',
-                'themes/theme1/images/foo.png'
+                'themes/theme1/images/foo.png',
             ],
             [
                 [
@@ -75,11 +75,11 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                         'themes/theme1',
                         'themes/theme2',
                         'themes/theme3',
-                    ]
+                    ],
                 ],
                 ['themes/theme3'],
                 'images/foo.png',
-                'themes/theme3/images/foo.png'
+                'themes/theme3/images/foo.png',
             ],
             [
                 [
@@ -87,11 +87,11 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                         'themes/theme1',
                         'themes/theme2',
                         'themes/theme3',
-                    ]
+                    ],
                 ],
                 [],
                 'images/foo.png',
-                'images/foo.png'
+                'images/foo.png',
             ],
         ];
     }
@@ -112,7 +112,7 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
                     } else {
                         $directory = $parent->getChild($dir);
                     }
-                        
+
                     $parent = $directory;
                 }
 
