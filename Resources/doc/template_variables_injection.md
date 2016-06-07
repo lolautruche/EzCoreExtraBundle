@@ -14,12 +14,44 @@ Typical use cases are access to:
 
 
 ## Description
-This feature adds a [generic subscriber to `ezpublish.pre_content_view` event](https://doc.ez.no/display/EZP/Parameters+injection+in+content+views),
+This features adds the possibility to define Twig global variables depending on the current SiteAccess.
+These global variables will be available in every templates.
+
+It also adds a [generic subscriber to `ezpublish.pre_content_view` event](https://doc.ez.no/display/EZP/Parameters+injection+in+content+views),
 bound to the template selection rules, so that you can inject configured parameters in the selected view.
+
+
+## Context aware Twig global variables
+When working on multisite instances, you may want to define variables that will be available only in the current
+SiteAccess. By default, Twig allows to inject global variables for the whole application.
+
+To define context aware Twig global variables, you need to configure them:
+
+```yaml
+ez_core_extra:
+    system:
+        my_siteaccess:
+            twig_globals:
+                my_variable: foo
+                another_variable: 123
+                something_else: [bar, true, false]
+```
+
+With this configuration, your variables will be accessible in any templates rendered in `my_siteaccess` context:
+
+```jinja
+My variable: {{ my_variable }}<br>
+Number variable : {{ another_variable }}<br>
+<br>
+{% for val in something_else %}
+    {{ val }}<br>
+{% endfor %}
+```
 
 ## Parameters injection in view templates
 This functionality is meant for simple to intermediate needs.
-The goal is to expose additional variables in your view templates from the template selection rules configuration.
+The goal is to expose additional variables in your view templates (content, location, block...)
+from the template selection rules configuration.
 
 You can inject several types of parameters:
 
@@ -44,7 +76,7 @@ Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 See the [full example below](#full-example), for details.
 
 
-## Full example
+### Example
 This feature would allow to configure a content/location/block view the following way:
 
 ```yaml
@@ -72,7 +104,7 @@ ezpublish:
 
 > **Important**: Note that all configured parameters are only available in the template spotted in the template selection rule.
 
-### Parameter provider example
+#### Parameter provider example
 In the configuration example above, `my_param_provider` would be like:
 
 ```php
@@ -131,7 +163,7 @@ services:
             - {name: "ez_core_extra.view_parameter_provider", alias: "my_param_provider"}
 ```
 
-### Resulting view template
+#### Resulting view template
 The view template would then be like:
 
 ```jinja
