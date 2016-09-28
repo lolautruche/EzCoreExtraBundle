@@ -38,3 +38,11 @@ services:
             - [setContextAwareGlobals, ["$twig_globals;ez_core_extra$"]]
         tags:
             - { name: twig.extension }
+
+    ez_core_extra.security.simplified_core_voter:
+        class: Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter
+        arguments:
+            - "@ezpublish.security.voter.core"
+            - "@ezpublish.security.voter.value_object"
+        tags:
+            - { name: "security.voter" }
