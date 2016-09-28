@@ -19,7 +19,7 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
 {
     public function testResolveAssetPathFail()
     {
-        $logger = $this->getMock('\Psr\Log\LoggerInterface');
+        $logger = $this->createMock('\Psr\Log\LoggerInterface');
         $logger
             ->expects($this->once())
             ->method('warning');
