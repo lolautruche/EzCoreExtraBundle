@@ -14,6 +14,7 @@ namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -29,9 +30,13 @@ class TwigThemePass implements CompilerPassInterface
             return;
         }
 
+        $globalViewsDir = $container->getParameter('kernel.root_dir').'/Resources/views';
+        if (!is_dir($globalViewsDir)) {
+            (new Filesystem())->mkdir($globalViewsDir);
+        }
         $themesPathMap = [
             '_override' => array_merge(
-                [$container->getParameter('kernel.root_dir').'/Resources/views'],
+                [$globalViewsDir],
                 $container->getParameter('ez_core_extra.themes.override_paths')
             ),
         ];
@@ -57,7 +62,7 @@ class TwigThemePass implements CompilerPassInterface
                 continue;
             }
 
-            $overrideThemeDir = $container->getParameter('kernel.root_dir')."/Resources/views/themes/$theme";
+            $overrideThemeDir = $globalViewsDir."/themes/$theme";
             if (is_dir($overrideThemeDir)) {
                 array_unshift($paths, $overrideThemeDir);
             }
