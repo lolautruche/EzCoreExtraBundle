@@ -51,6 +51,11 @@ Adds extra features to eZ Publish 5.4 / eZ Platform.
 
   Lets you define a theme fallback order for your templates, similar to
   [legacy design fallback system](https://doc.ez.no/eZ-Publish/Technical-manual/5.x/Concepts-and-basics/Designs/Design-combinations).
+  
+* **[Simplified authorization checks](Resources/doc/simplified_auth_checks.md)**
+
+  Simplifies calls to `$this->isGranted()` from inside controllers and `is_granted()` from within templates when checking
+  against eZ inner permission system (module/function/valueObject).
 
 ## Requirements
 EzCoreExtraBundle currently works with **eZ Publish 5.4/2014.11** (and *should work* with Netgen variant)

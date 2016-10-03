@@ -34,7 +34,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->configResolver = $this->getMock('\eZ\Publish\Core\MVC\ConfigResolverInterface');
+        $this->configResolver = $this->createMock('\eZ\Publish\Core\MVC\ConfigResolverInterface');
         $this->dynamicSettingParser = new DynamicSettingParser();
     }
 
@@ -55,9 +55,9 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     {
         // \eZ\Publish\Core\MVC\Symfony\View\View is only defined in kernel >=6.0
         if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $view = $this->getMock('\eZ\Publish\Core\MVC\Symfony\View\View');
+            $view = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\View');
         } else {
-            $view = $this->getMock('\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface');
+            $view = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface');
         }
 
         return $view;
@@ -161,7 +161,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $event = new PreContentViewEvent($view);
 
         $providerAlias = 'some_provider';
-        $provider = $this->getMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
+        $provider = $this->createMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
         $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
         $listener->addParameterProvider($provider, $providerAlias);
 

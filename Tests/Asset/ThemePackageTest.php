@@ -30,8 +30,8 @@ class ThemePackageTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $this->assetPathResolver = $this->getMock('\Lolautruche\EzCoreExtraBundle\Asset\AssetPathResolverInterface');
-        $this->innerPackage = $this->getMock('\Symfony\Component\Asset\PackageInterface');
+        $this->assetPathResolver = $this->createMock('\Lolautruche\EzCoreExtraBundle\Asset\AssetPathResolverInterface');
+        $this->innerPackage = $this->createMock('\Symfony\Component\Asset\PackageInterface');
     }
 
     public function testGetUrl()
