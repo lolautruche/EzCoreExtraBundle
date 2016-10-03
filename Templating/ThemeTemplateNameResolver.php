@@ -32,12 +32,17 @@ class ThemeTemplateNameResolver implements TemplateNameResolverInterface
 
     public function resolveTemplateName($name)
     {
-        if (strpos($name, '@'.self::EZ_DESIGN_NAMESPACE) === false) {
+        if (!$this->isTemplateDesignNamespaced($name)) {
             return $name;
         } elseif (isset($this->resolvedTemplateNames[$name])) {
             return $this->resolvedTemplateNames[$name];
         }
 
         return $this->resolvedTemplateNames[$name] = str_replace('@'.self::EZ_DESIGN_NAMESPACE, '@'.$this->currentDesign, $name);
+    }
+
+    public function isTemplateDesignNamespaced($name)
+    {
+        return strpos($name, '@'.self::EZ_DESIGN_NAMESPACE) !== false;
     }
 }

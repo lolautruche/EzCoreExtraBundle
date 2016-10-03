@@ -16,7 +16,11 @@ services:
         class: Lolautruche\EzCoreExtraBundle\Templating\TwigThemeLoader
         public: false
         decorates: twig.loader.filesystem
-        arguments: ["@ez_core_extra.template_name_resolver", "@ez_core_extra.twig_theme_loader.inner"]
+        arguments:
+            - "@ez_core_extra.template_name_resolver"
+            - "@ez_core_extra.twig_theme_loader.inner"
+            - "@templating.locator"
+            - "@templating.name_parser"
 
     ez_core_extra.asset_path_resolver:
         class: Lolautruche\EzCoreExtraBundle\Asset\AssetPathResolver

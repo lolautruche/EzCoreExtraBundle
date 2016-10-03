@@ -27,4 +27,12 @@ interface TemplateNameResolverInterface
      * @return string
      */
     public function resolveTemplateName($name);
+
+    /**
+     * Checks if provided template name is using @ezdesign namespace.
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function isTemplateDesignNamespaced($name);
 }

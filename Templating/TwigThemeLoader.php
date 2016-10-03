@@ -12,6 +12,8 @@
 namespace Lolautruche\EzCoreExtraBundle\Templating;
 
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
+use Symfony\Component\Config\FileLocatorInterface;
+use Symfony\Component\Templating\TemplateNameParserInterface;
 use Twig_ExistsLoaderInterface;
 use Twig_LoaderInterface;
 
@@ -21,6 +23,7 @@ use Twig_LoaderInterface;
  *
  * @note It extends \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader because methods specific to this loader
  * (e.g. related to paths and namespaces) are not part of an interface.
+ * It also does that by convenience for resolving @ezdesign templates paths in debug mode.
  */
 class TwigThemeLoader extends FilesystemLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
@@ -34,10 +37,17 @@ class TwigThemeLoader extends FilesystemLoader implements Twig_LoaderInterface, 
      */
     private $innerFilesystemLoader;
 
-    public function __construct(TemplateNameResolverInterface $templateNameResolver, Twig_LoaderInterface $innerFilesystemLoader)
+    public function __construct(
+        TemplateNameResolverInterface $templateNameResolver,
+        Twig_LoaderInterface $innerFilesystemLoader,
+        FileLocatorInterface $locator,
+        TemplateNameParserInterface $parser
+    )
     {
         $this->innerFilesystemLoader = $innerFilesystemLoader;
         $this->nameResolver = $templateNameResolver;
+
+        parent::__construct($locator, $parser);
     }
 
     public function exists($name)
@@ -72,16 +82,23 @@ class TwigThemeLoader extends FilesystemLoader implements Twig_LoaderInterface, 
 
     public function setPaths($paths, $namespace = self::MAIN_NAMESPACE)
     {
+        parent::setPaths($paths, $namespace);
         $this->innerFilesystemLoader->setPaths($paths, $namespace);
     }
 
     public function addPath($path, $namespace = self::MAIN_NAMESPACE)
     {
+        parent::addPath($path, $namespace);
         $this->innerFilesystemLoader->addPath($path, $namespace);
     }
 
     public function prependPath($path, $namespace = self::MAIN_NAMESPACE)
     {
         $this->innerFilesystemLoader->prependPath($path, $namespace);
+    }
+
+    public function findTemplate($template, $throw = true)
+    {
+        return parent::findTemplate($template, $throw);
     }
 }

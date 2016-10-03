@@ -14,6 +14,7 @@ namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
@@ -55,7 +56,7 @@ class TwigThemePass implements CompilerPassInterface
             }
         }
 
-        $twigLoaderDef = $container->findDefinition('twig.loader.filesystem');
+        $twigLoaderDef = $container->findDefinition('ez_core_extra.twig_theme_loader');
         // Add application theme directory for each theme.
         foreach ($themesPathMap as $theme => &$paths) {
             if ($theme === '_override') {
@@ -88,5 +89,17 @@ class TwigThemePass implements CompilerPassInterface
             array_merge($themesList, array_keys($themesPathMap)))
         );
         $container->setParameter('ez_core_extra.themes.path_map', $themesPathMap);
+
+        // Override Twig environment
+        $twigDef = $container->findDefinition('twig');
+        $twigDef->addMethodCall('setTemplateNameResolver', [new Reference('ez_core_extra.template_name_resolver')]);
+        $twigDef->addMethodCall('setThemeLoader', [new Reference('ez_core_extra.twig_theme_loader')]);
+        $twigDef->addMethodCall('setKernelRootDir', [$container->getParameter('kernel.root_dir')]);
+        // Different base class for Twig environment depending if legacy is present/activated or not
+        if ($container->hasParameter('ezpublish_legacy.enabled') && $container->getParameter('ezpublish_legacy.enabled')) {
+            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\LegacyBasedTwigEnvironment');
+        } else {
+            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\TwigEnvironment');
+        }
     }
 }
