@@ -170,7 +170,7 @@ The view template would then be like:
 {% extends "AcmeDemoBundle::pagelayout.html.twig" %}
 
 {% block content %}
-<h1>{{ ez_render_field( content, 'title' ) }}</h1>
+<h1>{{ ez_render_field(content, 'title') }}</h1>
 
 <p><strong>Secret:</strong> {{ secret }}</p>
 
@@ -180,7 +180,7 @@ The view template would then be like:
     {% if not loop.last %}, {% endif %}
 {% endfor %}
 
-{# "my_helper" is namespaced by "my_service" according to configuration #}
+{# Param provider is namespaced by "my_provider" according to configuration #}
 <p>{{ my_provider.foo }}</p>
 <p>{{ my_provider.some }}</p>
 {% endblock %}
