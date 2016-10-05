@@ -22,6 +22,7 @@ Under the hood, theming system uses Twig namespaces. As such, Twig is the only s
 
 ### Design configuration
 To define and use a design, you need to:
+
 0. Declare it, with a name and a collection of themes to use
 0. Use it for your SiteAccess
 
