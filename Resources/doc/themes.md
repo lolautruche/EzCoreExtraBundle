@@ -6,7 +6,11 @@ It is very similar to [legacy design fallback system](https://doc.ez.no/eZ-Publi
 When you call a given template, the system will look for it in the first configured theme. If it cannot be found, the
 system will fallback to all other configured themes for your current SiteAccess.
 
+> Also applies to assets
+
 Under the hood, theming system uses Twig namespaces. As such, Twig is the only supported template engine.
+
+For assets, it uses Symfony Asset component with asset packages.
 
 ## Terminology
 * **Design**: Collection of themes.
