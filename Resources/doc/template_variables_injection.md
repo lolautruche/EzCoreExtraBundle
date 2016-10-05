@@ -92,12 +92,12 @@ ezpublish:
                             # This service must implement \Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface.
                             my_provider: {"provider": "my_param_provider"}
                             osTypes: [osx, linux, losedows]
-                            secret: %secret%
+                            secret: "%secret%"
                             # Parameters resolved by config resolver
                             # Supported syntax for parameters: $<paramName>[;<namespace>[;<scope>]]$
                             # e.g. full syntax: $my_setting;custom_namespace;my_siteaccess$
                             # See https://doc.ez.no/display/EZP/Dynamic+settings+injection
-                            default_ttl: $content.default_ttl$
+                            default_ttl: "$content.default_ttl$"
                         match:
                             Id\Location: 144
 ```
