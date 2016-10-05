@@ -13,13 +13,12 @@ Under the hood, theming system uses Twig namespaces. As such, Twig is the only s
 For assets, it uses Symfony Asset component with asset packages.
 
 ## Terminology
-* **Design**: Collection of themes.
-  The order of themes within a design is important as it defines the fallback order.
-  A design is identified with a name. One design can be used by SiteAccess.
-
-* **Theme**: Labeled collection of templates
+* **Theme**: Labeled collection of templates and assets.<br>
   Typically a directory containing templates. For example, templates located under `app/Resources/views/themes/my_theme`
   or `src/AppBundle/Resources/views/themes/my_theme` are part of `my_theme` theme.
+* **Design**: Collection of themes.<br>
+  The order of themes within a design is important as it defines the fallback order.
+  A design is identified with a name. One design can be used by SiteAccess.
 
 ## Usage
 > When using eZ Publish 5.x, replace `app/` directory by `ezpublish/`.
