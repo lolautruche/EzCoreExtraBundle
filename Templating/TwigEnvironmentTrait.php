@@ -11,17 +11,14 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Templating;
 
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\DebugTemplate;
+
 trait TwigEnvironmentTrait
 {
     /**
      * @var TemplateNameResolverInterface
      */
     protected $templateNameResolver;
-
-    /**
-     * @var TwigThemeLoader
-     */
-    protected $themeLoader;
 
     protected $kernelRootDir;
 
@@ -30,26 +27,22 @@ trait TwigEnvironmentTrait
         $this->templateNameResolver = $templateNameResolver;
     }
 
-    public function setThemeLoader(TwigThemeLoader $themeLoader)
-    {
-        $this->themeLoader = $themeLoader;
-    }
-
     public function setKernelRootDir($kernelRootDir)
     {
         $this->kernelRootDir = $kernelRootDir;
     }
 
-    protected function resolveTemplateName($name)
+    public function addPathMapping($source)
     {
-        // Only resolve real template path if using debug mode
-        if ($this->isDebug() && $this->templateNameResolver->isTemplateDesignNamespaced($name)) {
-            return $this->themeLoader->findTemplate(
-                $this->templateNameResolver->resolveTemplateName($name),
-                false
-            );
+        if (!($this->isDebug() && $source instanceof \Twig_Source)) {
+            return;
         }
 
-        return $name;
+        if ($this->templateNameResolver->isTemplateDesignNamespaced($source->getName())) {
+            DebugTemplate::addPathMapping(
+                $source->getName(),
+                str_replace(dirname($this->kernelRootDir).'/', '', $source->getPath())
+            );
+        }
     }
 }

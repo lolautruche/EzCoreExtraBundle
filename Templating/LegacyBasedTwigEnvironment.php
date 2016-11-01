@@ -19,9 +19,8 @@ class LegacyBasedTwigEnvironment extends LegacyTwigEnvironment
 
     public function compileSource($source, $name = null)
     {
-        return parent::compileSource(
-            $source,
-            substr($name, -5) === '.twig' ? $this->resolveTemplateName($name) : $name
-        );
+        $this->addPathMapping($source);
+
+        return parent::compileSource($source, $name);
     }
 }

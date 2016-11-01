@@ -18,16 +18,10 @@ class TwigEnvironment extends Twig_Environment
 {
     use TwigEnvironmentTrait;
 
-    public function __construct(Twig_LoaderInterface $loader, array $options)
-    {
-        parent::__construct($loader, $options);
-    }
-
     public function compileSource($source, $name = null)
     {
-        return parent::compileSource(
-            $source,
-            substr($name, -5) === '.twig' ? $this->resolveTemplateName($name) : $name
-        );
+        $this->addPathMapping($source);
+
+        return parent::compileSource($source, $name);
     }
 }

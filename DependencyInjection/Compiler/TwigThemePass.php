@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\Profiler\Profile;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -93,7 +94,6 @@ class TwigThemePass implements CompilerPassInterface
         // Override Twig environment
         $twigDef = $container->findDefinition('twig');
         $twigDef->addMethodCall('setTemplateNameResolver', [new Reference('ez_core_extra.template_name_resolver')]);
-        $twigDef->addMethodCall('setThemeLoader', [new Reference('ez_core_extra.twig_theme_loader')]);
         $twigDef->addMethodCall('setKernelRootDir', [$container->getParameter('kernel.root_dir')]);
         // Different base class for Twig environment depending if legacy is present/activated or not
         if ($container->hasParameter('ezpublish_legacy.enabled') && $container->getParameter('ezpublish_legacy.enabled')) {
