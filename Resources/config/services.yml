@@ -13,7 +13,7 @@ services:
         lazy: true
 
     ez_core_extra.twig_theme_loader:
-        class: Lolautruche\EzCoreExtraBundle\Templating\TwigThemeLoader
+        class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigThemeLoader
         public: false
         decorates: twig.loader.filesystem
         arguments:
@@ -37,7 +37,7 @@ services:
             - "@assets._default_package"
 
     ez_core_extra.twig.globals_extension:
-        class: Lolautruche\EzCoreExtraBundle\Templating\TwigGlobalsExtension
+        class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension
         calls:
             - [setContextAwareGlobals, ["$twig_globals;ez_core_extra$"]]
         tags:

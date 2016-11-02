@@ -11,7 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\Templating;
 
-use Lolautruche\EzCoreExtraBundle\Templating\TwigGlobalsExtension;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension;
 use PHPUnit_Framework_TestCase;
 
 class TwigGlobalsExtensionTest extends PHPUnit_Framework_TestCase

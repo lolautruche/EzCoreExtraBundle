@@ -97,9 +97,9 @@ class TwigThemePass implements CompilerPassInterface
         $twigDef->addMethodCall('setKernelRootDir', [$container->getParameter('kernel.root_dir')]);
         // Different base class for Twig environment depending if legacy is present/activated or not
         if ($container->hasParameter('ezpublish_legacy.enabled') && $container->getParameter('ezpublish_legacy.enabled')) {
-            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\LegacyBasedTwigEnvironment');
+            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\LegacyBasedTwigEnvironment');
         } else {
-            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\TwigEnvironment');
+            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironment');
         }
     }
 }

@@ -9,8 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Lolautruche\EzCoreExtraBundle\Templating;
+namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
+use Lolautruche\EzCoreExtraBundle\Templating\TemplateNameResolverInterface;
 use Symfony\Bundle\TwigBundle\Loader\FilesystemLoader;
 use Symfony\Component\Config\FileLocatorInterface;
 use Symfony\Component\Templating\TemplateNameParserInterface;

@@ -13,7 +13,7 @@ namespace Lolautruche\EzCoreExtraBundle\Tests\Templating;
 
 use Lolautruche\EzCoreExtraBundle\Templating\TemplateNameResolverInterface;
 use Lolautruche\EzCoreExtraBundle\Templating\Twig\DebugTemplate;
-use Lolautruche\EzCoreExtraBundle\Templating\TwigEnvironmentTrait;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 use PHPUnit_Framework_TestCase;
 
 class TwigEnvironmentTest extends PHPUnit_Framework_TestCase

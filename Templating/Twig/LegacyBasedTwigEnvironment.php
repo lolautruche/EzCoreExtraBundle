@@ -9,14 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Lolautruche\EzCoreExtraBundle\Templating;
+namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
-use Twig_Environment;
-use Twig_LoaderInterface;
+use eZ\Publish\Core\MVC\Legacy\Templating\Twig\Environment as LegacyTwigEnvironment;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
-class TwigEnvironment extends Twig_Environment
+class LegacyBasedTwigEnvironment extends LegacyTwigEnvironment
 {
-    use TwigEnvironmentTrait;
+    use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
     public function compileSource($source, $name = null)
     {
