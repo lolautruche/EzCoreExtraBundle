@@ -16,7 +16,7 @@ use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
 class LegacyBasedTwigEnvironment extends LegacyTwigEnvironment
 {
-    use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
+    use TwigEnvironmentTrait;
 
     public function compileSource($source, $name = null)
     {
