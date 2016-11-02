@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Lolautruche\EzCoreExtraBundle\Templating;
+namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
 use Twig_Extension;
 use Twig_Extension_GlobalsInterface;

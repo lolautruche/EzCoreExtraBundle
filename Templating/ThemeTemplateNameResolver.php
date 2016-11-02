@@ -43,6 +43,6 @@ class ThemeTemplateNameResolver implements TemplateNameResolverInterface
 
     public function isTemplateDesignNamespaced($name)
     {
-        return strpos($name, '@'.self::EZ_DESIGN_NAMESPACE) !== false;
+        return (strpos($name, '@'.self::EZ_DESIGN_NAMESPACE) !== false) || (strpos($name, '@'.$this->currentDesign) !== false);
     }
 }

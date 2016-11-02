@@ -9,19 +9,19 @@
  * file that was distributed with this source code.
  */
 
-namespace Lolautruche\EzCoreExtraBundle\Templating;
+namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
 use eZ\Publish\Core\MVC\Legacy\Templating\Twig\Environment as LegacyTwigEnvironment;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
 class LegacyBasedTwigEnvironment extends LegacyTwigEnvironment
 {
-    use TwigEnvironmentTrait;
+    use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
     public function compileSource($source, $name = null)
     {
-        return parent::compileSource(
-            $source,
-            substr($name, -5) === '.twig' ? $this->resolveTemplateName($name) : $name
-        );
+        $this->addPathMapping($source);
+
+        return parent::compileSource($source, $name);
     }
 }

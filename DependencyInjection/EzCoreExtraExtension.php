@@ -14,12 +14,14 @@ namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use InvalidArgumentException;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\DebugTemplate;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 
-class EzCoreExtraExtension extends Extension
+class EzCoreExtraExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
@@ -62,5 +64,13 @@ class EzCoreExtraExtension extends Extension
                 }
             }
         );
+    }
+
+    public function prepend(ContainerBuilder $container)
+    {
+        // Override Twig base class when in debug
+        if ($container->getParameter('kernel.debug')) {
+            $container->prependExtensionConfig('twig', ['base_template_class' => DebugTemplate::class]);
+        }
     }
 }
