@@ -14,7 +14,6 @@ namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use InvalidArgumentException;
-use Lolautruche\EzCoreExtraBundle\Templating\Twig\DebugTemplate;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
@@ -70,7 +69,7 @@ class EzCoreExtraExtension extends Extension implements PrependExtensionInterfac
     {
         // Override Twig base class when in debug
         if ($container->getParameter('kernel.debug')) {
-            $container->prependExtensionConfig('twig', ['base_template_class' => DebugTemplate::class]);
+            $container->prependExtensionConfig('twig', ['base_template_class' => 'Lolautruche\EzCoreExtraBundle\Templating\Twig\DebugTemplate']);
         }
     }
 }
