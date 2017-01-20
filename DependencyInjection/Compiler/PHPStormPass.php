@@ -17,8 +17,6 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class PHPStormPass implements CompilerPassInterface
 {
-    private $projectRootDir;
-
     public function process(ContainerBuilder $container)
     {
         if (!$container->getParameter('ez_core_extra.phpstorm.enabled')) {
