@@ -52,7 +52,7 @@ class TwigThemePass implements CompilerPassInterface
             }
 
             /** @var \Symfony\Component\Finder\SplFileInfo $directoryInfo */
-            foreach ($finder->directories()->in($themeDir) as $directoryInfo) {
+            foreach ($finder->directories()->in($themeDir)->depth('== 0') as $directoryInfo) {
                 $themesPathMap[$directoryInfo->getBasename()][] = $directoryInfo->getRealPath();
             }
         }
@@ -68,6 +68,9 @@ class TwigThemePass implements CompilerPassInterface
             if (is_dir($overrideThemeDir)) {
                 array_unshift($paths, $overrideThemeDir);
             }
+
+            // De-duplicate the map
+            $themesPathMap[$theme] = array_unique($themesPathMap[$theme]);
         }
 
         foreach ($container->getParameter('ez_core_extra.themes.design_list') as $designName => $themeFallback) {

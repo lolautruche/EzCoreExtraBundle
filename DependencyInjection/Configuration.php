@@ -40,6 +40,16 @@ class Configuration extends SiteAccessConfiguration
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('phpstorm')
+                    ->addDefaultsIfNotSet()
+                    ->children()
+                        ->booleanNode('enabled')->defaultValue('%kernel.debug%')->info('Activates PHPStorm support')->end()
+                        ->scalarNode('twig_config_path')
+                            ->info('Path where to store PHPStorm configuration file for additional Twig namespaces (ide-twig.json).')
+                            ->defaultValue('%kernel.root_dir%/..')
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         $systemNode = $this->generateScopeBaseNode($rootNode);
