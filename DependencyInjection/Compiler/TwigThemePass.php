@@ -11,7 +11,6 @@
 
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
-use Lolautruche\EzCoreExtraBundle\Templating\Twig\Profiler\Profile;
 use ReflectionClass;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
