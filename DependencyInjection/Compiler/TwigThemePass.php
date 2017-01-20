@@ -92,14 +92,23 @@ class TwigThemePass implements CompilerPassInterface
         $container->setParameter('ez_core_extra.themes.path_map', $themesPathMap);
 
         // Override Twig environment
+        $isTwigLegacy = version_compare(\Twig_Environment::VERSION, '2.0.0', '<');
         $twigDef = $container->findDefinition('twig');
         $twigDef->addMethodCall('setTemplateNameResolver', [new Reference('ez_core_extra.template_name_resolver')]);
         $twigDef->addMethodCall('setKernelRootDir', [$container->getParameter('kernel.root_dir')]);
         // Different base class for Twig environment depending if legacy is present/activated or not
         if ($container->hasParameter('ezpublish_legacy.enabled') && $container->getParameter('ezpublish_legacy.enabled')) {
-            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\LegacyBasedTwigEnvironment');
+            if ($isTwigLegacy) {
+                $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\LegacyBasedTwigLegacyEnvironment');
+            } else {
+                $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\LegacyBasedTwigEnvironment');
+            }
         } else {
-            $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironment');
+            if ($isTwigLegacy) {
+                $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigLegacyEnvironment');
+            } else {
+                $twigDef->setClass('Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironment');
+            }
         }
     }
 }

@@ -11,17 +11,17 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
-use Twig_Environment;
-use Twig_Source;
+use eZ\Publish\Core\MVC\Legacy\Templating\Twig\Environment as LegacyTwigEnvironment;
+use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigEnvironmentTrait;
 
-class TwigEnvironment extends Twig_Environment
+class LegacyBasedTwigLegacyEnvironment extends LegacyTwigEnvironment
 {
     use TwigEnvironmentTrait;
 
-    public function compileSource(Twig_Source $source)
+    public function compileSource($source, $name = null)
     {
         $this->addPathMapping($source);
 
-        return parent::compileSource($source);
+        return parent::compileSource($source, $name);
     }
 }
