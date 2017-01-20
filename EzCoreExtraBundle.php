@@ -13,7 +13,9 @@ namespace Lolautruche\EzCoreExtraBundle;
 
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\AssetThemePass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ParameterProviderPass;
+use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\PHPStormPass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\TwigThemePass;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
@@ -25,5 +27,6 @@ class EzCoreExtraBundle extends Bundle
         $container->addCompilerPass(new ParameterProviderPass());
         $container->addCompilerPass(new TwigThemePass());
         $container->addCompilerPass(new AssetThemePass());
+        $container->addCompilerPass(new PHPStormPass(), PassConfig::TYPE_OPTIMIZE);
     }
 }

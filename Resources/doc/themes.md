@@ -99,6 +99,30 @@ ez_core_extra:
 
 > `app/Resources/views/` will **always** be the top level override directory.
 
+#### PHPStorm support
+`@ezdesign` Twig namespace is a *virtual* namespace, and as such is not automatically recognized by PHPStorm Symfony plugin 
+for `goto` actions.
+
+EzCoreExtraBundle will generate a `ide-twig.json` file which will contain all detected theme paths for templates in your project.
+It's activated by default in debug mode (`%kernel.debug%`).
+
+By default, this config file will be stored at your project root (`%kernel.root_dir%/..`), but you can customize the path 
+if your PHPStorm project root doesn't match your Symfony project root.
+
+> Note: `ide-twig.json` **must** be stored at your PHPStorm project root.
+
+Default config:
+```yaml
+ez_core_extra:
+    phpstorm:
+
+        # Activates PHPStorm support
+        enabled:              '%kernel.debug%'
+
+        # Path where to store PHPStorm configuration file for additional Twig namespaces (ide-twig.json).
+        twig_config_path:     '%kernel.root_dir%/..'
+```
+
 ### Assets
 For assets, a special `ezdesign` asset package is available.
 

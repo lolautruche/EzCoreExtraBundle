@@ -45,6 +45,10 @@ class EzCoreExtraExtension extends Extension implements PrependExtensionInterfac
         $container->setParameter('ez_core_extra.themes.design_list', $config['design']['list']);
         $container->setParameter('ez_core_extra.themes.override_paths', $config['design']['override_paths']);
 
+        // PHPStorm settings
+        $container->setParameter('ez_core_extra.phpstorm.enabled', $config['phpstorm']['enabled']);
+        $container->setParameter('ez_core_extra.phpstorm.twig_config_path', $config['phpstorm']['twig_config_path']);
+
         // SiteAccess aware settings
         $processor->mapConfig(
             $config,
