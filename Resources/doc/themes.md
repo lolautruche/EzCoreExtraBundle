@@ -136,14 +136,17 @@ For assets, a special `ezdesign` asset package is available.
 
 Using `ezdesign` package will resolve current design with theme fallback.
 
-By convention, an asset theme directory must be located under `<bundle_directory>/Resources/public/themes/`.
+By convention, an asset theme directory can be located in:
+* `<bundle_directory>/Resources/public/themes/`
+* `web/assets/themes/`
 
 Typical paths can be for example:
 * `<bundle_directory>/Resources/public/themes/foo/` => Assets will be part of `foo` theme.
 * `<bundle_directory>/Resources/public/themes/bar/` => Assets will be part of `bar` theme.
+* `web/assets/themes/biz/` => Assets will be part of `biz` theme.
 
-It is also possible to use the `web/assets` override directory. If called asset is present here, it will always be
-considered first.
+It is also possible to use `web/assets` as a global override directory. 
+If called asset is present **directly under this directory**, it will always be considered first.
 
 > **Important**: You must have *installed* your assets with `assets:install` command, so that your public resources are
 > *installed* in the `web/` directory.
@@ -151,6 +154,7 @@ considered first.
 #### Fallback order
 Default fallback order is the following:
 * Global assets override: `web/assets/`
+* Global theme directory: `web/assets/themes/<theme_name>/`
 * Bundle theme directory: `web/bundles/<bundle_directory>/themes/<theme_name>/`
 
 Calling `asset("js/foo.js", "ezdesign")` can for example be resolved to `web/bundles/app/themes/my_theme/js/foo.js`.

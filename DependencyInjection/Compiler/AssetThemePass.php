@@ -30,6 +30,7 @@ class AssetThemePass implements CompilerPassInterface
             ),
         ];
         $finder = new Finder();
+        // Look for assets themes in bundles.
         foreach ($container->getParameter('kernel.bundles') as $bundleName => $bundleClass) {
             $bundleReflection = new \ReflectionClass($bundleClass);
             $bundleViewsDir = dirname($bundleReflection->getFileName()).'/Resources/public';
@@ -39,23 +40,25 @@ class AssetThemePass implements CompilerPassInterface
             }
 
             /** @var \Symfony\Component\Finder\SplFileInfo $directoryInfo */
-            foreach ($finder->directories()->in($themeDir) as $directoryInfo) {
+            foreach ($finder->directories()->in($themeDir)->depth('== 0') as $directoryInfo) {
                 $theme = $directoryInfo->getBasename();
                 $bundleAssetDir = strtolower(substr($bundleName, 0, strripos($bundleName, 'bundle')));
                 $themesPathMap[$theme][] = 'bundles/'.$bundleAssetDir.'/themes/'.$theme;
             }
         }
 
-        // Add application theme directory for each theme.
-        foreach ($themesPathMap as $theme => &$paths) {
-            if ($theme === '_override') {
-                continue;
-            }
+        // Look for assets themes at application level (web/assets/themes).
+        $appLevelThemeDir = $container->getParameter('webroot_dir').'/assets/themes';
+        foreach ((new Finder())->directories()->in($appLevelThemeDir)->depth('== 0') as $directoryInfo) {
+            $theme = $directoryInfo->getBasename();
+            $themePaths = isset($themesPathMap[$theme]) ? $themesPathMap[$theme] : [];
+            // Application level paths are always top priority.
+            array_unshift($themePaths, 'assets/themes/'.$theme);
+            $themesPathMap[$theme] = $themePaths;
+        }
 
-            $overrideThemeDir = $container->getParameter('webroot_dir')."/assets/themes/$theme";
-            if (is_dir($overrideThemeDir)) {
-                array_unshift($paths, $overrideThemeDir);
-            }
+        foreach ($themesPathMap as $theme => &$paths) {
+            $paths = array_unique($paths);
         }
 
         $pathsByDesign = [];
@@ -79,6 +82,8 @@ class AssetThemePass implements CompilerPassInterface
             array_merge($themesList, array_keys($themesPathMap)))
         );
         $container->setParameter('ez_core_extra.themes.assets_path_map', $pathsByDesign);
+        $container->findDefinition('ez_core_extra.asset_path_resolver')
+            ->replaceArgument(0, $pathsByDesign);
         $container->findDefinition('assets.packages')
             ->addMethodCall('addPackage', ['ezdesign', $container->findDefinition('ez_core_extra.asset_theme_package')]);
     }

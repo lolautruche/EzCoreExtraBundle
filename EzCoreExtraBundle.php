@@ -26,7 +26,7 @@ class EzCoreExtraBundle extends Bundle
         parent::build($container);
         $container->addCompilerPass(new ParameterProviderPass());
         $container->addCompilerPass(new TwigThemePass());
-        $container->addCompilerPass(new AssetThemePass());
+        $container->addCompilerPass(new AssetThemePass(), PassConfig::TYPE_OPTIMIZE);
         $container->addCompilerPass(new PHPStormPass(), PassConfig::TYPE_OPTIMIZE);
     }
 }
