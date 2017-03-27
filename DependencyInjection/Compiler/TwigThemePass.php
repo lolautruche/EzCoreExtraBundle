@@ -60,12 +60,14 @@ class TwigThemePass implements CompilerPassInterface
         $twigLoaderDef = $container->findDefinition('ez_core_extra.twig_theme_loader');
         // Now look for themes at application level (app/Resources/views/themes)
         $appLevelThemesDir = $globalViewsDir.'/themes';
-        foreach ((new Finder())->directories()->in($appLevelThemesDir)->depth('== 0') as $directoryInfo) {
-            $theme = $directoryInfo->getBasename();
-            $themePaths = isset($themesPathMap[$theme]) ? $themesPathMap[$theme] : [];
-            // Application level paths are always top priority.
-            array_unshift($themePaths, $directoryInfo->getRealPath());
-            $themesPathMap[$theme] = $themePaths;
+        if (is_dir($appLevelThemesDir)) {
+            foreach ((new Finder())->directories()->in($appLevelThemesDir)->depth('== 0') as $directoryInfo) {
+                $theme = $directoryInfo->getBasename();
+                $themePaths = isset($themesPathMap[$theme]) ? $themesPathMap[$theme] : [];
+                // Application level paths are always top priority.
+                array_unshift($themePaths, $directoryInfo->getRealPath());
+                $themesPathMap[$theme] = $themePaths;
+            }
         }
 
         // De-duplicate the map
