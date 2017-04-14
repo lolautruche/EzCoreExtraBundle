@@ -101,6 +101,14 @@ class DebugTemplate extends Twig_Template
     /**
      * {@inheritdoc}
      */
+    public function getSource()
+    {
+        return '';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
     protected function doDisplay(array $context, array $blocks = array())
     {
         return '';
