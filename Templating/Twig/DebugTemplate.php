@@ -23,7 +23,7 @@ use Twig_Template;
  * Mainly copy/paste of eZ\Bundle\EzPublishDebugBundle\Twig\DebugTemplate, courtesy of eZ Systems AS.
  * Adds mapping between template name and path, to display actual used template source when using themes.
  */
-abstract class DebugTemplate extends Twig_Template
+class DebugTemplate extends Twig_Template
 {
     /**
      * Map between template names and associated paths.
@@ -88,5 +88,37 @@ abstract class DebugTemplate extends Twig_Template
         } else {
             echo $templateResult;
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTemplateName()
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSource()
+    {
+        return '';
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        return '';
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDebugInfo()
+    {
+        return array();
     }
 }
