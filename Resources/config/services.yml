@@ -27,14 +27,14 @@ services:
         arguments:
             - "%ez_core_extra.themes.assets_path_map%"
             - "%webroot_dir%"
-        calls:
-            - [setCurrentDesign, ["$design;ez_core_extra$"]]
 
     ez_core_extra.asset_theme_package:
         class: Lolautruche\EzCoreExtraBundle\Asset\ThemePackage
         arguments:
             - "@ez_core_extra.asset_path_resolver"
             - "@assets._default_package"
+        calls:
+            - [setCurrentDesign, ["$design;ez_core_extra$"]]
 
     ez_core_extra.twig.globals_extension:
         class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension

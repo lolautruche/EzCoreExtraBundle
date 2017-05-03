@@ -11,10 +11,14 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Asset;
 
+use Lolautruche\EzCoreExtraBundle\DesignAwareInterface;
+use Lolautruche\EzCoreExtraBundle\DesignAwareTrait;
 use Symfony\Component\Asset\PackageInterface;
 
-class ThemePackage implements PackageInterface
+class ThemePackage implements PackageInterface, DesignAwareInterface
 {
+    use DesignAwareTrait;
+
     /**
      * @var AssetPathResolverInterface
      */
@@ -33,11 +37,11 @@ class ThemePackage implements PackageInterface
 
     public function getUrl($path)
     {
-        return $this->innerPackage->getUrl($this->pathResolver->resolveAssetPath($path));
+        return $this->innerPackage->getUrl($this->pathResolver->resolveAssetPath($path, $this->currentDesign));
     }
 
     public function getVersion($path)
     {
-        return $this->innerPackage->getVersion($this->pathResolver->resolveAssetPath($path));
+        return $this->innerPackage->getVersion($this->pathResolver->resolveAssetPath($path, $this->currentDesign));
     }
 }

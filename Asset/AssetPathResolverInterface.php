@@ -18,11 +18,12 @@ namespace Lolautruche\EzCoreExtraBundle\Asset;
 interface AssetPathResolverInterface
 {
     /**
-     * Resolves provided asset path within current design and returns correct asset path.
+     * Resolves provided asset path within provided design and returns correct asset path.
      *
-     * @param string $path asset path to resolve.
+     * @param string $path Asset path to resolve.
+     * @param string $design Design to resolve path for.
      *
      * @return string
      */
-    public function resolveAssetPath($path);
+    public function resolveAssetPath($path, $design);
 }

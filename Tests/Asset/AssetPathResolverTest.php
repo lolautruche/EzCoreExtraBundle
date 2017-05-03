@@ -24,10 +24,19 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('warning');
 
-        $resolver = new AssetPathResolver([], __DIR__, $logger);
-        $resolver->setCurrentDesign('foo');
+        $resolver = new AssetPathResolver(['foo' => []], __DIR__, $logger);
         $assetPath = 'images/foo.png';
-        self::assertSame($assetPath, $resolver->resolveAssetPath($assetPath));
+        self::assertSame($assetPath, $resolver->resolveAssetPath($assetPath, 'foo'));
+    }
+
+    /**
+     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\InvalidDesignException
+     */
+    public function testResolveInvalidDesign()
+    {
+        $resolver = new AssetPathResolver([], __DIR__);
+        $assetPath = 'images/foo.png';
+        self::assertSame($assetPath, $resolver->resolveAssetPath($assetPath, 'foo'));
     }
 
     public function resolveAssetPathProvider()
@@ -121,7 +130,6 @@ class AssetPathResolverTest extends PHPUnit_Framework_TestCase
         }
 
         $resolver = new AssetPathResolver($designPaths, $webrootDir->url());
-        $resolver->setCurrentDesign('foo');
-        self::assertSame($resolvedPath, $resolver->resolveAssetPath($path));
+        self::assertSame($resolvedPath, $resolver->resolveAssetPath($path, 'foo'));
     }
 }
