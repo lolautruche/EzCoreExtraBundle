@@ -84,7 +84,7 @@ class AssetThemePass implements CompilerPassInterface
             array_merge($themesList, array_keys($themesPathMap)))
         );
         $container->setParameter('ez_core_extra.themes.assets_path_map', $pathsByDesign);
-        $container->findDefinition('ez_core_extra.asset_path_resolver')
+        $container->findDefinition('ez_theme.asset_path_resolver')
             ->replaceArgument(0, $pathsByDesign);
         $container->findDefinition('assets.packages')
             ->addMethodCall('addPackage', ['ezdesign', $container->findDefinition('ez_core_extra.asset_theme_package')]);
