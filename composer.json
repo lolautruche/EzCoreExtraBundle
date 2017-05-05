@@ -2,9 +2,9 @@
     "name": "lolautruche/ez-core-extra-bundle",
     "description": "Extra sugar for building eZ Platform websites",
     "require": {
-        "ezsystems/ezpublish-kernel": "^6.0.0|^5.4.0|>=2014.11.0",
+        "ezsystems/ezpublish-kernel": "^6.0",
         "twig/twig": "^1.27|^2.0",
-        "symfony/symfony": "^2.7.20|^2.8.13|^3.1.6"
+        "symfony/symfony": "^2.8.13|^3.1.6"
     },
     "license": "MIT",
     "authors": [
