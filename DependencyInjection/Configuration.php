@@ -35,7 +35,7 @@ class Configuration extends SiteAccessConfiguration
                             ->end()
                         ->end()
                         ->arrayNode('override_paths')
-                            ->info('Directories to add to the override list. Those directories will be checked before theme directories.')
+                            ->info('Directories to add to the override list for templates. Those directories will be checked before theme directories.')
                             ->prototype('scalar')->end()
                         ->end()
                         ->booleanNode('disable_assets_pre_resolution')
