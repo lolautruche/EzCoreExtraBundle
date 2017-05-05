@@ -88,6 +88,6 @@ class ViewTemplateListener implements EventSubscriberInterface
             }
         }
 
-        $contentView->addParameters($configHash['params']);
+        $contentView->setParameters(array_replace($contentView->getParameters(), $configHash['params']));
     }
 }
