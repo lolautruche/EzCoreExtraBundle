@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle;
 
+use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\AssetPathResolutionPass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\AssetThemePass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\ParameterProviderPass;
 use Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler\PHPStormPass;
@@ -27,6 +28,7 @@ class EzCoreExtraBundle extends Bundle
         $container->addCompilerPass(new ParameterProviderPass());
         $container->addCompilerPass(new TwigThemePass());
         $container->addCompilerPass(new AssetThemePass(), PassConfig::TYPE_OPTIMIZE);
+        $container->addCompilerPass(new AssetPathResolutionPass(), PassConfig::TYPE_OPTIMIZE);
         $container->addCompilerPass(new PHPStormPass(), PassConfig::TYPE_OPTIMIZE);
     }
 }

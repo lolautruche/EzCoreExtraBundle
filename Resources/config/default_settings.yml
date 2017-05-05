@@ -5,6 +5,8 @@ parameters:
     ez_core_extra.themes.assets_path_map: {}
     ez_core_extra.themes.override_paths: []
     ez_core_extra.themes.assets_override_paths: []
+    ez_theme.asset_resolved_paths: {}
+    ez_theme.asset_resolution.disabled: '%kernel.debug%'
 
     ez_core_extra.default.design: ~
     ez_core_extra.default.twig_globals: {}

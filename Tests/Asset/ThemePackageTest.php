@@ -38,11 +38,12 @@ class ThemePackageTest extends PHPUnit_Framework_TestCase
     {
         $assetPath = 'images/foo.png';
         $fullAssetPath = 'assets/'.$assetPath;
+        $currentDesign = 'foo';
 
         $this->assetPathResolver
             ->expects($this->once())
             ->method('resolveAssetPath')
-            ->with($assetPath)
+            ->with($assetPath, $currentDesign)
             ->willReturn($fullAssetPath);
         $this->innerPackage
             ->expects($this->once())
@@ -51,6 +52,7 @@ class ThemePackageTest extends PHPUnit_Framework_TestCase
             ->willReturn("/$fullAssetPath");
 
         $package = new ThemePackage($this->assetPathResolver, $this->innerPackage);
+        $package->setCurrentDesign($currentDesign);
         self::assertSame("/$fullAssetPath", $package->getUrl($assetPath));
     }
 
@@ -58,11 +60,12 @@ class ThemePackageTest extends PHPUnit_Framework_TestCase
     {
         $assetPath = 'images/foo.png';
         $fullAssetPath = 'assets/'.$assetPath;
+        $currentDesign = 'foo';
 
         $this->assetPathResolver
             ->expects($this->once())
             ->method('resolveAssetPath')
-            ->with($assetPath)
+            ->with($assetPath, $currentDesign)
             ->willReturn($fullAssetPath);
         $version = 'v1';
         $this->innerPackage
@@ -72,6 +75,7 @@ class ThemePackageTest extends PHPUnit_Framework_TestCase
             ->willReturn($version);
 
         $package = new ThemePackage($this->assetPathResolver, $this->innerPackage);
+        $package->setCurrentDesign($currentDesign);
         self::assertSame($version, $package->getVersion($assetPath));
     }
 }

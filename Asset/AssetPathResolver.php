@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Asset;
 
+use Lolautruche\EzCoreExtraBundle\Exception\InvalidDesignException;
 use Psr\Log\LoggerInterface;
 
 class AssetPathResolver implements AssetPathResolverInterface
@@ -23,19 +24,12 @@ class AssetPathResolver implements AssetPathResolverInterface
     /**
      * @var string
      */
-    private $currentDesign;
-
-    /**
-     * @var string
-     */
     private $webRootDir;
 
     /**
      * @var LoggerInterface
      */
     private $logger;
-
-    private $resolvedPaths = [];
 
     public function __construct(array $designPaths, $webRootDir, LoggerInterface $logger = null)
     {
@@ -44,26 +38,15 @@ class AssetPathResolver implements AssetPathResolverInterface
         $this->logger = $logger;
     }
 
-    /**
-     * @param string $currentDesign
-     */
-    public function setCurrentDesign($currentDesign)
+    public function resolveAssetPath($path, $design)
     {
-        $this->currentDesign = $currentDesign;
-        if (!isset($this->designPaths[$currentDesign])) {
-            $this->designPaths[$currentDesign] = [];
-        }
-    }
-
-    public function resolveAssetPath($path)
-    {
-        if (isset($this->resolvedPaths[$path])) {
-            return $this->resolvedPaths[$path];
+        if (!isset($this->designPaths[$design])) {
+            throw new InvalidDesignException("Invalid design '$design'");
         }
 
-        foreach ($this->designPaths[$this->currentDesign] as $tryPath) {
+        foreach ($this->designPaths[$design] as $tryPath) {
             if (file_exists($this->webRootDir.'/'.$tryPath.'/'.$path)) {
-                return $this->resolvedPaths[$path] = $tryPath.'/'.$path;
+                return $tryPath.'/'.$path;
             }
         }
 
@@ -71,7 +54,7 @@ class AssetPathResolver implements AssetPathResolverInterface
             $this->logger->warning(
                 "Asset '$path' cannot be found in any configured themes.\nTried directories: ".implode(
                     ', ',
-                    array_values($this->designPaths[$this->currentDesign])
+                    array_values($this->designPaths[$design])
                 )
             );
         }

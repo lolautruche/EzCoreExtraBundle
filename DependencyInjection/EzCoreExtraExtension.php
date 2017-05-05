@@ -43,6 +43,7 @@ class EzCoreExtraExtension extends Extension implements PrependExtensionInterfac
         }
         $container->setParameter('ez_core_extra.themes.design_list', $config['design']['list']);
         $container->setParameter('ez_core_extra.themes.override_paths', $config['design']['override_paths']);
+        $container->setParameter('ez_theme.asset_resolution.disabled', $config['design']['disable_assets_pre_resolution']);
 
         // PHPStorm settings
         $container->setParameter('ez_core_extra.phpstorm.enabled', $config['phpstorm']['enabled']);

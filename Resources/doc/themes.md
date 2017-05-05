@@ -158,3 +158,22 @@ Default fallback order is the following:
 * Bundle theme directory: `web/bundles/<bundle_directory>/themes/<theme_name>/`
 
 Calling `asset("js/foo.js", "ezdesign")` can for example be resolved to `web/bundles/app/themes/my_theme/js/foo.js`.
+
+#### Performance & assets resolution
+When using themes, paths for assets are resolved at runtime. This is due to how Symfony Asset component is integrated
+with Twig. This can cause significant performance impact because of I/O calls when looping over all potential themes
+directories, especially when using a lot of different designs and themes.
+
+To workaround this issue, assets resolution can be provisioned at compilation time.
+Provisioning is the **default behavior in non-debug mode** (e.g. `prod` environment).
+In debug mode (e.g. `dev` environment), assets are being resolved at runtime.
+ 
+This behavior can however be controlled by `disable_assets_pre_resolution` setting.
+
+```yaml
+# config_prod.yml
+ez_core_extra:
+    # Force runtime resolution
+    # Default value is '%kernel.debug%'
+    disable_assets_pre_resolution: true
+```
