@@ -21,7 +21,6 @@ For assets, it uses Symfony Asset component with asset packages.
   A design is identified with a name. One design can be used by SiteAccess.
 
 ## Usage
-> When using eZ Publish 5.x, replace `app/` directory by `ezpublish/`.
 
 ### Design configuration
 To define and use a design, you need to:
@@ -84,7 +83,7 @@ Default fallback order is the following:
 * Global theme override: `app/Resources/views/themes/<theme_name>/`
 * Bundle theme directory: `src/<bundle_directory>/Resources/views/themes/<theme_name>/`
 
-> The bundle fallback order is the instantiation order in `AppKernel` (or `EzPublishKernel` when using eZ Publish 5.x).
+> The bundle fallback order is the instantiation order in `AppKernel`.
 
 #### Additional override paths
 It is possible to add addition global override directories, similar to `app/Resources/views/`.

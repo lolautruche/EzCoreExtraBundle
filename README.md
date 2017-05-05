@@ -3,7 +3,11 @@
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/4c330566-a5a9-45c1-82a5-00d781f355a0/mini.png)](https://insight.sensiolabs.com/projects/4c330566-a5a9-45c1-82a5-00d781f355a0)
 [![Build Status](https://travis-ci.org/lolautruche/EzCoreExtraBundle.svg)](http://travis-ci.org/lolautruche/EzCoreExtraBundle)
 
-Adds extra features to eZ Publish 5.4 / eZ Platform.
+Adds extra features to eZ Platform.
+
+## Compatibility
+* `master` branch / `v2.x` is **only compatible with eZ Platform**
+* `1.0` branch is compatible with both eZ Platform *and* eZ Publish 5.4/2014.11.
 
 ## Features
 * **[Configurable template variable injection](Resources/doc/template_variables_injection.md)**

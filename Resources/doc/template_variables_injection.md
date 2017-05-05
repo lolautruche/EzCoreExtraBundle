@@ -80,7 +80,7 @@ See the [full example below](#full-example), for details.
 This feature would allow to configure a content/location/block view the following way:
 
 ```yaml
-#ezpublish.yml
+# ezplatform.yml
 ezpublish:
     system:
         my_siteaccess:
@@ -159,7 +159,7 @@ services:
         class: Acme\TestBundle\MyViewParameterProvider
         arguments: ["@some_service"]
         tags:
-            # alias must match with value configured under "provider" key in ezpublish.yml
+            # alias must match with value configured under "provider" key in ezplatform.yml
             - {name: "ez_core_extra.view_parameter_provider", alias: "my_param_provider"}
 ```
 
