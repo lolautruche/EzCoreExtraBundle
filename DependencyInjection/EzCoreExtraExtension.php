@@ -50,6 +50,7 @@ class EzCoreExtraExtension extends Extension implements PrependExtensionInterfac
         $container->setParameter('ez_core_extra.phpstorm.twig_config_path', $config['phpstorm']['twig_config_path']);
 
         // SiteAccess aware settings
+        $processor->mapConfigArray('twig_globals', $config);
         $processor->mapConfig(
             $config,
             function ($scopeSettings, $currentScope, ContextualizerInterface $contextualizer) use ($config) {
@@ -61,10 +62,6 @@ class EzCoreExtraExtension extends Extension implements PrependExtensionInterfac
                     }
 
                     $contextualizer->setContextualParameter('design', $currentScope, $scopeSettings['design']);
-                }
-
-                if (isset($scopeSettings['twig_globals'])) {
-                    $contextualizer->setContextualParameter('twig_globals', $currentScope, $scopeSettings['twig_globals']);
                 }
             }
         );
