@@ -11,7 +11,9 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Asset;
 
-class ProvisionedPathResolver implements AssetPathResolverInterface
+use Symfony\Component\Finder\Finder;
+
+class ProvisionedPathResolver implements AssetPathResolverInterface, AssetPathProvisionerInterface
 {
     /**
      * @var array
@@ -23,10 +25,16 @@ class ProvisionedPathResolver implements AssetPathResolverInterface
      */
     private $innerResolver;
 
-    public function __construct(array $resolvedPaths, AssetPathResolverInterface $innerResolver)
+    /**
+     * @var string
+     */
+    private $webRootDir;
+
+    public function __construct(array $resolvedPaths, AssetPathResolverInterface $innerResolver, $webRootDir)
     {
         $this->resolvedPaths = $resolvedPaths;
         $this->innerResolver = $innerResolver;
+        $this->webRootDir = $webRootDir;
     }
 
     /**
@@ -42,5 +50,43 @@ class ProvisionedPathResolver implements AssetPathResolverInterface
         }
 
         return $this->resolvedPaths[$design][$path];
+    }
+
+    public function provisionResolvedPaths(array $assetsPaths, $design)
+    {
+        $webrootDir = $this->webRootDir;
+        $assetsLogicalPaths = [];
+        foreach ($assetsPaths as $path) {
+            $themePath = "$webrootDir/$path";
+            $assetsLogicalPaths = array_merge($assetsLogicalPaths, $this->computeLogicalPathFromPhysicalAssets($themePath));
+        }
+
+        $resolvedPaths = [];
+        foreach (array_unique($assetsLogicalPaths) as $logicalPath) {
+            $resolvedPaths[$logicalPath] = $this->resolveAssetPath($logicalPath, $design);
+        }
+
+        return $resolvedPaths;
+    }
+
+    /**
+     * Looks for physical assets within $themePath and computes their logical path (i.e. without full path to theme dir).
+     *
+     * Excludes "themes/" directory under a theme one, in order to avoid recursion.
+     * This exclusion mainly applies to override directories,
+     * e.g. "assets/", which is both an override dir and where app level themes can be defined.
+     *
+     * @param string $themePath
+     * @return array
+     */
+    private function computeLogicalPathFromPhysicalAssets($themePath)
+    {
+        $logicalPaths = [];
+        /** @var \SplFileInfo $fileInfo */
+        foreach ((new Finder())->files()->in($themePath)->exclude('themes')->followLinks()->ignoreUnreadableDirs() as $fileInfo) {
+            $logicalPaths[] = trim(substr($fileInfo->getPathname(), strlen($themePath)), '/');
+        }
+
+        return $logicalPaths;
     }
 }

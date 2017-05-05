@@ -34,6 +34,7 @@ services:
         arguments:
             - '%ez_theme.asset_resolved_paths%'
             - '@ez_theme.asset_path_resolver.runtime'
+            - '%webroot_dir%'
         public: false
 
     ez_theme.asset_path_resolver:

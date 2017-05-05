@@ -11,10 +11,10 @@
 
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
+use Lolautruche\EzCoreExtraBundle\Asset\AssetPathProvisionerInterface;
 use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Finder\Finder;
 
 /**
  * Resolves assets theme paths.
@@ -32,26 +32,23 @@ class AssetPathResolutionPass implements CompilerPassInterface
             return;
         }
 
-        $resolver = $container->get('ez_theme.asset_path_resolver.runtime');
-        $webrootDir = realpath($container->getParameter('webroot_dir'));
-        $resolvedPathsByDesign = [];
-        foreach ($container->getParameter('ez_core_extra.themes.assets_path_map') as $design => $paths) {
-            $assetsLogicalPaths = [];
-            foreach ($paths as $path) {
-                $themePath = "$webrootDir/$path";
-                /** @var \SplFileInfo $fileInfo */
-                foreach ((new Finder())->files()->in($themePath)->followLinks()->ignoreUnreadableDirs() as $fileInfo) {
-                    $assetsLogicalPaths[] = trim(substr($fileInfo->getPathname(), strlen($themePath)), '/');
-                }
-            }
-
-            foreach (array_unique($assetsLogicalPaths) as $logicalPath) {
-                $resolvedPathsByDesign[$design][$logicalPath] = $resolver->resolveAssetPath($logicalPath, $design);
-            }
-        }
+        $resolvedPathsByDesign = $this->preResolveAssetsPaths(
+            $container->get('ez_theme.asset_path_resolver.provisioned'),
+            $container->getParameter('ez_core_extra.themes.assets_path_map')
+        );
 
         $container->setParameter('ez_theme.asset_resolved_paths', $resolvedPathsByDesign);
         $container->findDefinition('ez_theme.asset_path_resolver.provisioned')->replaceArgument(0, $resolvedPathsByDesign);
         $container->setAlias('ez_theme.asset_path_resolver', new Alias('ez_theme.asset_path_resolver.provisioned'));
+    }
+
+    private function preResolveAssetsPaths(AssetPathProvisionerInterface $provisioner, array $designPathMap)
+    {
+        $resolvedPathsByDesign = [];
+        foreach ($designPathMap as $design => $paths) {
+            $resolvedPathsByDesign[$design] = $provisioner->provisionResolvedPaths($paths, $design);
+        }
+
+        return $resolvedPathsByDesign;
     }
 }
