@@ -123,14 +123,19 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
                 ['foo', 'bar', 'baz', $dynamicValue2],
             ]);
 
+        $existingParams = ['content' => new Content()];
+        $view
+            ->expects($this->any())
+            ->method('getParameters')
+            ->willReturn($existingParams);
         $expectedParams = [
-                'dynamic' => $dynamicValue1,
-                'dynamic2' => $dynamicValue2,
-            ] + $configHash['params'];
+            'dynamic' => $dynamicValue1,
+            'dynamic2' => $dynamicValue2,
+        ] + $configHash['params'];
         $view
             ->expects($this->once())
-            ->method('addParameters')
-            ->with($expectedParams);
+            ->method('setParameters')
+            ->with($expectedParams + $existingParams);
 
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser))->onPreContentView($event);
     }
@@ -180,7 +185,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->method('getTemplateIdentifier')
             ->willReturn($template);
         $view
-            ->expects($this->once())
+            ->expects($this->any())
             ->method('getParameters')
             ->willReturn($existingParameters);
 
@@ -197,8 +202,8 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
 
         $view
             ->expects($this->once())
-            ->method('addParameters')
-            ->with(['foo' => (object) $providedParameters]);
+            ->method('setParameters')
+            ->with(['foo' => (object) $providedParameters] + $existingParameters);
 
         $listener->onPreContentView($event);
     }
