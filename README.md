@@ -51,11 +51,6 @@ Adds extra features to eZ Platform.
                   something_else: [bar, true, false]
   ```
 
-* **[Themes](Resources/doc/themes.md)**
-
-  Lets you define a theme fallback order for your templates, similar to
-  [legacy design fallback system](https://doc.ez.no/eZ-Publish/Technical-manual/5.x/Concepts-and-basics/Designs/Design-combinations).
-  
 * **[Simplified authorization checks](Resources/doc/simplified_auth_checks.md)**
 
   Simplifies calls to `$this->isGranted()` from inside controllers and `is_granted()` from within templates when checking

@@ -7,47 +7,6 @@ services:
         tags:
             - { name: kernel.event_subscriber }
 
-    ez_core_extra.template_name_resolver:
-        class: Lolautruche\EzCoreExtraBundle\Templating\ThemeTemplateNameResolver
-        arguments: ["$design;ez_core_extra$"]
-        lazy: true
-
-    ez_core_extra.twig_theme_loader:
-        class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigThemeLoader
-        public: false
-        decorates: twig.loader.filesystem
-        arguments:
-            - "@ez_core_extra.template_name_resolver"
-            - "@ez_core_extra.twig_theme_loader.inner"
-            - "@templating.locator"
-            - "@templating.name_parser"
-
-    ez_theme.asset_path_resolver.runtime:
-        class: Lolautruche\EzCoreExtraBundle\Asset\AssetPathResolver
-        arguments:
-            - "%ez_core_extra.themes.assets_path_map%"
-            - "%webroot_dir%"
-        public: false
-
-    ez_theme.asset_path_resolver.provisioned:
-        class: Lolautruche\EzCoreExtraBundle\Asset\ProvisionedPathResolver
-        arguments:
-            - '%ez_theme.asset_resolved_paths%'
-            - '@ez_theme.asset_path_resolver.runtime'
-            - '%webroot_dir%'
-        public: false
-
-    ez_theme.asset_path_resolver:
-        alias: ez_theme.asset_path_resolver.runtime
-
-    ez_core_extra.asset_theme_package:
-        class: Lolautruche\EzCoreExtraBundle\Asset\ThemePackage
-        arguments:
-            - "@ez_theme.asset_path_resolver"
-            - "@assets._default_package"
-        calls:
-            - [setCurrentDesign, ["$design;ez_core_extra$"]]
-
     ez_core_extra.twig.globals_extension:
         class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension
         calls:
