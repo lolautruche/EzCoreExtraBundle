@@ -78,8 +78,8 @@ class ViewTemplateListener implements EventSubscriberInterface
                     );
                 }
 
-                $paramProviderSettings = isset($param['params']) ? (array) $param['params'] : [];
-                array_walk($paramProviderSettings, function (&$val) {
+                $paramProviderOptions = isset($param['options']) ? (array) $param['options'] : [];
+                array_walk($paramProviderOptions, function (&$val) {
                     if (!$this->settingParser->isDynamicSetting($val)) {
                         return;
                     }
@@ -96,7 +96,7 @@ class ViewTemplateListener implements EventSubscriberInterface
                         'template' => $contentView->getTemplateIdentifier(),
                         'parameters' => $contentView->getParameters(),
                     ],
-                    $paramProviderSettings
+                    $paramProviderOptions
                 );
             }
         }

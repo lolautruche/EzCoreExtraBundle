@@ -35,9 +35,9 @@ abstract class ConfigurableViewParameterProvider implements ViewParameterProvide
      */
     abstract protected function configureOptions(OptionsResolver $optionsResolver);
 
-    final public function getParameters(array $viewConfig, array $settings = [])
+    final public function getParameters(array $viewConfig, array $options = [])
     {
-        return $this->doGetParameters($viewConfig, $this->getResolver()->resolve($settings));
+        return $this->doGetParameters($viewConfig, $this->getResolver()->resolve($options));
     }
 
     /**
