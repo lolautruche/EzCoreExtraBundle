@@ -7,6 +7,9 @@ cache:
 php:
     - 5.6
     - 7.0
+    - 7.1
+
+sudo: false
 
 branches:
     only:
@@ -14,8 +17,16 @@ branches:
         - /^\d+\.\d+$/
 
 env:
-    - EZ_KERNEL_VERSION=~2014.11
     - EZ_KERNEL_VERSION=^6.0
+
+matrix:
+    include:
+        - php: 5.6
+          env: EZ_KERNEL_VERSION=~2014.11
+        - php: 7.0
+          env: EZ_KERNEL_VERSION=^6.0
+        - php: 7.1
+          env: EZ_KERNEL_VERSION=^6.9
 
 install:
     - phpenv config-rm xdebug.ini
@@ -24,4 +35,4 @@ install:
     - composer install
 
 script:
-    - phpunit
+    - php vendor/bin/phpunit
