@@ -78,13 +78,26 @@ class ViewTemplateListener implements EventSubscriberInterface
                     );
                 }
 
+                $paramProviderOptions = isset($param['options']) ? (array) $param['options'] : [];
+                array_walk($paramProviderOptions, function (&$val) {
+                    if (!$this->settingParser->isDynamicSetting($val)) {
+                        return;
+                    }
+
+                    $parsed = $this->settingParser->parseDynamicSetting($val);
+                    $val = $this->configResolver->getParameter($parsed['param'], $parsed['namespace'], $parsed['scope']);
+                });
+
                 // Use provider to get the array of parameters and switch param value with it.
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
-                $param = (object) $this->parameterProviders[$param['provider']]->getParameters([
-                    'template' => $contentView->getTemplateIdentifier(),
-                    'parameters' => $contentView->getParameters(),
-                ]);
+                $param = (object) $this->parameterProviders[$param['provider']]->getParameters(
+                    [
+                        'template' => $contentView->getTemplateIdentifier(),
+                        'parameters' => $contentView->getParameters(),
+                    ],
+                    $paramProviderOptions
+                );
             }
         }
 

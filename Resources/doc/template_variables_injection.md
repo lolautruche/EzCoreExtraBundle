@@ -67,13 +67,14 @@ See [full example](#full-example) for practical details.
 In some cases settings are not sufficient (i.e. if you need to always have the current ContentType available, or the current children count).
 
 Services cannot be directly injected. but you can define *view parameters provider* services,
-meaning that they will provide the variables to inject in the view template.
+meaning that they will provide the variables to inject into the view template.
 Moreover, variables returned by those services will be *namespaced* by the parameter name provided in the configuration.
 
-Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` interface.
+Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` interface
+(or extend `\Lolautruche\EzCoreExtraBundle\Templating\ConfigurableViewParameterProvider`).
 Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 
-See the [full example below](#full-example), for details.
+See the [full example below](#example), for details.
 
 
 ### Example
@@ -90,7 +91,11 @@ ezpublish:
                         template: "AcmeTestBundle:full:article_test.html.twig"
                         params:
                             # This service must implement \Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface.
-                            my_provider: {"provider": "my_param_provider"}
+                            # It's possible to pass options as a hash under the "options" key.
+                            # This hash will be passed as 2nd argument to your service's "getParameters()" method.
+                            my_provider: 
+                                provider: "my_param_provider", 
+                                options: { children_type: "article", children_limit: 10 }
                             osTypes: [osx, linux, losedows]
                             secret: "%secret%"
                             # Parameters resolved by config resolver
@@ -111,10 +116,11 @@ In the configuration example above, `my_param_provider` would be like:
 <?php
 namespace Acme\TestBundle;
 
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface;
 use Acme\TestBundle\SomeService;
+use Lolautruche\EzCoreExtraBundle\Templating\ConfigurableViewParameterProvider;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class MyViewParameterProvider implements ViewParameterProviderInterface
+class MyViewParameterProvider extends ConfigurableViewParameterProvider
 {
     private $someService;
 
@@ -125,6 +131,27 @@ class MyViewParameterProvider implements ViewParameterProviderInterface
     {
         $this->someService = $someService;
     }
+    
+    /**
+     * Configures the OptionsResolver for the param provider.
+     * If you don't use options, just leave the method body empty.
+     *
+     * Example:
+     * ```php
+     * // type setting will be required
+     * $resolver->setRequired('type');
+     * // limit setting will be optional, and will have a default value of 10
+     * $resolver->setDefault('limit', 10);
+     * ```
+     *
+     * @param OptionsResolver $optionsResolver
+     */
+    protected function configureOptions(OptionsResolver $optionsResolver)
+    {
+        $optionsResolver
+            ->setRequired(['children_type', 'limit'])
+            ->setAllowedTypes('limit', ['int']);
+    }
 
     /**
      * Returns a hash of parameters to inject into the matched view.
@@ -134,22 +161,33 @@ class MyViewParameterProvider implements ViewParameterProviderInterface
      *                          Available keys:
      *                              - template: Template used for the view.
      *                              - parameters: Hash of parameters that will be passed to the template.
+     * @param array $options Options hash for the param provider, in current context.
      *
      * @return array
      */
-    public function getParameters(array $viewConfig)
+    protected function doGetParameters(array $viewConfig, array $options = [])
     {
         // Current location and content are available in content/location views
         $location = $viewConfig['parameters']['location'];
         $content = $viewConfig['parameters']['content'];
+        
+        // Passed options
+        $contentTypeForChildren = $options['children_type'];
+        $childrenLimit = $options['children_limit'];
+        // Fetch children with those options
+        // $fetchedChildren = ...
 
         return array(
             'foo' => $this->someService->giveMeFoo(),
-            'some' => 'thing'
+            'some' => 'thing',
+            'children' => $fetchedChildren,
         );
     }
 }
 ```
+
+> For convenience, `ConfigurableViewParameterProvider` abstract class is provided.
+> It may help to validate supported options thanks to the `OptionsResolver` component.
 
 Now defining the service:
 
