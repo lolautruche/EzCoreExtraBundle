@@ -12,16 +12,16 @@
 namespace Lolautruche\EzCoreExtraBundle\Tests\EventListener;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener;
-use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
-use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
+use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface;
 use PHPUnit_Framework_TestCase;
 
-class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
+class ViewTemplateListenerLegacyProviderTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\ConfigResolverInterface
@@ -36,7 +36,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->configResolver = $this->createMock('\eZ\Publish\Core\MVC\ConfigResolverInterface');
+        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->dynamicSettingParser = new DynamicSettingParser();
     }
 
@@ -172,6 +172,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
         $listener->addParameterProvider($provider, $providerAlias);
 
+        $template = 'foo.html.twig';
         $existingParameters = ['location' => new Location(), 'content' => new Content()];
         $view
             ->expects($this->once())
@@ -182,50 +183,9 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
                 ],
             ]);
         $view
-            ->expects($this->any())
-            ->method('getParameters')
-            ->willReturn($existingParameters);
-
-        $providedParameters = [
-            'some' => 'thing',
-            'some_bool' => true,
-            'some_array' => ['foo' => 'bar'],
-        ];
-        $configurableView = new ConfigurableView($view);
-        $provider
             ->expects($this->once())
-            ->method('getViewParameters')
-            ->with($configurableView, [])
-            ->willReturn($providedParameters);
-
-        $view
-            ->expects($this->once())
-            ->method('setParameters')
-            ->with(['foo' => (object) $providedParameters] + $existingParameters);
-
-        $listener->onPreContentView($event);
-    }
-
-    public function testOnPreViewContentParameterProviderWithOptions()
-    {
-        $view = $this->generateView();
-        $event = new PreContentViewEvent($view);
-
-        $providerAlias = 'some_provider';
-        $provider = $this->createMock(ViewParameterProviderInterface::class);
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
-        $listener->addParameterProvider($provider, $providerAlias);
-
-        $existingParameters = ['location' => new Location(), 'content' => new Content()];
-        $paramProviderOptions = ['foo' => 'bar', 'bool' => true, 'integer' => 123];
-        $view
-            ->expects($this->once())
-            ->method('getConfigHash')
-            ->willReturn([
-                'params' => [
-                    'foo' => ['provider' => $providerAlias, 'options' => $paramProviderOptions],
-                ],
-            ]);
+            ->method('getTemplateIdentifier')
+            ->willReturn($template);
         $view
             ->expects($this->any())
             ->method('getParameters')
@@ -236,62 +196,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             'some_bool' => true,
             'some_array' => ['foo' => 'bar'],
         ];
-        $configurableView = new ConfigurableView($view);
         $provider
             ->expects($this->once())
-            ->method('getViewParameters')
-            ->with($configurableView, $paramProviderOptions)
-            ->willReturn($providedParameters);
-
-        $view
-            ->expects($this->once())
-            ->method('setParameters')
-            ->with(['foo' => (object) $providedParameters] + $existingParameters);
-
-        $listener->onPreContentView($event);
-    }
-
-    public function testOnPreViewContentParameterProviderWithDynamicOptions()
-    {
-        $view = $this->generateView();
-        $event = new PreContentViewEvent($view);
-
-        $providerAlias = 'some_provider';
-        $provider = $this->createMock(ViewParameterProviderInterface::class);
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
-        $listener->addParameterProvider($provider, $providerAlias);
-
-        $existingParameters = ['location' => new Location(), 'content' => new Content()];
-        $paramProviderOptions = ['foo' => '$foo;ezcoreextra;some_scope$', 'bool' => true, 'integer' => 123];
-        $this->configResolver
-            ->expects($this->once())
-            ->method('getParameter')
-            ->with('foo', 'ezcoreextra', 'some_scope')
-            ->willReturn('bar');
-        $view
-            ->expects($this->once())
-            ->method('getConfigHash')
-            ->willReturn([
-                'params' => [
-                    'foo' => ['provider' => $providerAlias, 'options' => $paramProviderOptions],
-                ],
-            ]);
-        $view
-            ->expects($this->any())
             ->method('getParameters')
-            ->willReturn($existingParameters);
-
-        $providedParameters = [
-            'some' => 'thing',
-            'some_bool' => true,
-            'some_array' => ['foo' => 'bar'],
-        ];
-
-        $configurableView = new ConfigurableView($view);
-        $provider
-            ->expects($this->once())
-            ->method('getViewParameters')
-            ->with($configurableView, ['foo' => 'bar'] + $paramProviderOptions)
+            ->with(['template' => $template, 'parameters' => $existingParameters])
             ->willReturn($providedParameters);
 
         $view

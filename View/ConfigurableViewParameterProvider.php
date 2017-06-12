@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Lolautruche\EzCoreExtraBundle\Templating;
+namespace Lolautruche\EzCoreExtraBundle\View;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -35,9 +35,9 @@ abstract class ConfigurableViewParameterProvider implements ViewParameterProvide
      */
     abstract protected function configureOptions(OptionsResolver $optionsResolver);
 
-    final public function getParameters(array $viewConfig, array $options = [])
+    final public function getViewParameters(ConfigurableView $view, array $options = [])
     {
-        return $this->doGetParameters($viewConfig, $this->getResolver()->resolve($options));
+        return $this->doGetParameters($view, $this->getResolver()->resolve($options));
     }
 
     /**
@@ -47,17 +47,16 @@ abstract class ConfigurableViewParameterProvider implements ViewParameterProvide
      * The parameters array is processed with the OptionsResolver, meaning that it has been validated, and contains
      * the default values when applicable.
      *
+     * Available view parameters (e.g. "content", "location"...) are accessible from $view.
+     *
      * @see getParameters()
      *
-     * @param array $viewConfig Current view configuration hash.
-     *                          Available keys:
-     *                          - template: Template used for the view.
-     *                          - parameters: Hash of parameters that will be passed to the template (e.g. 'content', 'location'...)
-     * @param array $settings Configured settings for the view parameter provider.
+     * @param ConfigurableView $view Decorated matched view, containing initial parameters.
+     * @param array $options Configured settings for the view parameter provider.
      *
      * @return array
      */
-    abstract protected function doGetParameters(array $viewConfig, array $settings = []);
+    abstract protected function doGetParameters(ConfigurableView $view, array $options = []);
 
     /**
      * Builds the resolver, and configures it using configureOptions().
