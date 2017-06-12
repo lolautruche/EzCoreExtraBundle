@@ -1,5 +1,64 @@
 # UPGRADE FROM 1.x to 2.0
 
+## Template variables injection
+### Interface change for View parameters providers
+
+`\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` has been deprecated in v1.1 in favor of
+`\Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface`.
+The old interface will be removed in v2.0. All view parameter providers now **must** implement the new one.
+
+**Before**
+```php
+namespace Lolautruche\EzCoreExtraBundle\Templating;
+
+/**
+ * Interface for services that provides parameters to the view.
+ *
+ * @deprecated Since v1.1. Use \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface instead.
+ */
+interface ViewParameterProviderInterface
+{
+    /**
+     * Returns a hash of parameters to inject into the matched view.
+     * Key is the parameter name, value is the parameter value.
+     *
+     * @param array $viewConfig Current view configuration hash.
+     *                          Available keys:
+     *                          - template: Template used for the view.
+     *                          - parameters: Hash of parameters that will be passed to the template.
+     *
+     * @return array
+     */
+    public function getParameters(array $viewConfig);
+}
+```
+
+**After**
+```php
+namespace Lolautruche\EzCoreExtraBundle\View;
+
+use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface as LegacyParamProviderInterface;
+
+/**
+ * Interface for services providing parameters to a view.
+ */
+interface ViewParameterProviderInterface extends LegacyParamProviderInterface
+{
+    /**
+     * Returns a hash of parameters to inject into the matched view.
+     * Key is the parameter name, value is the parameter value.
+     *
+     * Available view parameters (e.g. "content", "location"...) are accessible from $view.
+     *
+     * @param ConfigurableView $view Decorated matched view, containing initial parameters.
+     * @param array $options
+     *
+     * @return array
+     */
+    public function getViewParameters(ConfigurableView $view, array $options = []);
+}
+```
+
 ## Themes
 Themes are no longer part of EzCoreExtraBundle. 
 This feature has been extracted to [ezsystems/ezplatform-design-engine](https://github.com/ezsystems/ezplatform-design-engine).
