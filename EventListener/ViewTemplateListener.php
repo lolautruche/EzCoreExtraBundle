@@ -16,7 +16,9 @@ use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface;
+use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface as LegacyParameterProviderInterface;
+use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
+use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
@@ -35,7 +37,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     private $settingParser;
 
     /**
-     * @var ViewParameterProviderInterface[]
+     * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]|\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface[]
      */
     private $parameterProviders = [];
 
@@ -52,8 +54,12 @@ class ViewTemplateListener implements EventSubscriberInterface
         ];
     }
 
-    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias)
+    public function addParameterProvider($provider, $alias)
     {
+        if (!($provider instanceof ViewParameterProviderInterface) && !($provider instanceof LegacyParameterProviderInterface)) {
+            throw new \InvalidArgumentException('Parameter provider must implement Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface or Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
+        }
+
         $this->parameterProviders[$alias] = $provider;
     }
 
@@ -91,13 +97,19 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // Use provider to get the array of parameters and switch param value with it.
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
-                $param = (object) $this->parameterProviders[$param['provider']]->getParameters(
-                    [
+                $provider = $this->parameterProviders[$param['provider']];
+                if (!$provider instanceof ViewParameterProviderInterface) {
+                    @trigger_error(
+                        '[ViewParameterProvider] Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface is deprecated. Use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface instead.',
+                        E_USER_DEPRECATED
+                    );
+                    $param = (object) $provider->getParameters([
                         'template' => $contentView->getTemplateIdentifier(),
                         'parameters' => $contentView->getParameters(),
-                    ],
-                    $paramProviderOptions
-                );
+                    ]);
+                } else {
+                    $param = (object) $provider->getViewParameters(new ConfigurableView($contentView), $paramProviderOptions);
+                }
             }
         }
 

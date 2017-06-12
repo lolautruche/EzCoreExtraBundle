@@ -70,9 +70,12 @@ Services cannot be directly injected. but you can define *view parameters provid
 meaning that they will provide the variables to inject into the view template.
 Moreover, variables returned by those services will be *namespaced* by the parameter name provided in the configuration.
 
-Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` interface
-(or extend `\Lolautruche\EzCoreExtraBundle\Templating\ConfigurableViewParameterProvider`).
+Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface` interface
+(or extend `\Lolautruche\EzCoreExtraBundle\View\ConfigurableViewParameterProvider`).
 Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
+
+> Deprecation notice: `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` has been deprecated in v1.1
+> and will be removed in v2.0.
 
 See the [full example below](#example), for details.
 
@@ -117,7 +120,8 @@ In the configuration example above, `my_param_provider` would be like:
 namespace Acme\TestBundle;
 
 use Acme\TestBundle\SomeService;
-use Lolautruche\EzCoreExtraBundle\Templating\ConfigurableViewParameterProvider;
+use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
+use Lolautruche\EzCoreExtraBundle\View\ConfigurableViewParameterProvider;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MyViewParameterProvider extends ConfigurableViewParameterProvider
@@ -165,11 +169,11 @@ class MyViewParameterProvider extends ConfigurableViewParameterProvider
      *
      * @return array
      */
-    protected function doGetParameters(array $viewConfig, array $options = [])
+    protected function doGetParameters(ConfigurableView $view, array $options = [])
     {
         // Current location and content are available in content/location views
-        $location = $viewConfig['parameters']['location'];
-        $content = $viewConfig['parameters']['content'];
+        $location = $view->getParameter('location');
+        $content = $view->getParameter('content');
         
         // Passed options
         $contentTypeForChildren = $options['children_type'];
