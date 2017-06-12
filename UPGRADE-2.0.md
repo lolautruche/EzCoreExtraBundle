@@ -1,5 +1,12 @@
 # UPGRADE FROM 1.x to 2.0
 
+## Template variables injection
+### Interface change for View parameters providers
+
+`\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` was deprecated in v1.1 in favor of
+`\Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface`.
+The old interface has been removed. All view parameter providers now **must** implement the new one.
+
 ## Themes
 Themes are no longer part of EzCoreExtraBundle. 
 This feature has been extracted to [ezsystems/ezplatform-design-engine](https://github.com/ezsystems/ezplatform-design-engine).
