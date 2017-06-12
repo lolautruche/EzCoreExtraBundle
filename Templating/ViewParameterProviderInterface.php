@@ -13,6 +13,8 @@ namespace Lolautruche\EzCoreExtraBundle\Templating;
 
 /**
  * Interface for services that provides parameters to the view.
+ *
+ * @deprecated Since v1.1. Use \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface instead.
  */
 interface ViewParameterProviderInterface
 {
