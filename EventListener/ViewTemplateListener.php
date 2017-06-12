@@ -16,7 +16,6 @@ use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface as LegacyParameterProviderInterface;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
