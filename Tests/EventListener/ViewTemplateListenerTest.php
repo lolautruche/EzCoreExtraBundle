@@ -197,7 +197,114 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $provider
             ->expects($this->once())
             ->method('getParameters')
-            ->with(['template' => $template, 'parameters' => $existingParameters])
+            ->with(['template' => $template, 'parameters' => $existingParameters], [])
+            ->willReturn($providedParameters);
+
+        $view
+            ->expects($this->once())
+            ->method('setParameters')
+            ->with(['foo' => (object) $providedParameters] + $existingParameters);
+
+        $listener->onPreContentView($event);
+    }
+
+    public function testOnPreViewContentParameterProviderWithOptions()
+    {
+        $view = $this->generateView();
+        $event = new PreContentViewEvent($view);
+
+        $providerAlias = 'some_provider';
+        $provider = $this->createMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener->addParameterProvider($provider, $providerAlias);
+
+        $template = 'foo.html.twig';
+        $existingParameters = ['location' => new Location(), 'content' => new Content()];
+        $paramProviderOptions = ['foo' => 'bar', 'bool' => true, 'integer' => 123];
+        $view
+            ->expects($this->once())
+            ->method('getConfigHash')
+            ->willReturn([
+                'params' => [
+                    'foo' => ['provider' => $providerAlias, 'options' => $paramProviderOptions],
+                ],
+            ]);
+        $view
+            ->expects($this->once())
+            ->method('getTemplateIdentifier')
+            ->willReturn($template);
+        $view
+            ->expects($this->any())
+            ->method('getParameters')
+            ->willReturn($existingParameters);
+
+        $providedParameters = [
+            'some' => 'thing',
+            'some_bool' => true,
+            'some_array' => ['foo' => 'bar'],
+        ];
+        $provider
+            ->expects($this->once())
+            ->method('getParameters')
+            ->with(['template' => $template, 'parameters' => $existingParameters], $paramProviderOptions)
+            ->willReturn($providedParameters);
+
+        $view
+            ->expects($this->once())
+            ->method('setParameters')
+            ->with(['foo' => (object) $providedParameters] + $existingParameters);
+
+        $listener->onPreContentView($event);
+    }
+
+    public function testOnPreViewContentParameterProviderWithDynamicOptions()
+    {
+        $view = $this->generateView();
+        $event = new PreContentViewEvent($view);
+
+        $providerAlias = 'some_provider';
+        $provider = $this->createMock('\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener->addParameterProvider($provider, $providerAlias);
+
+        $template = 'foo.html.twig';
+        $existingParameters = ['location' => new Location(), 'content' => new Content()];
+        $paramProviderOptions = ['foo' => '$foo;ezcoreextra;some_scope$', 'bool' => true, 'integer' => 123];
+        $this->configResolver
+            ->expects($this->once())
+            ->method('getParameter')
+            ->with('foo', 'ezcoreextra', 'some_scope')
+            ->willReturn('bar');
+        $view
+            ->expects($this->once())
+            ->method('getConfigHash')
+            ->willReturn([
+                'params' => [
+                    'foo' => ['provider' => $providerAlias, 'options' => $paramProviderOptions],
+                ],
+            ]);
+        $view
+            ->expects($this->once())
+            ->method('getTemplateIdentifier')
+            ->willReturn($template);
+        $view
+            ->expects($this->any())
+            ->method('getParameters')
+            ->willReturn($existingParameters);
+
+        $providedParameters = [
+            'some' => 'thing',
+            'some_bool' => true,
+            'some_array' => ['foo' => 'bar'],
+        ];
+
+        $provider
+            ->expects($this->once())
+            ->method('getParameters')
+            ->with([
+                'template' => $template,
+                'parameters' => $existingParameters,
+            ], ['foo' => 'bar'] + $paramProviderOptions)
             ->willReturn($providedParameters);
 
         $view
