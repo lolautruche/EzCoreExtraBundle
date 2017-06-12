@@ -12,8 +12,10 @@
 namespace Lolautruche\EzCoreExtraBundle\Tests\EventListener;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser;
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener;
@@ -36,7 +38,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->configResolver = $this->createMock('\eZ\Publish\Core\MVC\ConfigResolverInterface');
+        $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->dynamicSettingParser = new DynamicSettingParser();
     }
 
@@ -51,18 +53,11 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\Symfony\View\View|\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface
+     * @return \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\Symfony\View\View
      */
     private function generateView()
     {
-        // \eZ\Publish\Core\MVC\Symfony\View\View is only defined in kernel >=6.0
-        if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $view = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\View');
-        } else {
-            $view = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface');
-        }
-
-        return $view;
+        return $this->createMock(View::class);
     }
 
     public function testOnPreViewContentNoParams()

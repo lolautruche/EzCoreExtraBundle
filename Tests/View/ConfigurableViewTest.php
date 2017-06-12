@@ -9,7 +9,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\View;
 
-use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,12 +26,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        // \eZ\Publish\Core\MVC\Symfony\View\View is only defined in kernel >=6.0
-        if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $view = $this->innerView = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\View');
-        } else {
-            $view = $this->innerView = $this->createMock('\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface');
-        }
+        $this->innerView = $this->createMock(View::class);
     }
 
     /**
@@ -138,17 +133,12 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     public function testGetControllerReference()
     {
         $view = new ConfigurableView($this->innerView);
-        if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $controllerReference = new ControllerReference('foo');
-            $this->innerView
-                ->expects($this->once())
-                ->method('getControllerReference')
-                ->willReturn($controllerReference);
-            $this->assertSame($controllerReference, $view->getControllerReference());
-        } else {
-            $this->setExpectedException(UnsupportedException::class);
-            $view->getControllerReference();
-        }
+        $controllerReference = new ControllerReference('foo');
+        $this->innerView
+            ->expects($this->once())
+            ->method('getControllerReference')
+            ->willReturn($controllerReference);
+        $this->assertSame($controllerReference, $view->getControllerReference());
     }
 
     /**
@@ -163,16 +153,11 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     public function testGetViewType()
     {
         $view = new ConfigurableView($this->innerView);
-        if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $this->innerView
-                ->expects($this->once())
-                ->method('getViewType')
-                ->willReturn('foo');
-            $this->assertSame('foo', $view->getViewType());
-        } else {
-            $this->setExpectedException(UnsupportedException::class);
-            $view->getViewType();
-        }
+        $this->innerView
+            ->expects($this->once())
+            ->method('getViewType')
+            ->willReturn('foo');
+        $this->assertSame('foo', $view->getViewType());
     }
 
     /**
@@ -187,16 +172,11 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     public function testGetResponse()
     {
         $view = new ConfigurableView($this->innerView);
-        if (interface_exists('\eZ\Publish\Core\MVC\Symfony\View\View')) {
-            $response = new Response();
-            $this->innerView
-                ->expects($this->once())
-                ->method('getResponse')
-                ->willReturn($response);
-            $this->assertSame($response, $view->getResponse());
-        } else {
-            $this->setExpectedException(UnsupportedException::class);
-            $view->getResponse();
-        }
+        $response = new Response();
+        $this->innerView
+            ->expects($this->once())
+            ->method('getResponse')
+            ->willReturn($response);
+        $this->assertSame($response, $view->getResponse());
     }
 }

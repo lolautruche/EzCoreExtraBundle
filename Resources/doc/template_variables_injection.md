@@ -74,9 +74,6 @@ Parameter provider services must implement `\Lolautruche\EzCoreExtraBundle\View\
 (or extend `\Lolautruche\EzCoreExtraBundle\View\ConfigurableViewParameterProvider`).
 Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 
-> Deprecation notice: `\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface` has been deprecated in v1.1
-> and will be removed in v2.0.
-
 See the [full example below](#example), for details.
 
 
