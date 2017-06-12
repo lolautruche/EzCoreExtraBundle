@@ -37,7 +37,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     private $settingParser;
 
     /**
-     * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]|\Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface[]
+     * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]
      */
     private $parameterProviders = [];
 
@@ -54,20 +54,16 @@ class ViewTemplateListener implements EventSubscriberInterface
         ];
     }
 
-    public function addParameterProvider($provider, $alias)
+    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias)
     {
-        if (!($provider instanceof ViewParameterProviderInterface) && !($provider instanceof LegacyParameterProviderInterface)) {
-            throw new \InvalidArgumentException('Parameter provider must implement Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface or Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface');
-        }
-
         $this->parameterProviders[$alias] = $provider;
     }
 
     public function onPreContentView(PreContentViewEvent $event)
     {
-        /** @var \eZ\Publish\Core\MVC\Symfony\View\View|\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface $contentView */
-        $contentView = $event->getContentView();
-        $configHash = $contentView->getConfigHash();
+        /** @var \eZ\Publish\Core\MVC\Symfony\View\View $view */
+        $view = $event->getContentView();
+        $configHash = $view->getConfigHash();
         if (!isset($configHash['params']) || !is_array($configHash['params'])) {
             return;
         }
@@ -98,21 +94,10 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
                 $provider = $this->parameterProviders[$param['provider']];
-                if (!$provider instanceof ViewParameterProviderInterface) {
-                    @trigger_error(
-                        '[ViewParameterProvider] Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface is deprecated. Use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface instead.',
-                        E_USER_DEPRECATED
-                    );
-                    $param = (object) $provider->getParameters([
-                        'template' => $contentView->getTemplateIdentifier(),
-                        'parameters' => $contentView->getParameters(),
-                    ]);
-                } else {
-                    $param = (object) $provider->getViewParameters(new ConfigurableView($contentView), $paramProviderOptions);
-                }
+                $param = (object) $provider->getViewParameters(new ConfigurableView($view), $paramProviderOptions);
             }
         }
 
-        $contentView->setParameters(array_replace($contentView->getParameters(), $configHash['params']));
+        $view->setParameters(array_replace($view->getParameters(), $configHash['params']));
     }
 }

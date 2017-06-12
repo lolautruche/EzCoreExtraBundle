@@ -9,12 +9,10 @@
 
 namespace Lolautruche\EzCoreExtraBundle\View;
 
-use Lolautruche\EzCoreExtraBundle\Templating\ViewParameterProviderInterface as LegacyParamProviderInterface;
-
 /**
  * Interface for services providing parameters to a view.
  */
-interface ViewParameterProviderInterface extends LegacyParamProviderInterface
+interface ViewParameterProviderInterface
 {
     /**
      * Returns a hash of parameters to inject into the matched view.

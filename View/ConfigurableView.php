@@ -9,6 +9,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\View;
 
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -17,16 +18,16 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  * Decoration of original view that can be used with view parameter providers.
  * It is basically only possible to add new parameters and access to original view parameters.
  */
-class ConfigurableView
+class ConfigurableView implements View
 {
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\View\View|\eZ\Publish\Core\MVC\Symfony\View\ContentViewInterface
+     * @var \eZ\Publish\Core\MVC\Symfony\View\View
      */
     private $innerView;
 
     private $parameters = [];
 
-    public function __construct($innerView)
+    public function __construct(View $innerView)
     {
         $this->innerView = $innerView;
     }
@@ -127,11 +128,7 @@ class ConfigurableView
 
     public function getViewType()
     {
-        if (method_exists($this->innerView, 'getViewType')) {
-            return $this->innerView->getViewType();
-        }
-
-        throw new UnsupportedException(__METHOD__.' is not supported');
+        return $this->innerView->getViewType();
     }
 
     public function setControllerReference(ControllerReference $controllerReference)
@@ -141,11 +138,7 @@ class ConfigurableView
 
     public function getControllerReference()
     {
-        if (method_exists($this->innerView, 'getControllerReference')) {
-            return $this->innerView->getControllerReference();
-        }
-
-        throw new UnsupportedException(__METHOD__.' is not supported');
+        return $this->innerView->getControllerReference();
     }
 
     public function setResponse(Response $response)
@@ -155,10 +148,6 @@ class ConfigurableView
 
     public function getResponse()
     {
-        if (method_exists($this->innerView, 'getResponse')) {
-            return $this->innerView->getResponse();
-        }
-
-        throw new UnsupportedException(__METHOD__.' is not supported');
+        return $this->innerView->getResponse();
     }
 }
