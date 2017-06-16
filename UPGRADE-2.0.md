@@ -66,7 +66,7 @@ ezdesign:
         twig_config_path:     '%kernel.root_dir%/..'
 ```
 
-#### Additional template override paths
+#### Additional templates override paths
 
 **Before**
 ```yaml
@@ -80,7 +80,7 @@ ez_core_extra:
 **After**
 ```yaml
 ezdesign:
-    template_override_paths:
+    templates_override_paths:
         - "%kernel.root_dir%/another_override_directory"
         - "/some/other/directory"
 ```
