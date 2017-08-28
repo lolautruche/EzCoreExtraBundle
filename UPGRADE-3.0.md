@@ -12,7 +12,7 @@ They're now available via `ConfigurableView::getContent()` and `ConfigurableView
 ```php
 class MyParamProvider
 {
-    public function getParameters(ConfigurableView $view, array $options = [])
+    public function getViewParameters(ConfigurableView $view, array $options = [])
     {
         // Current location and content are available in content/location views
         $location = $view->getParameter('content');
@@ -38,7 +38,7 @@ class MyParamProvider
 ```php
 class MyParamProvider
 {
-    public function getParameters(ConfigurableView $view, array $options = [])
+    public function getViewParameters(ConfigurableView $view, array $options = [])
     {
         // Current location and content are available in content/location views
         $location = $view->getContent();
