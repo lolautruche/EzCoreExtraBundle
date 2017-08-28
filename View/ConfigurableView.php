@@ -9,6 +9,8 @@
 
 namespace Lolautruche\EzCoreExtraBundle\View;
 
+use eZ\Publish\Core\MVC\Symfony\View\ContentValueView;
+use eZ\Publish\Core\MVC\Symfony\View\LocationValueView;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +20,10 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  * Decoration of original view that can be used with view parameter providers.
  * It is basically only possible to add new parameters and access to original view parameters.
  */
-class ConfigurableView implements View
+class ConfigurableView implements View, ContentValueView, LocationValueView
 {
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\View\View
+     * @var \eZ\Publish\Core\MVC\Symfony\View\View|ContentValueView|LocationValueView
      */
     private $innerView;
 
@@ -103,6 +105,12 @@ class ConfigurableView implements View
             return $this->parameters[$parameterName];
         }
 
+        if ($parameterName === 'content') {
+            @trigger_error('Access to current content via getParameter() is deprecated. Use getContent() instead.', E_USER_DEPRECATED);
+        } elseif ($parameterName === 'location') {
+            @trigger_error('Access to current location via getParameter() is deprecated. Use getLocation() instead.', E_USER_DEPRECATED);
+        }
+
         return $this->innerView->getParameter($parameterName);
     }
 
@@ -149,5 +157,23 @@ class ConfigurableView implements View
     public function getResponse()
     {
         return $this->innerView->getResponse();
+    }
+
+    /**
+     * Returns the Content.
+     *
+     * @return \eZ\Publish\API\Repository\Values\Content\Content
+     */
+    public function getContent()
+    {
+        return $this->innerView instanceof ContentValueView ? $this->innerView->getContent() : null;
+    }
+
+    /**
+     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     */
+    public function getLocation()
+    {
+        return $this->innerView instanceof LocationValueView ? $this->innerView->getContent() : null;
     }
 }

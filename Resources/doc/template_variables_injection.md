@@ -169,8 +169,8 @@ class MyViewParameterProvider extends ConfigurableViewParameterProvider
     protected function doGetParameters(ConfigurableView $view, array $options = [])
     {
         // Current location and content are available in content/location views
-        $location = $view->getParameter('location');
-        $content = $view->getParameter('content');
+        $location = $view->getLocation();
+        $content = $view->getContent();
         
         // Passed options
         $contentTypeForChildren = $options['children_type'];

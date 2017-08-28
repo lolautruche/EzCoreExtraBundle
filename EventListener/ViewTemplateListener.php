@@ -15,6 +15,9 @@ use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAw
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use eZ\Publish\Core\MVC\Symfony\View\ContentValueView;
+use eZ\Publish\Core\MVC\Symfony\View\LocationValueView;
+use eZ\Publish\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
@@ -93,10 +96,29 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
                 $provider = $this->parameterProviders[$param['provider']];
-                $param = (object) $provider->getViewParameters(new ConfigurableView($view), $paramProviderOptions);
+                $param = (object) $provider->getViewParameters($this->generateConfigurableView($view), $paramProviderOptions);
             }
         }
 
         $view->setParameters(array_replace($view->getParameters(), $configHash['params']));
+    }
+
+    /**
+     * @param View $view
+     * @return ConfigurableView
+     */
+    private function generateConfigurableView(View $view)
+    {
+        $configurableView = new ConfigurableView($view);
+        $params = [];
+        if ($view instanceof ContentValueView) {
+            $params['content'] = $view->getContent();
+        }
+        if ($view instanceof LocationValueView) {
+            $params['location'] = $view->getLocation();
+        }
+        $configurableView->addParameters($params);
+
+        return $configurableView;
     }
 }
