@@ -13,6 +13,8 @@ Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 
 A Parameters provider may expose options that one can set in the view configuration to alter the service behavior.
 
+Cherry on the cake, such services are reusable across all the content views in your eZ application. 
+
 ## Parameters provider example
 
 In the following example we define a `MetaDataProvider` that provides the `ContentType` of each viewed content.
