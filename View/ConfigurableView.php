@@ -174,6 +174,6 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
      */
     public function getLocation()
     {
-        return $this->innerView instanceof LocationValueView ? $this->innerView->getContent() : null;
+        return $this->innerView instanceof LocationValueView ? $this->innerView->getLocation() : null;
     }
 }
