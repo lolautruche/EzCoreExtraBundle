@@ -8,6 +8,7 @@ services:
             - { name: kernel.event_subscriber }
 
     ez_core_extra.twig.globals_extension:
+        public: false
         class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension
         calls:
             - [setContextAwareGlobals, ["$twig_globals;ez_core_extra$"]]
@@ -15,6 +16,7 @@ services:
             - { name: twig.extension }
 
     ez_core_extra.security.simplified_core_voter:
+        public: false
         class: Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter
         arguments:
             - "@ezpublish.security.voter.core"
