@@ -9,7 +9,10 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\View;
 
+use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 use eZ\Publish\Core\MVC\Symfony\View\View;
+use eZ\Publish\Core\Repository\Values\Content\Content;
+use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -178,5 +181,23 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
             ->method('getResponse')
             ->willReturn($response);
         $this->assertSame($response, $view->getResponse());
+    }
+
+    public function testGetContent()
+    {
+        $content = new Content();
+        $innerView = new ContentView();
+        $innerView->setContent($content);
+        $view = new ConfigurableView($innerView);
+        $this->assertSame($content, $view->getContent());
+    }
+
+    public function testGetLocation()
+    {
+        $location = new Location();
+        $innerView = new ContentView();
+        $innerView->setLocation($location);
+        $view = new ConfigurableView($innerView);
+        $this->assertSame($location, $view->getLocation());
     }
 }
