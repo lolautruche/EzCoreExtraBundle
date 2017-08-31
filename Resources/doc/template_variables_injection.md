@@ -199,8 +199,23 @@ services:
         arguments: ["@some_service"]
         tags:
             # alias must match with value configured under "provider" key in ezplatform.yml
+            # It can be omitted, in which case it will be set as the service name (here acme_test.my_provider)
             - {name: "ez_core_extra.view_parameter_provider", alias: "my_param_provider"}
 ```
+
+> Using Symfony 3.3+, param provider services can be autoconfigured:
+
+```yaml
+services:
+    _defaults:
+        autoconfigure: true
+        
+    Acme\TestBundle\MyViewParameterProvider:
+        arguments: ['@some_service']
+```
+
+In that case, the alias will automatically be set to the service name (here the FQCN).
+
 
 #### Resulting view template
 The view template would then be like:

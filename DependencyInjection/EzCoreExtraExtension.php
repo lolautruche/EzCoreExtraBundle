@@ -12,6 +12,7 @@
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
+use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -30,6 +31,11 @@ class EzCoreExtraExtension extends Extension
         $processor = new ConfigurationProcessor($container, 'ez_core_extra');
 
         $this->configureDesigns($config, $processor, $container);
+
+        if (method_exists($container, 'registerForAutoconfiguration')) {
+            $container->registerForAutoconfiguration(ViewParameterProviderInterface::class)
+                ->addTag('ez_core_extra.view_parameter_provider');
+        }
     }
 
     private function configureDesigns(array $config, ConfigurationProcessor $processor, ContainerBuilder $container)

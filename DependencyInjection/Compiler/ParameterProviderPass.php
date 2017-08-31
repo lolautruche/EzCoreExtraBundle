@@ -30,14 +30,13 @@ class ParameterProviderPass implements CompilerPassInterface
         $viewTemplateListenerDef = $container->findDefinition('ez_core_extra.view_template_listener');
         foreach ($container->findTaggedServiceIds('ez_core_extra.view_parameter_provider') as $id => $attributes) {
             foreach ($attributes as $attribute) {
-                if (!isset($attribute['alias'])) {
-                    throw new LogicException(
-                        'ez_core_extra.view_parameter_provider service tag needs an "alias" attribute to '.
-                        'identify the parameter provider. None given.'
-                    );
-                }
-
-                $viewTemplateListenerDef->addMethodCall('addParameterProvider', [new Reference($id), $attribute['alias']]);
+                $viewTemplateListenerDef->addMethodCall(
+                    'addParameterProvider',
+                    [
+                        new Reference($id),
+                        isset($attribute['alias']) ? $attribute['alias'] : $id,
+                    ]
+                );
             }
         }
     }
