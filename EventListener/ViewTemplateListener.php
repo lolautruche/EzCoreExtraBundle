@@ -80,7 +80,7 @@ class ViewTemplateListener implements EventSubscriberInterface
                 if (!isset($this->parameterProviders[$param['provider']])) {
                     throw new MissingParameterProviderException(
                         "ParameterProvider '{$param['provider']}' could not be found. ".
-                        "Did you register it as a service with 'ez_core_extra.view_template_listener' tag?"
+                        "Did you register it as a service with 'ez_core_extra.view_parameter_provider' tag?"
                     );
                 }
 
