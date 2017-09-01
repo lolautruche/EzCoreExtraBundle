@@ -3,7 +3,12 @@ parameters:
 services:
     ez_core_extra.view_template_listener:
         class: Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener
-        arguments: ["@ezpublish.config.resolver", "@ezpublish.config.dynamic_setting.parser"]
+        arguments:
+            - "@ezpublish.config.resolver"
+            - "@ezpublish.config.dynamic_setting.parser"
+            - "@ezpublish.api.repository"
+            - "@ez_core_extra.view.expression_language"
+
         tags:
             - { name: kernel.event_subscriber }
 
@@ -23,3 +28,6 @@ services:
             - "@ezpublish.security.voter.value_object"
         tags:
             - { name: "security.voter" }
+
+    ez_core_extra.view.expression_language:
+        class: Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage

@@ -59,7 +59,8 @@ You can inject several types of parameters:
 * Parameter references from the ServiceContainer (e.g. `%my.parameter%`)
 * [Dynamic settings](https://doc.ez.no/display/EZP/Dynamic+settings+injection) (aka *siteaccess aware parameters*,
   using `$<paramName>[;<namespace>[;<scope>]]$` syntax)
-* [Parameters provider services](view_parameter_providers.md) (for more dynamic injection using custom services)
+* [Expressions](view_parameters_expressions.md) (for dynamic injection with ExpressionLanguage)
+* [Parameters provider services](view_parameter_providers.md) (for more dynamic injection using custom reusable services)
 
 ### Example
 This feature would allow to configure a content/location/block view the following way:
@@ -72,7 +73,7 @@ ezpublish:
             location_view:
                 full:
                     article_test:
-                        template: "AcmeTestBundle:full:article_test.html.twig"
+                        template: "@ezdesign/full/article_test.html.twig"
                         params:
                             osTypes: [osx, linux, losedows]
                             secret: "%secret%"
@@ -87,7 +88,8 @@ ezpublish:
 
 > **Important**: Note that all configured parameters are only available in the template spotted in the template selection rule.
 
-> For more advanced and dynamic injection, you may implement a **[ViewParametersProvider service](view_parameters_providers.md)**.
+> For more advanced and dynamic injection, you may use **[Expressions](view_parameters_expressions.md)**
+> or implement a **[ViewParametersProvider service](view_parameters_providers.md)**.
 
 #### Resulting view template
 The view template would then be like:

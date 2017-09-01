@@ -12,14 +12,17 @@
 namespace Lolautruche\EzCoreExtraBundle\Tests\EventListener;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParser;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
+use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
+use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use PHPUnit_Framework_TestCase;
 
@@ -35,11 +38,23 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     private $dynamicSettingParser;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\API\Repository\Repository
+     */
+    private $repository;
+
+    /**
+     * @var ExpressionLanguage
+     */
+    private $expressionLanguage;
+
     protected function setUp()
     {
         parent::setUp();
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
         $this->dynamicSettingParser = new DynamicSettingParser();
+        $this->repository = $this->createMock(Repository::class);
+        $this->expressionLanguage = new ExpressionLanguage();
     }
 
     public function testGetSubscribedEvents()
@@ -53,11 +68,18 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\Symfony\View\View
+     * @return \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\Symfony\View\ContentView
      */
     private function generateView()
     {
-        return $this->createMock(View::class);
+        $view = $this->createMock(ContentView::class);
+        $view
+            ->method('getContent')
+            ->willReturn(new Content());
+        $view
+            ->method('getLocation')
+            ->willReturn(new Location());
+        return $view;
     }
 
     public function testOnPreViewContentNoParams()
@@ -72,7 +94,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('addParameters');
 
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage);
         $listener->onPreContentView($event);
     }
 
@@ -88,7 +110,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->expects($this->never())
             ->method('addParameters');
 
-        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser))->onPreContentView($event);
+        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
     public function testOnPreViewContentDynamicSettings()
@@ -134,7 +156,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             ->method('setParameters')
             ->with($expectedParams + $existingParams);
 
-        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser))->onPreContentView($event);
+        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
     /**
@@ -154,7 +176,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
                 ],
             ]);
 
-        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser))->onPreContentView($event);
+        (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
     public function testOnPreViewContentParameterProvider()
@@ -164,10 +186,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
 
         $providerAlias = 'some_provider';
         $provider = $this->createMock(ViewParameterProviderInterface::class);
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage);
         $listener->addParameterProvider($provider, $providerAlias);
 
-        $existingParameters = ['location' => new Location(), 'content' => new Content()];
+        $existingParameters = ['existing' => 'parameter'];
         $view
             ->expects($this->once())
             ->method('getConfigHash')
@@ -187,6 +209,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             'some_array' => ['foo' => 'bar'],
         ];
         $configurableView = new ConfigurableView($view);
+        $configurableView->addParameters([
+            'content' => $view->getContent(),
+            'location' => $view->getLocation(),
+        ]);
         $provider
             ->expects($this->once())
             ->method('getViewParameters')
@@ -208,10 +234,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
 
         $providerAlias = 'some_provider';
         $provider = $this->createMock(ViewParameterProviderInterface::class);
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage);
         $listener->addParameterProvider($provider, $providerAlias);
 
-        $existingParameters = ['location' => new Location(), 'content' => new Content()];
+        $existingParameters = ['existing' => 'parameter'];
         $paramProviderOptions = ['foo' => 'bar', 'bool' => true, 'integer' => 123];
         $view
             ->expects($this->once())
@@ -232,6 +258,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
             'some_array' => ['foo' => 'bar'],
         ];
         $configurableView = new ConfigurableView($view);
+        $configurableView->addParameters([
+            'content' => $view->getContent(),
+            'location' => $view->getLocation(),
+        ]);
         $provider
             ->expects($this->once())
             ->method('getViewParameters')
@@ -253,10 +283,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
 
         $providerAlias = 'some_provider';
         $provider = $this->createMock(ViewParameterProviderInterface::class);
-        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser);
+        $listener = new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage);
         $listener->addParameterProvider($provider, $providerAlias);
 
-        $existingParameters = ['location' => new Location(), 'content' => new Content()];
+        $existingParameters = ['existing' => 'parameter'];
         $paramProviderOptions = ['foo' => '$foo;ezcoreextra;some_scope$', 'bool' => true, 'integer' => 123];
         $this->configResolver
             ->expects($this->once())
@@ -283,6 +313,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         ];
 
         $configurableView = new ConfigurableView($view);
+        $configurableView->addParameters([
+            'content' => $view->getContent(),
+            'location' => $view->getLocation(),
+        ]);
         $provider
             ->expects($this->once())
             ->method('getViewParameters')

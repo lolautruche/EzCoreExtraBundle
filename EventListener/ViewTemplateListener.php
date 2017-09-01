@@ -12,16 +12,19 @@
 namespace Lolautruche\EzCoreExtraBundle\EventListener;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParserInterface;
+use eZ\Publish\API\Repository\Repository;
 use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
 use eZ\Publish\Core\MVC\Symfony\MVCEvents;
 use eZ\Publish\Core\MVC\Symfony\View\ContentValueView;
+use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 use eZ\Publish\Core\MVC\Symfony\View\LocationValueView;
-use eZ\Publish\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
+use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * Listener that will inject pre-configured parameters into matched view.
@@ -43,10 +46,26 @@ class ViewTemplateListener implements EventSubscriberInterface
      */
     private $parameterProviders = [];
 
-    public function __construct(ConfigResolverInterface $configResolver, DynamicSettingParserInterface $settingParser)
-    {
+    /**
+     * @var Repository
+     */
+    private $repository;
+
+    /**
+     * @var ExpressionLanguage
+     */
+    private $expressionLanguage;
+
+    public function __construct(
+        ConfigResolverInterface $configResolver,
+        DynamicSettingParserInterface $settingParser,
+        Repository $repository,
+        ExpressionLanguage $expressionLanguage
+    ){
         $this->configResolver = $configResolver;
         $this->settingParser = $settingParser;
+        $this->repository = $repository;
+        $this->expressionLanguage = $expressionLanguage;
     }
 
     public static function getSubscribedEvents()
@@ -63,7 +82,7 @@ class ViewTemplateListener implements EventSubscriberInterface
 
     public function onPreContentView(PreContentViewEvent $event)
     {
-        /** @var \eZ\Publish\Core\MVC\Symfony\View\View $view */
+        /** @var \eZ\Publish\Core\MVC\Symfony\View\ContentView $view */
         $view = $event->getContentView();
         $configHash = $view->getConfigHash();
         if (!isset($configHash['params']) || !is_array($configHash['params'])) {
@@ -97,6 +116,17 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
                 $provider = $this->parameterProviders[$param['provider']];
                 $param = (object) $provider->getViewParameters($this->generateConfigurableView($view), $paramProviderOptions);
+            } elseif (is_array($param) && isset($param['expression'])) {
+                $configurableView = $this->generateConfigurableView($view);
+                $content = $configurableView->getContent();
+                $param = $this->expressionLanguage->evaluate($param['expression'], [
+                    'view' => $configurableView,
+                    'content' => $configurableView->getContent(),
+                    'location' => $configurableView->getLocation(),
+                    'contentType' => $this->repository->getContentTypeService()->loadContentType($content->contentInfo->contentTypeId),
+                    'configResolver' => $this->configResolver,
+                    'repository' => $this->repository,
+                ]);
             }
         }
 
@@ -104,20 +134,16 @@ class ViewTemplateListener implements EventSubscriberInterface
     }
 
     /**
-     * @param View $view
+     * @param \eZ\Publish\Core\MVC\Symfony\View\ContentView $view
      * @return ConfigurableView
      */
-    private function generateConfigurableView(View $view)
+    private function generateConfigurableView(ContentView $view)
     {
         $configurableView = new ConfigurableView($view);
-        $params = [];
-        if ($view instanceof ContentValueView) {
-            $params['content'] = $view->getContent();
-        }
-        if ($view instanceof LocationValueView) {
-            $params['location'] = $view->getLocation();
-        }
-        $configurableView->addParameters($params);
+        $configurableView->addParameters([
+            'content' => $view->getContent(),
+            'location' => $view->getLocation(),
+        ]);
 
         return $configurableView;
     }
