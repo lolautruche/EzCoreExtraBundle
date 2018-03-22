@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Security\Voter;
 
+use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
 use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -56,11 +57,15 @@ class SimplifiedCoreVoter implements VoterInterface
             $attribute = substr($attribute, strlen(static::EZ_ROLE_PREFIX));
             list($module, $function) = explode(':', $attribute);
             $attributeObject = new AuthorizationAttribute($module, $function);
-            if ($object instanceof ValueObject) {
-                $attributeObject->limitations = ['valueObject' => $object];
-                return $this->valueObjectVoter->vote($token, $object, [$attributeObject]);
-            } else {
-                return $this->coreVoter->vote($token, $object, [$attributeObject]);
+            try {
+                if ($object instanceof ValueObject) {
+                    $attributeObject->limitations = ['valueObject' => $object];
+                    return $this->valueObjectVoter->vote($token, $object, [$attributeObject]);
+                } else {
+                    return $this->coreVoter->vote($token, $object, [$attributeObject]);
+                }
+            } catch (InvalidArgumentException $e) {
+                continue;
             }
         }
 
