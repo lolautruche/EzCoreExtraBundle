@@ -12,6 +12,7 @@
 namespace Lolautruche\EzCoreExtraBundle\Tests\Security\Voter;
 
 use eZ\Publish\API\Repository\Values\ValueObject;
+use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter;
 use PHPUnit_Framework_TestCase;
@@ -112,6 +113,27 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
+    public function testVoteExceptionNoValueObject()
+    {
+        $token = $this->createMock(TokenInterface::class);
+        $object = null;
+        $attribute = 'ez:foo:bar';
+        $attributeObject = new Attribute('foo', 'bar');
+        $this->coreVoter
+            ->expects($this->once())
+            ->method('vote')
+            ->with($token, $object, [$attributeObject])
+            ->willThrowException(new InvalidArgumentValue('foo', 'bar'));
+        $this->valueObjectVoter
+            ->expects($this->never())
+            ->method('vote');
+
+        $this->assertSame(
+            VoterInterface::ACCESS_ABSTAIN,
+            $this->voter->vote($token, $object, [$attribute])
+        );
+    }
+
     public function testVoteGrantedWithValueObject()
     {
         $token = $this->createMock(TokenInterface::class);
@@ -150,6 +172,27 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
 
         $this->assertSame(
             VoterInterface::ACCESS_DENIED,
+            $this->voter->vote($token, $object, [$attribute])
+        );
+    }
+
+    public function testVoteExceptionWithValueObject()
+    {
+        $token = $this->createMock(TokenInterface::class);
+        $object = $this->createMock(ValueObject::class);
+        $attribute = 'ez:foo:bar';
+        $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
+        $this->valueObjectVoter
+            ->expects($this->once())
+            ->method('vote')
+            ->with($token, $object, [$attributeObject])
+            ->willThrowException(new InvalidArgumentValue('foo', 'bar'));
+        $this->coreVoter
+            ->expects($this->never())
+            ->method('vote');
+
+        $this->assertSame(
+            VoterInterface::ACCESS_ABSTAIN,
             $this->voter->vote($token, $object, [$attribute])
         );
     }
