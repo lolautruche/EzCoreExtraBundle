@@ -32,7 +32,7 @@ class Configuration extends SiteAccessConfiguration
             ->end()
             ->booleanNode('enable_email_authentication')
                 ->info('Whether eZ users can authenticate against their e-mail or not.')
-                ->defaultTrue()
+                ->defaultFalse()
             ->end();
 
         return $treeBuilder;
