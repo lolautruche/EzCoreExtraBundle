@@ -55,10 +55,23 @@ Adds extra features to eZ Platform.
 
   Simplifies calls to `$this->isGranted()` from inside controllers and `is_granted()` from within templates when checking
   against eZ inner permission system (module/function/valueObject).
+  
+* **[Authentication by e-mail](Resources/doc/email_authentication.md)**
+
+  By activating `enable_email_authentication` flag, it will be possible for users to authenticate using their e-mail,
+  in addition to their username.
+  
+  ```yaml
+  ez_core_extra:
+      system:
+          my_siteaccess:
+              enable_email_authentication: true
+  ``` 
 
 ## Requirements
-EzCoreExtraBundle currently works with **eZ Publish 5.4/2014.11** (and *should work* with Netgen variant)
-and eZ Platform (kernel version >=6.0).
+EzCoreExtraBundle currently works eZ Platform v1 and v2 (kernel v6 and v7).
+
+> If you're using eZ publish 5.4/2014.11 or Netgen variant, look at `1.1` branch and/or `v1.x` releases.
 
 ## Installation
 This bundle is available on [Packagist](https://packagist.org/packages/lolautruche/ez-core-extra-bundle).
@@ -69,6 +82,8 @@ composer require lolautruche/ez-core-extra-bundle
 ```
 
 Then add it to your application:
+
+> `EzCoreExtraBundle` **MUST** be instanciated **AFTER** eZ bundles.
 
 ```php
 // ezpublish/EzPublishKernel.php
