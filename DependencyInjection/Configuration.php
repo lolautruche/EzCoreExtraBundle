@@ -29,6 +29,10 @@ class Configuration extends SiteAccessConfiguration
                 ->useAttributeAsKey('variable_name')
                 ->example(array('foo' => '"bar"', 'pi' => 3.14))
                 ->prototype('variable')->end()
+            ->end()
+            ->booleanNode('enable_email_authentication')
+                ->info('Whether eZ users can authenticate against their e-mail or not.')
+                ->defaultFalse()
             ->end();
 
         return $treeBuilder;

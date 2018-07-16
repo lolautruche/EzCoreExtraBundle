@@ -12,6 +12,7 @@
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection;
 
 use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ConfigurationProcessor;
+use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\ContextualizerInterface;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -31,6 +32,12 @@ class EzCoreExtraExtension extends Extension
         $processor = new ConfigurationProcessor($container, 'ez_core_extra');
 
         $this->configureDesigns($config, $processor, $container);
+        $processor->mapConfig(
+            $config,
+            function (array $scopeSettings, $currentScope, ContextualizerInterface $contextualizer) {
+                $contextualizer->setContextualParameter('security.authentication_email.enabled', $currentScope, $scopeSettings['enable_email_authentication']);
+            }
+        );
 
         if (method_exists($container, 'registerForAutoconfiguration')) {
             $container->registerForAutoconfiguration(ViewParameterProviderInterface::class)
