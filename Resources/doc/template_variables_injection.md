@@ -60,7 +60,7 @@ You can inject several types of parameters:
 * [Dynamic settings](https://doc.ez.no/display/EZP/Dynamic+settings+injection) (aka *siteaccess aware parameters*,
   using `$<paramName>[;<namespace>[;<scope>]]$` syntax)
 * [Expressions](view_parameters_expressions.md) (for dynamic injection with ExpressionLanguage)
-* [Parameters provider services](view_parameter_providers.md) (for more dynamic injection using custom reusable services)
+* [Parameters provider services](view_parameters_providers.md) (for more dynamic injection using custom reusable services)
 
 ### Example
 This feature would allow to configure a content/location/block view the following way:
