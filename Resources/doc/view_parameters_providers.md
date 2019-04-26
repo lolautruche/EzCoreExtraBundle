@@ -136,7 +136,7 @@ ezpublish:
                                 # provider key corresponds to the provider service name (or alias if defined).
                                 # When using FQCN as service name with Symfony 3.3+, just set the FQCN as value:
                                 # provider: "AppBundle\Provider\MetaDataProvider"
-                                provider: "app.metadata_provider", 
+                                provider: "app.metadata_provider"
                                 options: 
                                     use_author_field: true
                                     author_field_name: author
