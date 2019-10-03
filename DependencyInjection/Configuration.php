@@ -18,8 +18,14 @@ class Configuration extends SiteAccessConfiguration
 {
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('ez_core_extra');
+        $treeBuilder = new TreeBuilder('ez_core_extra');
+
+        // Keep compatibility with symfony/config < 4.2
+        if (!method_exists($treeBuilder, 'getRootNode')) {
+            $rootNode = $treeBuilder->root('ez_core_extra');
+        } else {
+            $rootNode = $treeBuilder->getRootNode();
+        }
 
         $systemNode = $this->generateScopeBaseNode($rootNode);
         $systemNode
