@@ -101,7 +101,7 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
      */
     public function getParameter($parameterName)
     {
-        if ($this->hasParameter($parameterName)) {
+        if (isset($this->parameters[$parameterName])) {
             return $this->parameters[$parameterName];
         }
 

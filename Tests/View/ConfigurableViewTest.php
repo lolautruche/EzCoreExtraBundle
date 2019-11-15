@@ -95,6 +95,18 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($view->hasParameter('foo'));
     }
 
+    public function testGetParameterInnerView()
+    {
+        $parameterValue = 'bar';
+        $this->innerView
+            ->expects($this->once())
+            ->method('getParameter')
+            ->with('foo')
+            ->willReturn($parameterValue);
+        $view = new ConfigurableView($this->innerView);
+        $this->assertSame($parameterValue, $view->getParameter('foo'));
+    }
+
     public function testHasParameter()
     {
         $view = new ConfigurableView($this->innerView);
