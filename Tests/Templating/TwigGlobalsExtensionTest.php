@@ -19,7 +19,6 @@ class TwigGlobalsExtensionTest extends TestCase
     public function testConstructNoGlobals(): void
     {
         $extension = new TwigGlobalsExtension();
-        self::assertSame('ez_core_extra.globals', $extension->getName());
         self::assertSame([], $extension->getGlobals());
     }
 

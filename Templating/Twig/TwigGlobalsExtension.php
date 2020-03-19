@@ -11,13 +11,13 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
-use Twig_Extension;
-use Twig_Extension_GlobalsInterface;
+use Twig\Extension\AbstractExtension;
+use Twig\Extension\GlobalsInterface;
 
 /**
  * Twig extension exposing global variables depending on current SiteAccess.
  */
-class TwigGlobalsExtension extends Twig_Extension implements Twig_Extension_GlobalsInterface
+class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * Hash of configured globals for current SiteAccess.
@@ -31,18 +31,13 @@ class TwigGlobalsExtension extends Twig_Extension implements Twig_Extension_Glob
         $this->contextAwareGlobals = $contextAwareGlobals;
     }
 
-    public function setContextAwareGlobals(array $contextAwareGlobals = null)
+    public function setContextAwareGlobals(array $contextAwareGlobals = null): void
     {
         $this->contextAwareGlobals = $contextAwareGlobals ?: [];
     }
 
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return $this->contextAwareGlobals;
-    }
-
-    public function getName()
-    {
-        return 'ez_core_extra.globals';
     }
 }
