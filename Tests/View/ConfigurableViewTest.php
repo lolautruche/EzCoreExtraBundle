@@ -13,6 +13,7 @@ use eZ\Publish\Core\MVC\Symfony\View\ContentView;
 use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
+use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,11 +33,10 @@ class ConfigurableViewTest extends TestCase
         $this->innerView = $this->createMock(View::class);
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
-     */
     public function testSetTemplateIdentifier(): void
     {
+        $this->expectException(UnsupportedException::class);
+
         $view = new ConfigurableView($this->innerView);
         $view->setTemplateIdentifier('foo.html.twig');
     }
@@ -115,11 +115,10 @@ class ConfigurableViewTest extends TestCase
         $this->assertTrue($view->hasParameter('foo'));
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
-     */
     public function testSetConfigHash(): void
     {
+        $this->expectException(UnsupportedException::class);
+
         $view = new ConfigurableView($this->innerView);
         $view->setConfigHash([]);
     }
@@ -136,11 +135,10 @@ class ConfigurableViewTest extends TestCase
         $this->assertSame($configHash, $view->getConfigHash());
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
-     */
     public function testSetControllerReference(): void
     {
+        $this->expectException(UnsupportedException::class);
+
         $view = new ConfigurableView($this->innerView);
         $view->setControllerReference(new ControllerReference('foo'));
     }
@@ -156,11 +154,10 @@ class ConfigurableViewTest extends TestCase
         $this->assertSame($controllerReference, $view->getControllerReference());
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
-     */
     public function testSetViewType(): void
     {
+        $this->expectException(UnsupportedException::class);
+
         $view = new ConfigurableView($this->innerView);
         $view->setViewType('foo');
     }
@@ -175,11 +172,10 @@ class ConfigurableViewTest extends TestCase
         $this->assertSame('foo', $view->getViewType());
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
-     */
     public function testSetResponse(): void
     {
+        $this->expectException(UnsupportedException::class);
+
         $view = new ConfigurableView($this->innerView);
         $view->setResponse(new Response());
     }

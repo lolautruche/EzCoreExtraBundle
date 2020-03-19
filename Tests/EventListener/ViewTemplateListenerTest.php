@@ -21,6 +21,7 @@ use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener;
+use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
@@ -159,11 +160,10 @@ class ViewTemplateListenerTest extends TestCase
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException
-     */
     public function testOnPreViewContentMissingParameterProvider(): void
     {
+        $this->expectException(MissingParameterProviderException::class);
+
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
 
