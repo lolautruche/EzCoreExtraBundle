@@ -69,7 +69,7 @@ Adds extra features to eZ Platform.
   ``` 
 
 ## Requirements
-EzCoreExtraBundle currently works eZ Platform v1 and v2 (kernel v6 and v7).
+EzCoreExtraBundle currently works eZ Platform v1, v2 and v3 (kernel v6, v7 and v8).
 
 > If you're using eZ publish 5.4/2014.11 or Netgen variant, look at `1.1` branch and/or `v1.x` releases.
 
