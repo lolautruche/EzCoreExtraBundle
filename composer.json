@@ -31,5 +31,10 @@
     },
     "suggest": {
         "ezsystems/ezplatform-design-engine": "Design fallback mechanism for eZ Platform (previously part of EzCoreExtraBundle)"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.x-dev"
+        }
     }
 }
