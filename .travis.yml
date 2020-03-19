@@ -13,14 +13,6 @@ branches:
 
 matrix:
     include:
-        - php: 5.6
-          env: EZ_KERNEL_VERSION=^6.0
-        - php: 7.0
-          env: EZ_KERNEL_VERSION=^6.0
-        - php: 7.1
-          env: EZ_KERNEL_VERSION=^6.9
-        - php: 7.2
-          env: EZ_KERNEL_VERSION=^7.5
         - php: 7.3
           env: EZ_KERNEL_VERSION=^8.0
 
