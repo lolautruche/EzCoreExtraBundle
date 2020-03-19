@@ -56,16 +56,6 @@ Adds extra features to eZ Platform.
   Simplifies calls to `$this->isGranted()` from inside controllers and `is_granted()` from within templates when checking
   against eZ inner permission system (module/function/valueObject).
   
-* **[Authentication by e-mail](Resources/doc/email_authentication.md)**
-
-  By activating `enable_email_authentication` flag, it will be possible for users to authenticate using their e-mail,
-  in addition to their username.
-  
-  ```yaml
-  ez_core_extra:
-      system:
-          my_siteaccess:
-              enable_email_authentication: true
   ``` 
 
 ## Requirements

@@ -1,3 +1,2 @@
 parameters:
     ez_core_extra.default.twig_globals: {}
-    ez_core_extra.default.security.authentication_email.enabled: false
