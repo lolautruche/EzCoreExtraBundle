@@ -3,7 +3,7 @@
     "description": "Extra sugar for building eZ Platform websites",
     "require": {
         "ezsystems/ezpublish-kernel": "^6.0 || ^7.0 || ^8.0",
-        "twig/twig": "^1.27 || ^2.0",
+        "twig/twig": "^1.27 || ^2.0 || ^3.0",
         "symfony/config": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
         "symfony/event-dispatcher": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
         "symfony/dependency-injection": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
