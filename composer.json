@@ -2,16 +2,16 @@
     "name": "lolautruche/ez-core-extra-bundle",
     "description": "Extra sugar for building eZ Platform websites",
     "require": {
-        "ezsystems/ezpublish-kernel": "^6.0 || ^7.0 || ^8.0",
-        "twig/twig": "^1.27 || ^2.0 || ^3.0",
-        "symfony/config": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/event-dispatcher": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/dependency-injection": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/security-core": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/http-foundation": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/http-kernel": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/expression-language": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0",
-        "symfony/options-resolver": "^2.8.13 || ^3.1.6 || ^4.3 || ^5.0"
+        "ezsystems/ezpublish-kernel": "^8.0",
+        "twig/twig": "^3.0",
+        "symfony/config": "^4.4 || ^5.0",
+        "symfony/event-dispatcher": "^4.4 || ^5.0",
+        "symfony/dependency-injection": "^4.4 || ^5.0",
+        "symfony/security-core": "^4.4 || ^5.0",
+        "symfony/http-foundation": "^4.4 || ^5.0",
+        "symfony/http-kernel": "^4.4 || ^5.0",
+        "symfony/expression-language": "^4.4 || ^5.0",
+        "symfony/options-resolver": "^4.4 || ^5.0"
     },
     "license": "MIT",
     "authors": [
@@ -25,7 +25,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^5.4",
-        "mikey179/vfsStream": "^1.6.3"
+        "mikey179/vfsstream": "^1.6.3"
     },
     "suggest": {
         "ezsystems/ezplatform-design-engine": "Design fallback mechanism for eZ Platform (previously part of EzCoreExtraBundle)"
