@@ -20,14 +20,7 @@ class Configuration extends SiteAccessConfiguration
     {
         $treeBuilder = new TreeBuilder('ez_core_extra');
 
-        // Keep compatibility with symfony/config < 4.2
-        if (!method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->root('ez_core_extra');
-        } else {
-            $rootNode = $treeBuilder->getRootNode();
-        }
-
-        $systemNode = $this->generateScopeBaseNode($rootNode);
+        $systemNode = $this->generateScopeBaseNode($treeBuilder->getRootNode());
         $systemNode
             ->arrayNode('twig_globals')
                 ->info('Variables available in all Twig templates for current SiteAccess.')
@@ -35,10 +28,6 @@ class Configuration extends SiteAccessConfiguration
                 ->useAttributeAsKey('variable_name')
                 ->example(array('foo' => '"bar"', 'pi' => 3.14))
                 ->prototype('variable')->end()
-            ->end()
-            ->booleanNode('enable_email_authentication')
-                ->info('Whether eZ users can authenticate against their e-mail or not.')
-                ->defaultFalse()
             ->end();
 
         return $treeBuilder;
