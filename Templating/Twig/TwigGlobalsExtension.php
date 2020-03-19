@@ -12,12 +12,12 @@
 namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
 use Twig\Extension\AbstractExtension;
-use Twig_Extension_GlobalsInterface;
+use Twig\Extension\GlobalsInterface;
 
 /**
  * Twig extension exposing global variables depending on current SiteAccess.
  */
-class TwigGlobalsExtension extends AbstractExtension implements Twig_Extension_GlobalsInterface
+class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
      * Hash of configured globals for current SiteAccess.
