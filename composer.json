@@ -26,7 +26,7 @@
         "psr-4": {"Lolautruche\\EzCoreExtraBundle\\": ""}
     },
     "require-dev": {
-        "phpunit/phpunit": "^5.4",
+        "phpunit/phpunit": "^9.0",
         "mikey179/vfsStream": "^1.6.3"
     },
     "suggest": {
