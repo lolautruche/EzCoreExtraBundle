@@ -36,7 +36,7 @@ class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
         $this->contextAwareGlobals = $contextAwareGlobals ?: [];
     }
 
-    public function getGlobals()
+    public function getGlobals(): array
     {
         return $this->contextAwareGlobals;
     }
