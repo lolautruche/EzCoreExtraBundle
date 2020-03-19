@@ -14,18 +14,18 @@ use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
 
-class ConfigurableViewTest extends PHPUnit_Framework_TestCase
+class ConfigurableViewTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit\Framework\MockObject\MockObject
      */
     private $innerView;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -35,13 +35,13 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
      */
-    public function testSetTemplateIdentifier()
+    public function testSetTemplateIdentifier(): void
     {
         $view = new ConfigurableView($this->innerView);
         $view->setTemplateIdentifier('foo.html.twig');
     }
 
-    public function testGetTemplateIdentifier()
+    public function testGetTemplateIdentifier(): void
     {
         $this->innerView
             ->expects($this->once())
@@ -51,7 +51,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertSame('foo.html.twig', $view->getTemplateIdentifier());
     }
 
-    public function testSetParameters()
+    public function testSetParameters(): void
     {
         $this->innerView
             ->expects($this->once())
@@ -64,7 +64,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertSame($parameters['foo'], $view->getParameter('foo'));
     }
 
-    public function testAddParameters()
+    public function testAddParameters(): void
     {
         $this->innerView
             ->expects($this->once())
@@ -84,7 +84,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testHasParameterInnerView()
+    public function testHasParameterInnerView(): void
     {
         $this->innerView
             ->expects($this->once())
@@ -95,7 +95,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($view->hasParameter('foo'));
     }
 
-    public function testGetParameterInnerView()
+    public function testGetParameterInnerView(): void
     {
         $parameterValue = 'bar';
         $this->innerView
@@ -107,7 +107,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertSame($parameterValue, $view->getParameter('foo'));
     }
 
-    public function testHasParameter()
+    public function testHasParameter(): void
     {
         $view = new ConfigurableView($this->innerView);
         $this->assertFalse($view->hasParameter('foo'));
@@ -118,13 +118,13 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
      */
-    public function testSetConfigHash()
+    public function testSetConfigHash(): void
     {
         $view = new ConfigurableView($this->innerView);
         $view->setConfigHash([]);
     }
 
-    public function testGetConfigHash()
+    public function testGetConfigHash(): void
     {
         $configHash = ['template' => 'foo.html.twig'];
         $this->innerView
@@ -139,13 +139,13 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
      */
-    public function testSetControllerReference()
+    public function testSetControllerReference(): void
     {
         $view = new ConfigurableView($this->innerView);
         $view->setControllerReference(new ControllerReference('foo'));
     }
 
-    public function testGetControllerReference()
+    public function testGetControllerReference(): void
     {
         $view = new ConfigurableView($this->innerView);
         $controllerReference = new ControllerReference('foo');
@@ -159,13 +159,13 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
      */
-    public function testSetViewType()
+    public function testSetViewType(): void
     {
         $view = new ConfigurableView($this->innerView);
         $view->setViewType('foo');
     }
 
-    public function testGetViewType()
+    public function testGetViewType(): void
     {
         $view = new ConfigurableView($this->innerView);
         $this->innerView
@@ -178,13 +178,13 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
     /**
      * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException
      */
-    public function testSetResponse()
+    public function testSetResponse(): void
     {
         $view = new ConfigurableView($this->innerView);
         $view->setResponse(new Response());
     }
 
-    public function testGetResponse()
+    public function testGetResponse(): void
     {
         $view = new ConfigurableView($this->innerView);
         $response = new Response();
@@ -195,7 +195,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertSame($response, $view->getResponse());
     }
 
-    public function testGetContent()
+    public function testGetContent(): void
     {
         $content = new Content();
         $innerView = new ContentView();
@@ -204,7 +204,7 @@ class ConfigurableViewTest extends PHPUnit_Framework_TestCase
         $this->assertSame($content, $view->getContent());
     }
 
-    public function testGetLocation()
+    public function testGetLocation(): void
     {
         $location = new Location();
         $innerView = new ContentView();

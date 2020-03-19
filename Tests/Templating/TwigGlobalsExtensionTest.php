@@ -12,18 +12,18 @@
 namespace Lolautruche\EzCoreExtraBundle\Tests\Templating;
 
 use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class TwigGlobalsExtensionTest extends PHPUnit_Framework_TestCase
+class TwigGlobalsExtensionTest extends TestCase
 {
-    public function testConstructNoGlobals()
+    public function testConstructNoGlobals(): void
     {
         $extension = new TwigGlobalsExtension();
         self::assertSame('ez_core_extra.globals', $extension->getName());
         self::assertSame([], $extension->getGlobals());
     }
 
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $variables = [
             'foo' => 'bar',
@@ -36,7 +36,7 @@ class TwigGlobalsExtensionTest extends PHPUnit_Framework_TestCase
         self::assertSame($variables, $extension->getGlobals());
     }
 
-    public function testGlobalsInjection()
+    public function testGlobalsInjection(): void
     {
         $variables = [
             'foo' => 'bar',
@@ -50,7 +50,7 @@ class TwigGlobalsExtensionTest extends PHPUnit_Framework_TestCase
         self::assertSame($variables, $extension->getGlobals());
     }
 
-    public function testGlobalsInjectionNull()
+    public function testGlobalsInjectionNull(): void
     {
         $extension = new TwigGlobalsExtension();
         $extension->setContextAwareGlobals(null);
