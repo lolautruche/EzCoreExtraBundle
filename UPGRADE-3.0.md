@@ -3,12 +3,12 @@
 * Support for eZ Platform 2.x and 1.x has been dropped (and with them support for
   PHP < 7.3 and Symfony < 5.0)
 
-* E-mail authentication providers have been removed since eZ Platform v3 has a similar
-  feature implemeted directly in kernel and this implementation was not compatible with
+* E-mail authentication provider has been removed since eZ Platform v3 has a similar
+  feature implemented directly in kernel and this implementation was not compatible with
   the new kernel
 
 * Template variables injection feature as a whole has been deprecated since eZ Platform v3
-  has a similar feature implemeted directly in kernel
+  has a similar feature implemented directly in kernel
 
 * Access to `content` and `location` has been changed in view parameter providers
   They're now available via `ConfigurableView::getContent()` and `ConfigurableView::getLocation`.
