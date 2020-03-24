@@ -15,19 +15,19 @@ use eZ\Publish\API\Repository\Values\ValueObject;
 use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
 use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
-class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
+class SimplifiedCoreVoterTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|VoterInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|VoterInterface
      */
     private $coreVoter;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|VoterInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|VoterInterface
      */
     private $valueObjectVoter;
 
@@ -36,7 +36,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
      */
     private $voter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->coreVoter = $this->createMock(VoterInterface::class);
@@ -47,12 +47,12 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider supportsAttributeProvider
      */
-    public function testSupportsAttribute($attribute, $expectedResult)
+    public function testSupportsAttribute($attribute, $expectedResult): void
     {
         $this->assertSame($expectedResult, $this->voter->supportsAttribute($attribute));
     }
 
-    public function supportsAttributeProvider()
+    public function supportsAttributeProvider(): array
     {
         return [
             ['foo', false],
@@ -63,7 +63,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testVoteNotSupportedAttribute()
+    public function testVoteNotSupportedAttribute(): void
     {
         $this->assertSame(
             VoterInterface::ACCESS_ABSTAIN,
@@ -71,7 +71,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteGrantedNoValueObject()
+    public function testVoteGrantedNoValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
@@ -92,7 +92,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteDeniedNoValueObject()
+    public function testVoteDeniedNoValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
@@ -113,7 +113,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteExceptionNoValueObject()
+    public function testVoteExceptionNoValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
@@ -134,7 +134,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteGrantedWithValueObject()
+    public function testVoteGrantedWithValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
@@ -155,7 +155,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteDeniedWithValueObject()
+    public function testVoteDeniedWithValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
@@ -176,7 +176,7 @@ class SimplifiedCoreVoterTest extends PHPUnit_Framework_TestCase
         );
     }
 
-    public function testVoteExceptionWithValueObject()
+    public function testVoteExceptionWithValueObject(): void
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);

@@ -21,15 +21,16 @@ use eZ\Publish\Core\MVC\Symfony\View\View;
 use eZ\Publish\Core\Repository\Values\Content\Content;
 use eZ\Publish\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener;
+use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
-class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
+class ViewTemplateListenerTest extends TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \PHPUnit\Framework\MockObject\MockObject|\eZ\Publish\Core\MVC\ConfigResolverInterface
      */
     private $configResolver;
 
@@ -39,7 +40,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     private $dynamicSettingParser;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\API\Repository\Repository
+     * @var \PHPUnit\Framework\MockObject\MockObject|\eZ\Publish\API\Repository\Repository
      */
     private $repository;
 
@@ -48,7 +49,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
      */
     private $expressionLanguage;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->configResolver = $this->createMock(ConfigResolverInterface::class);
@@ -57,7 +58,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $this->expressionLanguage = new ExpressionLanguage();
     }
 
-    public function testGetSubscribedEvents()
+    public function testGetSubscribedEvents(): void
     {
         self::assertSame(
             [
@@ -68,7 +69,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \PHPUnit_Framework_MockObject_MockObject|\eZ\Publish\Core\MVC\Symfony\View\ContentView
+     * @return \PHPUnit\Framework\MockObject\MockObject|\eZ\Publish\Core\MVC\Symfony\View\ContentView
      */
     private function generateView()
     {
@@ -82,7 +83,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         return $view;
     }
 
-    public function testOnPreViewContentNoParams()
+    public function testOnPreViewContentNoParams(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
@@ -98,7 +99,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $listener->onPreContentView($event);
     }
 
-    public function testOnPreViewContentParamsNotArray()
+    public function testOnPreViewContentParamsNotArray(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
@@ -113,7 +114,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
-    public function testOnPreViewContentDynamicSettings()
+    public function testOnPreViewContentDynamicSettings(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
@@ -159,11 +160,10 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
-    /**
-     * @expectedException \Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException
-     */
-    public function testOnPreViewContentMissingParameterProvider()
+    public function testOnPreViewContentMissingParameterProvider(): void
     {
+        $this->expectException(MissingParameterProviderException::class);
+
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
 
@@ -179,7 +179,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         (new ViewTemplateListener($this->configResolver, $this->dynamicSettingParser, $this->repository, $this->expressionLanguage))->onPreContentView($event);
     }
 
-    public function testOnPreViewContentParameterProvider()
+    public function testOnPreViewContentParameterProvider(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
@@ -227,7 +227,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $listener->onPreContentView($event);
     }
 
-    public function testOnPreViewContentParameterProviderWithOptions()
+    public function testOnPreViewContentParameterProviderWithOptions(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);
@@ -276,7 +276,7 @@ class ViewTemplateListenerTest extends PHPUnit_Framework_TestCase
         $listener->onPreContentView($event);
     }
 
-    public function testOnPreViewContentParameterProviderWithDynamicOptions()
+    public function testOnPreViewContentParameterProviderWithDynamicOptions(): void
     {
         $view = $this->generateView();
         $event = new PreContentViewEvent($view);

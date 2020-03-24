@@ -31,12 +31,3 @@ services:
 
     ez_core_extra.view.expression_language:
         class: Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage
-
-    ez_core_extra.security.email_user_provider:
-        class: Lolautruche\EzCoreExtraBundle\Security\UserProvider
-        decorates: ezpublish.security.user_provider
-        arguments:
-            - '@ez_core_extra.security.email_user_provider.inner'
-            - '@ezpublish.api.service.user'
-        calls:
-            - ['setConfigResolver', ['@ezpublish.config.resolver']]
