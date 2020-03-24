@@ -6,7 +6,8 @@
 Adds extra features to eZ Platform.
 
 ## Compatibility
-* `master` branch / `v2.x` is **only compatible with eZ Platform**
+* `master` branch is **only compatible with eZ Platform v3**
+* `v2.x` is **only compatible with eZ Platform v1 and v2**
 * `1.0` branch is compatible with both eZ Platform *and* eZ Publish 5.4/2014.11.
 
 ## Features
@@ -55,13 +56,15 @@ Adds extra features to eZ Platform.
 
   Simplifies calls to `$this->isGranted()` from inside controllers and `is_granted()` from within templates when checking
   against eZ inner permission system (module/function/valueObject).
-  
-  ``` 
+
+  ```
 
 ## Requirements
 EzCoreExtraBundle currently works eZ Platform v1, v2 and v3 (kernel v6, v7 and v8).
 
 > If you're using eZ publish 5.4/2014.11 or Netgen variant, look at `1.1` branch and/or `v1.x` releases.
+
+> If you're using eZ Platform v1 or v2, look at `2.x` branch and/or `v2.x` releases.
 
 ## Installation
 This bundle is available on [Packagist](https://packagist.org/packages/lolautruche/ez-core-extra-bundle).
