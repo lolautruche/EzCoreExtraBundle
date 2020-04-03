@@ -11,17 +11,12 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\Templating;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension;
 use PHPUnit\Framework\TestCase;
 
 class TwigGlobalsExtensionTest extends TestCase
 {
-    public function testConstructNoGlobals(): void
-    {
-        $extension = new TwigGlobalsExtension();
-        self::assertSame([], $extension->getGlobals());
-    }
-
     public function testConstruct(): void
     {
         $variables = [
@@ -31,28 +26,16 @@ class TwigGlobalsExtensionTest extends TestCase
             'array' => ['some' => 'thing'],
         ];
 
-        $extension = new TwigGlobalsExtension($variables);
+        $configResolverMock = $this->createMock(ConfigResolverInterface::class);
+        $configResolverMock
+            ->expects(self::once())
+            ->method('getParameter')
+            ->with(
+                self::identicalTo('twig_globals'),
+                self::identicalTo('ez_core_extra')
+            )->willReturn($variables);
+
+        $extension = new TwigGlobalsExtension($configResolverMock);
         self::assertSame($variables, $extension->getGlobals());
-    }
-
-    public function testGlobalsInjection(): void
-    {
-        $variables = [
-            'foo' => 'bar',
-            'number' => 123,
-            'bool' => true,
-            'array' => ['some' => 'thing'],
-        ];
-
-        $extension = new TwigGlobalsExtension();
-        $extension->setContextAwareGlobals($variables);
-        self::assertSame($variables, $extension->getGlobals());
-    }
-
-    public function testGlobalsInjectionNull(): void
-    {
-        $extension = new TwigGlobalsExtension();
-        $extension->setContextAwareGlobals(null);
-        self::assertSame([], $extension->getGlobals());
     }
 }

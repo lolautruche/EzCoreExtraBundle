@@ -15,8 +15,8 @@ services:
     ez_core_extra.twig.globals_extension:
         public: false
         class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension
-        calls:
-            - [setContextAwareGlobals, ["$twig_globals;ez_core_extra$"]]
+        arguments:
+            - '@ezpublish.config.resolver'
         tags:
             - { name: twig.extension }
 

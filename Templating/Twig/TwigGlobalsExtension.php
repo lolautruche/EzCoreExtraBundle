@@ -11,6 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
+use eZ\Publish\Core\MVC\ConfigResolverInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -20,24 +21,17 @@ use Twig\Extension\GlobalsInterface;
 class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
-     * Hash of configured globals for current SiteAccess.
-     *
-     * @var array
+     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
      */
-    private $contextAwareGlobals = [];
+    private $configResolver;
 
-    public function __construct(array $contextAwareGlobals = [])
+    public function __construct(ConfigResolverInterface $configResolver)
     {
-        $this->contextAwareGlobals = $contextAwareGlobals;
-    }
-
-    public function setContextAwareGlobals(array $contextAwareGlobals = null): void
-    {
-        $this->contextAwareGlobals = $contextAwareGlobals ?: [];
+        $this->configResolver = $configResolver;
     }
 
     public function getGlobals(): array
     {
-        return $this->contextAwareGlobals;
+        return $this->configResolver->getParameter('twig_globals', 'ez_core_extra');
     }
 }
