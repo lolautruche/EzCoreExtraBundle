@@ -4,9 +4,9 @@ services:
     ez_core_extra.view_template_listener:
         class: Lolautruche\EzCoreExtraBundle\EventListener\ViewTemplateListener
         arguments:
-            - "@ezpublish.config.resolver"
-            - "@ezpublish.config.dynamic_setting.parser"
-            - "@ezpublish.api.repository"
+            - "@ibexa.config.resolver"
+            - "@Ibexa\\Bundle\\Core\\DependencyInjection\\Configuration\\SiteAccessAware\\DynamicSettingParser"
+            - "@ibexa.api.repository"
             - "@ez_core_extra.view.expression_language"
 
         tags:
@@ -16,7 +16,7 @@ services:
         public: false
         class: Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension
         arguments:
-            - '@ezpublish.config.resolver'
+            - '@ibexa.config.resolver'
         tags:
             - { name: twig.extension }
 
@@ -24,8 +24,8 @@ services:
         public: false
         class: Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter
         arguments:
-            - "@ezpublish.security.voter.core"
-            - "@ezpublish.security.voter.value_object"
+            - "@Ibexa\\Core\\MVC\\Symfony\\Security\\Authorization\\Voter\\CoreVoter"
+            - "@Ibexa\\Core\\MVC\\Symfony\\Security\\Authorization\\Voter\\ValueObjectVoter"
         tags:
             - { name: "security.voter" }
 

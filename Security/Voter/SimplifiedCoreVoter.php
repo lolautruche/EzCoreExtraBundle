@@ -11,15 +11,15 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Security\Voter;
 
-use eZ\Publish\API\Repository\Exceptions\InvalidArgumentException;
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
+use Ibexa\Contracts\Core\Repository\Exceptions\InvalidArgumentException;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class SimplifiedCoreVoter implements VoterInterface
 {
-    const EZ_ROLE_PREFIX = 'ez:';
+    const IBEXA_ROLE_PREFIX = 'ez:';
 
     /**
      * @var VoterInterface
@@ -39,7 +39,7 @@ class SimplifiedCoreVoter implements VoterInterface
 
     public function supportsAttribute($attribute)
     {
-        return is_string($attribute) && stripos($attribute, static::EZ_ROLE_PREFIX) === 0;
+        return is_string($attribute) && stripos($attribute, static::IBEXA_ROLE_PREFIX) === 0;
     }
 
     public function supportsClass($class)
@@ -54,7 +54,7 @@ class SimplifiedCoreVoter implements VoterInterface
                 continue;
             }
 
-            $attribute = substr($attribute, strlen(static::EZ_ROLE_PREFIX));
+            $attribute = substr($attribute, strlen(static::IBEXA_ROLE_PREFIX));
             list($module, $function) = explode(':', $attribute);
             $attributeObject = new AuthorizationAttribute($module, $function);
             try {

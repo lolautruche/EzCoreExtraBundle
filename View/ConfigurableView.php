@@ -9,9 +9,9 @@
 
 namespace Lolautruche\EzCoreExtraBundle\View;
 
-use eZ\Publish\Core\MVC\Symfony\View\ContentValueView;
-use eZ\Publish\Core\MVC\Symfony\View\LocationValueView;
-use eZ\Publish\Core\MVC\Symfony\View\View;
+use Ibexa\Core\MVC\Symfony\View\ContentValueView;
+use Ibexa\Core\MVC\Symfony\View\LocationValueView;
+use Ibexa\Core\MVC\Symfony\View\View;
 use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Controller\ControllerReference;
@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
 class ConfigurableView implements View, ContentValueView, LocationValueView
 {
     /**
-     * @var \eZ\Publish\Core\MVC\Symfony\View\View|ContentValueView|LocationValueView
+     * @var \Ibexa\Core\MVC\Symfony\View\View|ContentValueView|LocationValueView
      */
     private $innerView;
 
@@ -162,7 +162,7 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
     /**
      * Returns the Content.
      *
-     * @return \eZ\Publish\API\Repository\Values\Content\Content
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Content
      */
     public function getContent()
     {
@@ -170,7 +170,7 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
     }
 
     /**
-     * @return \eZ\Publish\API\Repository\Values\Content\Location
+     * @return \Ibexa\Contracts\Core\Repository\Values\Content\Location
      */
     public function getLocation()
     {
