@@ -57,7 +57,7 @@ class SimplifiedCoreVoterTest extends TestCase
         return [
             ['foo', false],
             ['bar', false],
-            [SimplifiedCoreVoter::EZ_ROLE_PREFIX.'foo:bar', true],
+            [SimplifiedCoreVoter::IBEXA_ROLE_PREFIX.'foo:bar', true],
             [new \stdClass(), false],
             [[], false]
         ];
