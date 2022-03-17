@@ -1,0 +1,49 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - 'master'
+  pull_request: ~
+
+jobs:
+  tests:
+    name: ${{ matrix.php }} / ${{ matrix.symfony }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['7.4', '8.0', '8.1']
+        symfony: ['~5.4.0']
+        deps: ['normal']
+        include:
+          - php: '7.4'
+            symfony: '~5.4.0'
+            deps: 'low'
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+
+      - run: composer --version
+      - run: composer validate --strict
+
+      # Install Flex as a global dependency to enable usage of extra.symfony.require
+      # while keeping Flex recipes from applying
+      - run: composer global require --no-scripts symfony/flex
+
+      - run: composer config extra.symfony.require ${{ matrix.symfony }}
+
+      -
+        run: composer update --prefer-dist
+        if: ${{ matrix.deps != 'low' }}
+
+      -
+        run: composer update --prefer-dist --prefer-lowest --prefer-stable
+        if: ${{ matrix.deps == 'low' }}
+
+      - run: vendor/bin/phpunit --colors=always
