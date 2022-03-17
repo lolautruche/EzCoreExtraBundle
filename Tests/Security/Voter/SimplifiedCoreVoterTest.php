@@ -11,9 +11,9 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\Security\Voter;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;

@@ -8,14 +8,13 @@ This feature is written on top of [Symfony ExpressionLanguage component](https:/
 ## Example
 
 ```yaml
-# ezplatform.yml
-ezpublish:
+ibexa:
     system:
         my_siteaccess:
             location_view:
                 full:
                     article_test:
-                        template: "@ezdesign/full/article_test.html.twig"
+                        template: "@ibexadesign/full/article_test.html.twig"
                         params:
                             parentLocation:
                                 expression: "loadLocation(location.parentLocationId)"
@@ -34,14 +33,14 @@ ezpublish:
 In order to build your expressions, several variables and functions are exposed
 
 ### Variables
-| Variable name    | Type                                                        | Description                           |
-|------------------|-------------------------------------------------------------|---------------------------------------|
-| `view`           | `Lolautruche\EzCoreExtraBundle\View\ConfigurableView`       | The **content view** being configured |
-| `content`        | `eZ\Publish\Core\Repository\Values\Content\Content`         | Current content                       |
-| `location`       | `eZ\Publish\Core\Repository\Values\Content\Location`        | Current location                      |
-| `contentType`    | `eZ\Publish\Core\Repository\Values\ContentType\ContentType` | ContentType of the current content    |
-| `configResolver` | `eZ\Publish\Core\MVC\ConfigResolverInterface`               | The ConfigResolver                    |
-| `repository`     | `eZ\Publish\Core\Repository\Repository`                     | The content repository                |
+| Variable name    | Type                                                      | Description                           |
+|------------------|-----------------------------------------------------------|---------------------------------------|
+| `view`           | `Lolautruche\EzCoreExtraBundle\View\ConfigurableView`     | The **content view** being configured |
+| `content`        | `Ibexa\Core\Repository\Values\Content\Content`            | Current content                       |
+| `location`       | `Ibexa\Core\Repository\Values\Content\Location`           | Current location                      |
+| `contentType`    | `Ibexa\Core\Repository\Values\ContentType\ContentType`    | ContentType of the current content    |
+| `configResolver` | `Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface` | The ConfigResolver                    |
+| `repository`     | `Ibexa\Core\Repository\Repository`                        | The content repository                |
 
 ### Functions
 | Function name     | Description                      |

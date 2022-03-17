@@ -11,7 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\Templating;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Lolautruche\EzCoreExtraBundle\Templating\Twig\TwigGlobalsExtension;
 use PHPUnit\Framework\TestCase;
 
