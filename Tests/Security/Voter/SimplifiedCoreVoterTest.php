@@ -75,7 +75,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -96,7 +96,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -117,7 +117,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -138,7 +138,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())
@@ -159,7 +159,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())
@@ -180,7 +180,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())
