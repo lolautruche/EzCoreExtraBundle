@@ -11,14 +11,14 @@
 
 namespace Lolautruche\EzCoreExtraBundle\EventListener;
 
-use eZ\Bundle\EzPublishCoreBundle\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParserInterface;
-use eZ\Publish\API\Repository\Repository;
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
-use eZ\Publish\Core\MVC\Symfony\Event\PreContentViewEvent;
-use eZ\Publish\Core\MVC\Symfony\MVCEvents;
-use eZ\Publish\Core\MVC\Symfony\View\ContentValueView;
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
-use eZ\Publish\Core\MVC\Symfony\View\LocationValueView;
+use Ibexa\Bundle\Core\DependencyInjection\Configuration\SiteAccessAware\DynamicSettingParserInterface;
+use Ibexa\Contracts\Core\Repository\Repository;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
+use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
+use Ibexa\Core\MVC\Symfony\MVCEvents;
+use Ibexa\Core\MVC\Symfony\View\ContentValueView;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Core\MVC\Symfony\View\LocationValueView;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
@@ -82,7 +82,7 @@ class ViewTemplateListener implements EventSubscriberInterface
 
     public function onPreContentView(PreContentViewEvent $event)
     {
-        /** @var \eZ\Publish\Core\MVC\Symfony\View\ContentView $view */
+        /** @var \Ibexa\Core\MVC\Symfony\View\ContentView $view */
         $view = $event->getContentView();
         $configHash = $view->getConfigHash();
         if (!isset($configHash['params']) || !is_array($configHash['params'])) {
@@ -134,7 +134,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     }
 
     /**
-     * @param \eZ\Publish\Core\MVC\Symfony\View\ContentView $view
+     * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
      * @return ConfigurableView
      */
     private function generateConfigurableView(ContentView $view)

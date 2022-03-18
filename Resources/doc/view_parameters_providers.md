@@ -13,7 +13,7 @@ Such services must be defined with `ez_core_extra.view_parameter_provider` tag.
 
 A Parameters provider may expose options that one can set in the view configuration to alter the service behavior.
 
-Cherry on the cake, such services are reusable across all the content views in your eZ application. 
+Cherry on the cake, such services are reusable across all the content views in your Ibexa application.
 
 ## Parameters provider example
 
@@ -26,8 +26,8 @@ author field (see exposed options).
 
 namespace AppBundle\Provider;
 
-use eZ\Publish\API\Repository\ContentTypeService;
-use eZ\Publish\API\Repository\UserService;
+use Ibexa\Contracts\Core\Repository\ContentTypeService;
+use Ibexa\Contracts\Core\Repository\UserService;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableViewParameterProvider;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -104,7 +104,7 @@ class MetaDataProvider extends ConfigurableViewParameterProvider
 services:
     app.metadata_provider:
         class: AppBundle\Provider\MetaDataProvider
-        arguments: ['@ezpublish.api.service.user', '@ezpublish.api.service.content_type']
+        arguments: ['@ibexa.api.service.user', '@ibexa.api.service.content_type']
         tags:
             # By default the provider alias will be the service name, but you may customize it using "alias" tag attribute.
             - { name: ez_core_extra.view_parameter_provider }
@@ -118,18 +118,18 @@ services:
         autoconfigure: true
         
     AppBundle\Provider\MetaDataProvider:
-        arguments: ['@ezpublish.api.service.user', '@ezpublish.api.service.content_type']
+        arguments: ['@ibexa.api.service.user', '@ibexa.api.service.content_type']
 ```
 
 ### View configuration
 ```yaml
-ezpublish:
+ibexa:
     system:
         my_siteaccess:
             location_view:
                 full:
                     article_test:
-                        template: "@ezdesign/full/article_test.html.twig"
+                        template: "@ibexadesign/full/article_test.html.twig"
                         params:
                             # Key is the name of the variable "namespace" in the template (see template below)
                             metadata: 
@@ -149,7 +149,7 @@ ezpublish:
 {% extends "pagelayout.html.twig" %}
 
 {% block content %}
-<h1>{{ ez_render_field(content, 'title') }}</h1>
+<h1>{{ ibexa_render_field(content, 'title') }}</h1>
 
 {# Param provider is namespaced by "metadata" according to configuration #}
 <p>Author: {{ metadata.author }}</p>

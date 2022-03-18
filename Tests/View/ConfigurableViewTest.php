@@ -9,10 +9,10 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\View;
 
-use eZ\Publish\Core\MVC\Symfony\View\ContentView;
-use eZ\Publish\Core\MVC\Symfony\View\View;
-use eZ\Publish\Core\Repository\Values\Content\Content;
-use eZ\Publish\Core\Repository\Values\Content\Location;
+use Ibexa\Core\MVC\Symfony\View\ContentView;
+use Ibexa\Core\MVC\Symfony\View\View;
+use Ibexa\Core\Repository\Values\Content\Content;
+use Ibexa\Core\Repository\Values\Content\Location;
 use Lolautruche\EzCoreExtraBundle\Exception\UnsupportedException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use PHPUnit\Framework\TestCase;

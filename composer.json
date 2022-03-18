@@ -1,17 +1,17 @@
 {
     "name": "lolautruche/ez-core-extra-bundle",
-    "description": "Extra sugar for building eZ Platform websites",
+    "description": "Extra sugar for building Ibexa websites",
     "require": {
-        "ezsystems/ezplatform-kernel": "^1.0",
+        "ibexa/core": "^4.0",
         "twig/twig": "^3.0",
-        "symfony/config": "^5.0",
-        "symfony/event-dispatcher": "^5.0",
-        "symfony/dependency-injection": "^5.0",
-        "symfony/security-core": "^5.0",
-        "symfony/http-foundation": "^5.0",
-        "symfony/http-kernel": "^5.0",
-        "symfony/expression-language": "^5.0",
-        "symfony/options-resolver": "^5.0"
+        "symfony/config": "^5.4",
+        "symfony/event-dispatcher": "^5.4",
+        "symfony/dependency-injection": "^5.4",
+        "symfony/security-core": "^5.4",
+        "symfony/http-foundation": "^5.4",
+        "symfony/http-kernel": "^5.4",
+        "symfony/expression-language": "^5.4",
+        "symfony/options-resolver": "^5.4"
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
@@ -30,11 +30,11 @@
         "mikey179/vfsstream": "^1.6.3"
     },
     "suggest": {
-        "ezsystems/ezplatform-design-engine": "Design fallback mechanism for eZ Platform (previously part of EzCoreExtraBundle)"
+        "ibexa/design-engine": "Design fallback mechanism for Ibexa (previously part of EzCoreExtraBundle)"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.x-dev"
+            "dev-master": "4.x-dev"
         }
     }
 }

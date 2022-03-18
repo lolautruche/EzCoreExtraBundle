@@ -11,9 +11,9 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Tests\Security\Voter;
 
-use eZ\Publish\API\Repository\Values\ValueObject;
-use eZ\Publish\Core\Base\Exceptions\InvalidArgumentValue;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute;
+use Ibexa\Contracts\Core\Repository\Values\ValueObject;
+use Ibexa\Core\Base\Exceptions\InvalidArgumentValue;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute;
 use Lolautruche\EzCoreExtraBundle\Security\Voter\SimplifiedCoreVoter;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -57,7 +57,7 @@ class SimplifiedCoreVoterTest extends TestCase
         return [
             ['foo', false],
             ['bar', false],
-            [SimplifiedCoreVoter::EZ_ROLE_PREFIX.'foo:bar', true],
+            [SimplifiedCoreVoter::IBEXA_ROLE_PREFIX.'foo:bar', true],
             [new \stdClass(), false],
             [[], false]
         ];
@@ -75,7 +75,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -96,7 +96,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -117,7 +117,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = null;
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar');
         $this->coreVoter
             ->expects($this->once())
@@ -138,7 +138,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())
@@ -159,7 +159,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())
@@ -180,7 +180,7 @@ class SimplifiedCoreVoterTest extends TestCase
     {
         $token = $this->createMock(TokenInterface::class);
         $object = $this->createMock(ValueObject::class);
-        $attribute = 'ez:foo:bar';
+        $attribute = 'ibexa:foo:bar';
         $attributeObject = new Attribute('foo', 'bar', ['valueObject' => $object]);
         $this->valueObjectVoter
             ->expects($this->once())

@@ -11,7 +11,7 @@
 
 namespace Lolautruche\EzCoreExtraBundle\Templating\Twig;
 
-use eZ\Publish\Core\MVC\ConfigResolverInterface;
+use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Twig\Extension\AbstractExtension;
 use Twig\Extension\GlobalsInterface;
 
@@ -21,7 +21,7 @@ use Twig\Extension\GlobalsInterface;
 class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
     /**
-     * @var \eZ\Publish\Core\MVC\ConfigResolverInterface
+     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
      */
     private $configResolver;
 

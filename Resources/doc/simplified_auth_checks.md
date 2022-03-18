@@ -1,6 +1,6 @@
 # Simplified authorization checks
 
-This feature simplifies the way you check authorization with eZ inner ACL system, using
+This feature simplifies the way you check authorization with Ibexa inner ACL system, using
 `module/function` and optionnaly a value object (e.g. a content object).
 
 Without eZCoreExtraBundle, when one want to check if a user has access to a module/function like
@@ -9,8 +9,8 @@ Without eZCoreExtraBundle, when one want to check if a user has access to a modu
 ```php
 namespace Acme\Controller;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
-use eZ\Publish\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
+use Ibexa\Bundle\Core\Controller;
+use Ibexa\Core\MVC\Symfony\Security\Authorization\Attribute as AuthorizationAttribute;
 
 class MyController extends Controller
 {
@@ -38,7 +38,7 @@ In order to check access for a `module`/`function` pair, instead of instantiatin
 object, just use the following syntax:
 
 ```
-ez:<module>:<function>
+ibexa:<module>:<function>
 ```
 
 Taking the example from the introduction, it will be:
@@ -46,17 +46,17 @@ Taking the example from the introduction, it will be:
 ```php
 namespace Acme\Controller;
 
-use eZ\Bundle\EzPublishCoreBundle\Controller;
+use Ibexa\Bundle\Core\Controller;
 
 class MyController extends Controller
 {
     public function fooAction()
     {
         // ...
-        $accessGranted = $this->isGranted('ez:content:read');
+        $accessGranted = $this->isGranted('ibexa:content:read');
         
         // Or with an actual content
-        $accessGranted = $this->isGranted('ez:content:read', $myContent);
+        $accessGranted = $this->isGranted('ibexa:content:read', $myContent);
     }
 }
 ```
@@ -64,10 +64,10 @@ class MyController extends Controller
 In a template, the syntax will be:
 
 ```jinja
-{% set accessGranted = is_granted('ez:content:read') %}
+{% set accessGranted = is_granted('ibexa:content:read') %}
 
 {# Or with an actual content #}
-{% set accessGranted = is_granted('ez:content:read', my_content) %}
+{% set accessGranted = is_granted('ibexa:content:read', my_content) %}
 ```
 
 Et voilà :-)

@@ -17,8 +17,8 @@ Typical use cases are access to:
 This features adds the possibility to define Twig global variables depending on the current SiteAccess.
 These global variables will be available in every templates.
 
-It also adds a [generic subscriber to `ezpublish.pre_content_view` event](https://doc.ez.no/display/EZP/Parameters+injection+in+content+views),
-bound to the template selection rules, so that you can inject configured parameters in the selected view.
+It also adds a generic subscriber to `ezpublish.pre_content_view` event,  bound to the template selection rules,
+so that you can inject configured parameters in the selected view.
 
 
 ## Context aware Twig global variables
@@ -57,8 +57,6 @@ You can inject several types of parameters:
 
 * Plain parameters, which values are directly defined in the configuration (including arrays, hashes, booleans…)
 * Parameter references from the ServiceContainer (e.g. `%my.parameter%`)
-* [Dynamic settings](https://doc.ez.no/display/EZP/Dynamic+settings+injection) (aka *siteaccess aware parameters*,
-  using `$<paramName>[;<namespace>[;<scope>]]$` syntax)
 * [Expressions](view_parameters_expressions.md) (for dynamic injection with ExpressionLanguage)
 * [Parameters provider services](view_parameters_providers.md) (for more dynamic injection using custom reusable services)
 
@@ -66,22 +64,16 @@ You can inject several types of parameters:
 This feature would allow to configure a content/location/block view the following way:
 
 ```yaml
-# ezplatform.yml
-ezpublish:
+ibexa:
     system:
         my_siteaccess:
             location_view:
                 full:
                     article_test:
-                        template: "@ezdesign/full/article_test.html.twig"
+                        template: "@ibexadesign/full/article_test.html.twig"
                         params:
                             osTypes: [osx, linux, losedows]
                             secret: "%secret%"
-                            # Parameters resolved by config resolver
-                            # Supported syntax for parameters: $<paramName>[;<namespace>[;<scope>]]$
-                            # e.g. full syntax: $my_setting;custom_namespace;my_siteaccess$
-                            # See https://doc.ez.no/display/EZP/Dynamic+settings+injection
-                            default_ttl: "$content.default_ttl$"
                         match:
                             Id\Location: 144
 ```
@@ -98,7 +90,7 @@ The view template would then be like:
 {% extends "pagelayout.html.twig" %}
 
 {% block content %}
-    <h1>{{ ez_render_field(content, 'title') }}</h1>
+    <h1>{{ ibexa_render_field(content, 'title') }}</h1>
     
     <p><strong>Secret:</strong> {{ secret }}</p>
     
