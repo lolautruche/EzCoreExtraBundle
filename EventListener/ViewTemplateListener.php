@@ -115,7 +115,8 @@ class ViewTemplateListener implements EventSubscriberInterface
                 // The resulted array is casted to object (stdClass) for convenient use in templates.
                 // Parameter name will be unchanged. Parameters returned by provider will then be "namespaced" by the parameter name.
                 $provider = $this->parameterProviders[$param['provider']];
-                $param = (object) $provider->getViewParameters($this->generateConfigurableView($view), $paramProviderOptions);
+                $param = $provider->getViewParameters($this->generateConfigurableView($view), $paramProviderOptions);
+                $view->setParameters($param);
             } elseif (is_array($param) && isset($param['expression'])) {
                 $configurableView = $this->generateConfigurableView($view);
                 $content = $configurableView->getContent();
