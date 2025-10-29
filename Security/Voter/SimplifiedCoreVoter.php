@@ -36,7 +36,7 @@ class SimplifiedCoreVoter implements VoterInterface
         return true;
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes): int
+    public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
         foreach ($attributes as $attribute) {
             if (!$this->supportsAttribute($attribute)) {
@@ -47,12 +47,12 @@ class SimplifiedCoreVoter implements VoterInterface
             list($module, $function) = explode(':', $attribute);
             $attributeObject = new AuthorizationAttribute($module, $function);
             try {
-                if ($object instanceof ValueObject) {
-                    $attributeObject->limitations = ['valueObject' => $object];
-                    return $this->valueObjectVoter->vote($token, $object, [$attributeObject]);
-                } else {
-                    return $this->coreVoter->vote($token, $object, [$attributeObject]);
+                if ($subject instanceof ValueObject) {
+                    $attributeObject->limitations = ['valueObject' => $subject];
+                    return $this->valueObjectVoter->vote($token, $subject, [$attributeObject]);
                 }
+
+                return $this->coreVoter->vote($token, $subject, [$attributeObject]);
             } catch (InvalidArgumentException $e) {
                 continue;
             }
