@@ -16,15 +16,12 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
-use Ibexa\Core\MVC\Symfony\View\ContentValueView;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use Ibexa\Core\MVC\Symfony\View\LocationValueView;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * Listener that will inject pre-configured parameters into matched view.
