@@ -21,21 +21,10 @@ class SimplifiedCoreVoter implements VoterInterface
 {
     const IBEXA_ROLE_PREFIX = 'ibexa:';
 
-    /**
-     * @var VoterInterface
-     */
-    private $coreVoter;
-
-    /**
-     * @var VoterInterface
-     */
-    private $valueObjectVoter;
-
-    public function __construct(VoterInterface $coreVoter, VoterInterface $valueObjectVoter)
-    {
-        $this->coreVoter = $coreVoter;
-        $this->valueObjectVoter = $valueObjectVoter;
-    }
+    public function __construct(
+        private VoterInterface $coreVoter,
+        private VoterInterface $valueObjectVoter,
+    ) {}
 
     public function supportsAttribute($attribute): bool
     {

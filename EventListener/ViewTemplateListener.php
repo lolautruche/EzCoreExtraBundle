@@ -29,41 +29,16 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ViewTemplateListener implements EventSubscriberInterface
 {
     /**
-     * @var ConfigResolverInterface
-     */
-    private $configResolver;
-
-    /**
-     * @var DynamicSettingParserInterface
-     */
-    private $settingParser;
-
-    /**
      * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]
      */
     private $parameterProviders = [];
 
-    /**
-     * @var Repository
-     */
-    private $repository;
-
-    /**
-     * @var ExpressionLanguage
-     */
-    private $expressionLanguage;
-
     public function __construct(
-        ConfigResolverInterface $configResolver,
-        DynamicSettingParserInterface $settingParser,
-        Repository $repository,
-        ExpressionLanguage $expressionLanguage
-    ){
-        $this->configResolver = $configResolver;
-        $this->settingParser = $settingParser;
-        $this->repository = $repository;
-        $this->expressionLanguage = $expressionLanguage;
-    }
+        private ConfigResolverInterface $configResolver,
+        private DynamicSettingParserInterface $settingParser,
+        private Repository $repository,
+        private ExpressionLanguage $expressionLanguage,
+    ){}
 
     public static function getSubscribedEvents(): array
     {
