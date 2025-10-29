@@ -68,19 +68,19 @@ class ViewTemplateListener implements EventSubscriberInterface
         $this->expressionLanguage = $expressionLanguage;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::PRE_CONTENT_VIEW => ['onPreContentView', 15],
         ];
     }
 
-    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias)
+    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias): void
     {
         $this->parameterProviders[$alias] = $provider;
     }
 
-    public function onPreContentView(PreContentViewEvent $event)
+    public function onPreContentView(PreContentViewEvent $event): void
     {
         /** @var \Ibexa\Core\MVC\Symfony\View\ContentView $view */
         $view = $event->getContentView();
@@ -137,7 +137,7 @@ class ViewTemplateListener implements EventSubscriberInterface
      * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
      * @return ConfigurableView
      */
-    private function generateConfigurableView(ContentView $view)
+    private function generateConfigurableView(ContentView $view): ConfigurableView
     {
         $configurableView = new ConfigurableView($view);
         $configurableView->addParameters([

@@ -37,17 +37,17 @@ class SimplifiedCoreVoter implements VoterInterface
         $this->valueObjectVoter = $valueObjectVoter;
     }
 
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
         return is_string($attribute) && stripos($attribute, static::IBEXA_ROLE_PREFIX) === 0;
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, $object, array $attributes): int
     {
         foreach ($attributes as $attribute) {
             if (!$this->supportsAttribute($attribute)) {
