@@ -33,7 +33,7 @@ class ParameterProviderPass implements CompilerPassInterface
                     'addParameterProvider',
                     [
                         new Reference($id),
-                        isset($attribute['alias']) ? $attribute['alias'] : $id,
+                        $attribute['alias'] ?? $id,
                     ]
                 );
             }

@@ -101,6 +101,7 @@ class ViewTemplateListener implements EventSubscriberInterface
                 ]);
             }
         }
+        unset($param);
 
         $view->setParameters(array_replace($view->getParameters(), $configHash['params']));
     }

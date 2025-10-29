@@ -44,7 +44,7 @@ class SimplifiedCoreVoter implements VoterInterface
             }
 
             $attribute = substr($attribute, strlen(static::IBEXA_ROLE_PREFIX));
-            list($module, $function) = explode(':', $attribute);
+            [$module, $function] = explode(':', $attribute);
             $attributeObject = new AuthorizationAttribute($module, $function);
             try {
                 if ($subject instanceof ValueObject) {
