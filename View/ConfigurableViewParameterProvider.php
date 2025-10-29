@@ -15,10 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class ConfigurableViewParameterProvider implements ViewParameterProviderInterface
 {
-    /**
-     * @var OptionsResolver
-     */
-    private $resolver;
+    private OptionsResolver $resolver;
 
     /**
      * Configures the OptionsResolver for the param provider.

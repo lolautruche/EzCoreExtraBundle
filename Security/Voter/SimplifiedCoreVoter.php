@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class SimplifiedCoreVoter implements VoterInterface
 {
-    const IBEXA_ROLE_PREFIX = 'ibexa:';
+    const string IBEXA_ROLE_PREFIX = 'ibexa:';
 
     public function __construct(
         private VoterInterface $coreVoter,

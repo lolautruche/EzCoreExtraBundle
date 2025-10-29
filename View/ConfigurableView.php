@@ -25,12 +25,9 @@ use Symfony\Component\HttpKernel\Controller\ControllerReference;
  */
 class ConfigurableView implements View, ContentValueView, LocationValueView
 {
-    /**
-     * @var \Ibexa\Core\MVC\Symfony\View\View|ContentValueView|LocationValueView
-     */
-    private $innerView;
+    private View|LocationValueView|ContentValueView $innerView;
 
-    private $parameters = [];
+    private array $parameters = [];
 
     public function __construct(View $innerView)
     {

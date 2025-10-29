@@ -31,7 +31,7 @@ class ViewTemplateListener implements EventSubscriberInterface
     /**
      * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]
      */
-    private $parameterProviders = [];
+    private array $parameterProviders = [];
 
     public function __construct(
         private ConfigResolverInterface $configResolver,
