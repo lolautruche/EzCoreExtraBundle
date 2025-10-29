@@ -34,6 +34,9 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
         $this->innerView = $innerView;
     }
 
+    /**
+     * @throws UnsupportedException
+     */
     public function setTemplateIdentifier($templateIdentifier): void
     {
         throw new UnsupportedException(__METHOD__.' is not supported');
@@ -112,6 +115,9 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
         return $this->innerView->getParameter($parameterName);
     }
 
+    /**
+     * @throws UnsupportedException
+     */
     public function setConfigHash(array $config): void
     {
         throw new UnsupportedException(__METHOD__.' is not supported');
@@ -125,6 +131,9 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
         return $this->innerView->getConfigHash();
     }
 
+    /**
+     * @throws UnsupportedException
+     */
     public function setViewType($viewType): void
     {
         throw new UnsupportedException(__METHOD__.' is not supported');
@@ -135,6 +144,9 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
         return $this->innerView->getViewType();
     }
 
+    /**
+     * @throws UnsupportedException
+     */
     public function setControllerReference(ControllerReference $controllerReference): void
     {
         throw new UnsupportedException(__METHOD__.' is not supported');
@@ -145,6 +157,9 @@ class ConfigurableView implements View, ContentValueView, LocationValueView
         return $this->innerView->getControllerReference();
     }
 
+    /**
+     * @throws UnsupportedException
+     */
     public function setResponse(Response $response): void
     {
         throw new UnsupportedException(__METHOD__.' is not supported');
