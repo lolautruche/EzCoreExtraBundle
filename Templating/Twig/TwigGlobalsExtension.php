@@ -20,15 +20,9 @@ use Twig\Extension\GlobalsInterface;
  */
 class TwigGlobalsExtension extends AbstractExtension implements GlobalsInterface
 {
-    /**
-     * @var \Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface
-     */
-    private $configResolver;
-
-    public function __construct(ConfigResolverInterface $configResolver)
-    {
-        $this->configResolver = $configResolver;
-    }
+    public function __construct(
+        private ConfigResolverInterface $configResolver,
+    ) {}
 
     public function getGlobals(): array
     {

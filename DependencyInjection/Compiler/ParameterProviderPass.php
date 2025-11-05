@@ -11,7 +11,6 @@
 
 namespace Lolautruche\EzCoreExtraBundle\DependencyInjection\Compiler;
 
-use LogicException;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
@@ -21,7 +20,7 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 class ParameterProviderPass implements CompilerPassInterface
 {
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('ez_core_extra.view_template_listener')) {
             return;
@@ -34,7 +33,7 @@ class ParameterProviderPass implements CompilerPassInterface
                     'addParameterProvider',
                     [
                         new Reference($id),
-                        isset($attribute['alias']) ? $attribute['alias'] : $id,
+                        $attribute['alias'] ?? $id,
                     ]
                 );
             }

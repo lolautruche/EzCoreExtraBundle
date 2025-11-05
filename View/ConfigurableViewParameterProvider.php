@@ -15,10 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class ConfigurableViewParameterProvider implements ViewParameterProviderInterface
 {
-    /**
-     * @var OptionsResolver
-     */
-    private $resolver;
+    private OptionsResolver $resolver;
 
     /**
      * Configures the OptionsResolver for the param provider.
@@ -35,7 +32,7 @@ abstract class ConfigurableViewParameterProvider implements ViewParameterProvide
      */
     abstract protected function configureOptions(OptionsResolver $optionsResolver);
 
-    final public function getViewParameters(ConfigurableView $view, array $options = [])
+    final public function getViewParameters(ConfigurableView $view, array $options = []): array
     {
         return $this->doGetParameters($view, $this->getResolver()->resolve($options));
     }
@@ -56,14 +53,14 @@ abstract class ConfigurableViewParameterProvider implements ViewParameterProvide
      *
      * @return array
      */
-    abstract protected function doGetParameters(ConfigurableView $view, array $options = []);
+    abstract protected function doGetParameters(ConfigurableView $view, array $options = []): array;
 
     /**
      * Builds the resolver, and configures it using configureOptions().
      *
      * @return OptionsResolver
      */
-    private function getResolver()
+    private function getResolver(): OptionsResolver
     {
         if ($this->resolver === null) {
             $this->resolver = new OptionsResolver();

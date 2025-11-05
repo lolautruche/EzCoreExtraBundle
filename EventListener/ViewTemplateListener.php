@@ -16,15 +16,12 @@ use Ibexa\Contracts\Core\Repository\Repository;
 use Ibexa\Contracts\Core\SiteAccess\ConfigResolverInterface;
 use Ibexa\Core\MVC\Symfony\Event\PreContentViewEvent;
 use Ibexa\Core\MVC\Symfony\MVCEvents;
-use Ibexa\Core\MVC\Symfony\View\ContentValueView;
 use Ibexa\Core\MVC\Symfony\View\ContentView;
-use Ibexa\Core\MVC\Symfony\View\LocationValueView;
 use Lolautruche\EzCoreExtraBundle\Exception\MissingParameterProviderException;
 use Lolautruche\EzCoreExtraBundle\View\ConfigurableView;
 use Lolautruche\EzCoreExtraBundle\View\ExpressionLanguage;
 use Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
  * Listener that will inject pre-configured parameters into matched view.
@@ -32,55 +29,30 @@ use Symfony\Component\ExpressionLanguage\Expression;
 class ViewTemplateListener implements EventSubscriberInterface
 {
     /**
-     * @var ConfigResolverInterface
-     */
-    private $configResolver;
-
-    /**
-     * @var DynamicSettingParserInterface
-     */
-    private $settingParser;
-
-    /**
      * @var \Lolautruche\EzCoreExtraBundle\View\ViewParameterProviderInterface[]
      */
-    private $parameterProviders = [];
-
-    /**
-     * @var Repository
-     */
-    private $repository;
-
-    /**
-     * @var ExpressionLanguage
-     */
-    private $expressionLanguage;
+    private array $parameterProviders = [];
 
     public function __construct(
-        ConfigResolverInterface $configResolver,
-        DynamicSettingParserInterface $settingParser,
-        Repository $repository,
-        ExpressionLanguage $expressionLanguage
-    ){
-        $this->configResolver = $configResolver;
-        $this->settingParser = $settingParser;
-        $this->repository = $repository;
-        $this->expressionLanguage = $expressionLanguage;
-    }
+        private ConfigResolverInterface $configResolver,
+        private DynamicSettingParserInterface $settingParser,
+        private Repository $repository,
+        private ExpressionLanguage $expressionLanguage,
+    ){}
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             MVCEvents::PRE_CONTENT_VIEW => ['onPreContentView', 15],
         ];
     }
 
-    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias)
+    public function addParameterProvider(ViewParameterProviderInterface $provider, $alias): void
     {
         $this->parameterProviders[$alias] = $provider;
     }
 
-    public function onPreContentView(PreContentViewEvent $event)
+    public function onPreContentView(PreContentViewEvent $event): void
     {
         /** @var \Ibexa\Core\MVC\Symfony\View\ContentView $view */
         $view = $event->getContentView();
@@ -137,7 +109,7 @@ class ViewTemplateListener implements EventSubscriberInterface
      * @param \Ibexa\Core\MVC\Symfony\View\ContentView $view
      * @return ConfigurableView
      */
-    private function generateConfigurableView(ContentView $view)
+    private function generateConfigurableView(ContentView $view): ConfigurableView
     {
         $configurableView = new ConfigurableView($view);
         $configurableView->addParameters([

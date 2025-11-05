@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\Loader;
 
 class EzCoreExtraExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
@@ -38,7 +38,7 @@ class EzCoreExtraExtension extends Extension
         }
     }
 
-    private function configureDesigns(array $config, ConfigurationProcessor $processor, ContainerBuilder $container)
+    private function configureDesigns(array $config, ConfigurationProcessor $processor, ContainerBuilder $container): void
     {
         $processor->mapConfigArray('twig_globals', $config);
     }

@@ -19,35 +19,24 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class SimplifiedCoreVoter implements VoterInterface
 {
-    const IBEXA_ROLE_PREFIX = 'ibexa:';
+    const string IBEXA_ROLE_PREFIX = 'ibexa:';
 
-    /**
-     * @var VoterInterface
-     */
-    private $coreVoter;
+    public function __construct(
+        private VoterInterface $coreVoter,
+        private VoterInterface $valueObjectVoter,
+    ) {}
 
-    /**
-     * @var VoterInterface
-     */
-    private $valueObjectVoter;
-
-    public function __construct(VoterInterface $coreVoter, VoterInterface $valueObjectVoter)
-    {
-        $this->coreVoter = $coreVoter;
-        $this->valueObjectVoter = $valueObjectVoter;
-    }
-
-    public function supportsAttribute($attribute)
+    public function supportsAttribute($attribute): bool
     {
         return is_string($attribute) && stripos($attribute, static::IBEXA_ROLE_PREFIX) === 0;
     }
 
-    public function supportsClass($class)
+    public function supportsClass($class): bool
     {
         return true;
     }
 
-    public function vote(TokenInterface $token, $object, array $attributes)
+    public function vote(TokenInterface $token, mixed $subject, array $attributes): int
     {
         foreach ($attributes as $attribute) {
             if (!$this->supportsAttribute($attribute)) {
@@ -55,15 +44,15 @@ class SimplifiedCoreVoter implements VoterInterface
             }
 
             $attribute = substr($attribute, strlen(static::IBEXA_ROLE_PREFIX));
-            list($module, $function) = explode(':', $attribute);
+            [$module, $function] = explode(':', $attribute);
             $attributeObject = new AuthorizationAttribute($module, $function);
             try {
-                if ($object instanceof ValueObject) {
-                    $attributeObject->limitations = ['valueObject' => $object];
-                    return $this->valueObjectVoter->vote($token, $object, [$attributeObject]);
-                } else {
-                    return $this->coreVoter->vote($token, $object, [$attributeObject]);
+                if ($subject instanceof ValueObject) {
+                    $attributeObject->limitations = ['valueObject' => $subject];
+                    return $this->valueObjectVoter->vote($token, $subject, [$attributeObject]);
                 }
+
+                return $this->coreVoter->vote($token, $subject, [$attributeObject]);
             } catch (InvalidArgumentException $e) {
                 continue;
             }

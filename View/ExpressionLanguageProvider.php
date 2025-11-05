@@ -17,7 +17,7 @@ class ExpressionLanguageProvider implements ExpressionFunctionProviderInterface
     /**
      * @return ExpressionFunction[]
      */
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new ExpressionFunction('loadLocation', function ($arg) {

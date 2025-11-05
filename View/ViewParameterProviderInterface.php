@@ -25,5 +25,5 @@ interface ViewParameterProviderInterface
      *
      * @return array
      */
-    public function getViewParameters(ConfigurableView $view, array $options = []);
+    public function getViewParameters(ConfigurableView $view, array $options = []): array;
 }
